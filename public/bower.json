@@ -1,0 +1,19 @@
+{
+  "name": "podcastprofile",
+  "version": "0.0.0",
+  "homepage": "https://github.com/casualcoding/podcastprofile",
+  "authors": [
+    "casualcoding.com"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "uikit": "~2.24.3"
+  }
+}
