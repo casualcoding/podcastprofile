@@ -1,0 +1,7 @@
+/vendor
+.env
+.DS_Store
+.idea
+public/node_modules
+public/assets/vendor
+public/assets/dist
