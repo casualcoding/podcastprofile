@@ -25,21 +25,7 @@ class StaticController extends Controller
     {
         return view('settings');
     }
-
-    public function postUpload(Request $request)
-    {
-        $file = $request->file('upload');
-        $xml = simplexml_load_file($file);
-
-        foreach ($xml->body->outline as $outline) {
-            print_r((string) $outline['xmlUrl'].'<br>');
-            // send feed url to the queue
-        }
-
-        // TODO render view or redirect
-        return '<br>DONE';
-    }
-
+    
     public function testFeed()
     {
         $json = file_get_contents('https://itunes.apple.com/search?media=podcast&term=life&limit=50');
