@@ -11,8 +11,7 @@
 |
 */
 
-Route::get('/', 'StaticController@getIndex');
-Route::get('/profile', 'StaticController@getProfile');
+Route::get('/feed', 'StaticController@testFeed');
 
 /*
 |--------------------------------------------------------------------------
@@ -26,24 +25,24 @@ Route::get('/profile', 'StaticController@getProfile');
 */
 
 Route::group(['middleware' => ['web']], function () {
-    Route::get('auth/twitter', 'Auth\AuthController@redirectToProvider');
-    Route::get('auth/twitter/callback', 'Auth\AuthController@handleProviderCallback');
-    Route::get('auth/twitter/logout', 'Auth\AuthController@logout');
-    Route::get('home', array('as' => 'home', 'uses' => function(){
-      return view('home');
-    }));
+    Route::get('/', 'StaticController@getIndex')->name('home');
+    Route::get('/profile', 'StaticController@getProfile')->name('profile');
+
+    Route::group(['prefix' => 'auth/twitter', 'as' => 'auth::'], function () {
+        Route::get('/', 'Auth\AuthController@redirectToProvider')->name('login');
+        Route::get('/callback', 'Auth\AuthController@handleProviderCallback')->name('callback');
+        Route::get('/logout', 'Auth\AuthController@logout')->name('logout');
+    });
 
     Route::group(['middleware' => ['auth']], function () {
-        Route::get('/settings', 'StaticController@getSettings');
-        Route::post('/upload', 'StaticController@postUpload');
+        Route::get('/settings', 'StaticController@getSettings')->name('settings');
     });
 
     Route::group(['prefix' => 'api/v1.0', 'as' => 'api::'], function () {
-        Route::get('create/{name}', 'ProfileApiController@postNewUser')->name('postNewUser'); # TODO: POST
-        Route::get('profile/{name}', 'ProfileApiController@getProfile')->name('getProfile');
+        Route::get('profile/{name}', 'ProfileApiController@getProfile')->name('getProfile');        
 
         Route::group(['middleware' => ['auth']], function () {
-            Route::get('update', 'ProfileApiController@postProfile')->name('postProfile'); # TODO: POST
+            Route::post('update', 'ProfileApiController@postProfile')->name('postProfile');
             Route::post('upload/opml/', 'ProfileApiController@postPodcastsByOpml')->name('postPodcastsByOpml');
         });
     });
