@@ -5,27 +5,49 @@
 
     <div class="uk-container uk-container-center uk-margin-top">
 
-        <h1>Example Profile</h1>
+        <div class="uk-grid">
 
-        <p>
-            IMAGE
-        </p>
+            <div class="uk-width-medium-1-5">
 
-        <p>
-            {{ $user->name }}
-        </p>
 
-        <p>
-            Website
-        </p>
+                <div class="uk-panel uk-panel-box uk-text-center">
+                    <img class="uk-border-circle" width="120" height="120" src="{{ $user->avatar }}" alt="">
+                    <h3><strong>{{ $user->name }}</strong> listens to 23 podcasts</h3>
 
-        <p>
-            List of podcasts...
+                    <p>
+                        <a href="https://twitter.com/{{ $user->handle }}">{{ "@".$user->handle }}</a>
+                    </p>
+
+                    @if($user->website)
+                    <p>
+                        <a href="{{ $user->website }}">{{ $user->website }}</a>
+                    </p>
+                    @endif
+
+                </div>
+
+            </div>
 
             @foreach ($user->podcastsPublic as $podcast)
-                <p>This is podcast {{ $podcast->pivot->description }}</p>
+
+            <div class="uk-width-medium-4-5">
+                <div class="uk-panel uk-panel-box uk-text-center">
+                    <div class="uk-grid">
+                        <div class="uk-width-medium-1-3">
+                            <img src="{{ $podcast->coverimage }}" alt="" />
+                        </div>
+                        <div class="uk-width-medium-2-3">
+                            {{ $podcast->pivot->description }}
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
             @endforeach
-        </p>
+            
+        </div>
 
     </div>
 
