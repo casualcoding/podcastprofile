@@ -60,8 +60,8 @@ class StaticController extends Controller
 
             $result .= '<table>';
             $result .= '<tr><td><img src="' . $image . '" width=200 height=200></td>';
-            $result .= '<td><h3>' . $title . '</h3>';
-            $result .= $link . '<br>' . $summary;
+            $result .= '<td><h2>' . $title . '</h2>';
+            $result .= '<p>' . $url . '</p><p>' . $link . '</p><p>' . $summary . '</p>';
             $result .= '</td></tr>';
             $result .= '</table>';
         }
