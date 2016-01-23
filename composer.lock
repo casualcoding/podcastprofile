@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0739de7290bee91672c0c7a50ecf97ba",
-    "content-hash": "b004a7a87582e1ec20472cb938dfc2ca",
+    "hash": "1455ae485fba159dc6c4d71399d312ac",
+    "content-hash": "98874909bc162e82825b30ea944f8bed",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -1326,16 +1326,16 @@
         },
         {
             "name": "simplepie/simplepie",
-            "version": "1.3.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/simplepie/simplepie.git",
-                "reference": "ce53709778bc1e2e4deda1651b66e5081398d5cc"
+                "reference": "6102a15d768c7d81fe48f7e2f1d8cf9e71e5959f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/simplepie/simplepie/zipball/ce53709778bc1e2e4deda1651b66e5081398d5cc",
-                "reference": "ce53709778bc1e2e4deda1651b66e5081398d5cc",
+                "url": "https://api.github.com/repos/simplepie/simplepie/zipball/6102a15d768c7d81fe48f7e2f1d8cf9e71e5959f",
+                "reference": "6102a15d768c7d81fe48f7e2f1d8cf9e71e5959f",
                 "shasum": ""
             },
             "require": {
@@ -1376,7 +1376,7 @@
                 "feeds",
                 "rss"
             ],
-            "time": "2012-10-30 17:54:03"
+            "time": "2015-09-02 01:14:05"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -3486,7 +3486,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "simplepie/simplepie": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
