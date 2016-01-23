@@ -9,9 +9,10 @@ Source of the website.
 2. `composer install`
 
 ## Front end shizzle
-1. `npm install`
-2. `bower install`
-3. `gulp` or `gulp watch`
+1. `cd public`
+2. `npm install`
+3. `bower install`
+4. `gulp` or `gulp watch`
 
 ## Vagrant with Homestead
 
@@ -30,6 +31,6 @@ Source of the website.
         to: /home/vagrant/podcastprofile/public
   ```
 
-5. Add to `/etc/hosts`: ```192.168.10.10  homestead.app```
+5. Add to `/etc/hosts`: ```192.168.10.10  podcastprofile.dev```
 6. `vagrant up`
 7. Open `http://podcastprofile.dev`

@@ -11,9 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'StaticController@getIndex');
+Route::get('/settings', 'StaticController@getSettings');
+Route::get('/profile', 'StaticController@getProfile');
+Route::post('/upload', 'StaticController@postUpload');
+
 
 /*
 |--------------------------------------------------------------------------
