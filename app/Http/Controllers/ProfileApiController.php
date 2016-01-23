@@ -20,7 +20,6 @@ class ProfileApiController extends BaseController
         $user = Auth::user();
 
         $user->name = Input::get('name');
-        $user->realname = Input::get('realname');
         $user->avatar = Input::get('avatar');
         $user->url = Input::get('url');
         $user->save();
@@ -48,8 +47,19 @@ class ProfileApiController extends BaseController
         $xml = simplexml_load_file($file);
 
         $pos = $user->podcasts()->count();
+        $added = [];
 
-        foreach ($xml->body->outline as $outline) {
+        // The standard OPML structure is
+        // <body> <outline ... /> <outline ... /> </body> 
+        $outlines = $xml->body->outline;
+        
+        // Pocket Casts and some other clients use the structure
+        // <body> <outline> <outline ... /> <outline ... /> <outline> </body>
+        if (isset($xml->body->outline->outline)) {
+            $outlines = $xml->body->outline->outline;
+        }
+        
+        foreach ($outlines as $outline) {
             $feed = (string) $outline['xmlUrl'];
 
             $podcast = Podcast::where('feed', $feed)->first();
@@ -66,9 +76,10 @@ class ProfileApiController extends BaseController
                     'position' => $pos,
                     'visible' => true]);
                 $pos++;
+                $added[] = $podcast;
             }
         }
 
-        return response()->json(['success' => true]);
+        return response()->json(['success' => true, 'new' => $added]);
     }
 }
