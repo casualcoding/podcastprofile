@@ -13,7 +13,7 @@
                     <h1 class="uk-heading-large">What are <strong>your</strong><br> favorite podcasts?</h1>
                     <p class="uk-text-large">Create a personal podcast profile. Show others what you listen to.</p>
                     <p>
-                        <a class="uk-button uk-button-primary uk-button-large" href="#">Sign in with Twitter</a>
+                        <a class="uk-button uk-button-primary uk-button-large" href="auth/twitter">Sign in with Twitter</a>
                     </p>
                 </div>
             </div>
