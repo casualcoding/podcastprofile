@@ -12,9 +12,7 @@
 */
 
 Route::get('/', 'StaticController@getIndex');
-Route::get('/settings', 'StaticController@getSettings');
 Route::get('/profile', 'StaticController@getProfile');
-Route::post('/upload', 'StaticController@postUpload');
 
 /*
 |--------------------------------------------------------------------------
@@ -28,15 +26,25 @@ Route::post('/upload', 'StaticController@postUpload');
 */
 
 Route::group(['middleware' => ['web']], function () {
+    Route::get('auth/twitter', 'Auth\AuthController@redirectToProvider');
+    Route::get('auth/twitter/callback', 'Auth\AuthController@handleProviderCallback');
+    Route::get('auth/twitter/logout', 'Auth\AuthController@logout');
+    Route::get('home', array('as' => 'home', 'uses' => function(){
+      return view('home');
+    }));
 
-});
+    Route::group(['middleware' => ['auth']], function () {
+        Route::get('/settings', 'StaticController@getSettings');
+        Route::post('/upload', 'StaticController@postUpload');
+    });
 
-Route::group(['prefix' => 'api/v1.0', 'as' => 'api::'], function () {
-    Route::get('create/{name}', 'ProfileApiController@postNewUser')->name('postNewUser'); # TODO: POST
-    Route::get('profile/{name}', 'ProfileApiController@getProfile')->name('getProfile');
+    Route::group(['prefix' => 'api/v1.0', 'as' => 'api::'], function () {
+        Route::get('create/{name}', 'ProfileApiController@postNewUser')->name('postNewUser'); # TODO: POST
+        Route::get('profile/{name}', 'ProfileApiController@getProfile')->name('getProfile');
 
-    Route::group(['middleware' => []], function () { # TODO: 'auth' middleware
-        Route::get('update', 'ProfileApiController@postProfile')->name('postProfile'); # TODO: POST
-        Route::post('upload/opml/', 'ProfileApiController@postPodcastsByOpml')->name('postPodcastsByOpml');
+        Route::group(['middleware' => ['auth']], function () {
+            Route::get('update', 'ProfileApiController@postProfile')->name('postProfile'); # TODO: POST
+            Route::post('upload/opml/', 'ProfileApiController@postPodcastsByOpml')->name('postPodcastsByOpml');
+        });
     });
 });

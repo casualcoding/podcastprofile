@@ -1,6 +1,8 @@
 <?php namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Podcast;
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Input;
@@ -68,16 +70,38 @@ class ProfileApiController extends BaseController
      */
     public function postPodcastsByOpml(Request $request)
     {
+
         if (!$request->hasFile('xml')) {
             return response()->json(['error' => 'no file.']);
         } elseif (!$request->file('xml')->isValid()) {
             return response()->json(['error' => 'file invalid.']);
         }
 
-        // $user = Auth::user();
-        $xml = $request->file('xml');
+        $user = Auth::user();
+        $file = $request->file('xml');
+        $xml = simplexml_load_file($file);
 
-        // TODO: call parser
+        $pos = $user->podcasts()->count();
+
+        foreach ($xml->body->outline as $outline) {
+            $feed = (string) $outline['xmlUrl'];
+
+            $podcast = Podcast::where('feed', $feed)->first();
+            if (!$podcast) {
+                $podcast = new Podcast;
+                $podcast->feed = $feed;
+                $podcast->save();
+
+                // send feed url to the queue
+            }
+
+            if (!$user->podcasts()->where('feed', $feed)->exists()) {
+                $user->podcasts()->save($podcast, [
+                    'position' => $pos,
+                    'visible' => true]);
+                $pos++;
+            }
+        }
 
         return response()->json(['success' => true]);
     }

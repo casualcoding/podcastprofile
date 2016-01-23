@@ -5,7 +5,6 @@
 
 <div class="uk-container uk-container-center uk-margin-top uk-margin-large-bottom">
 
-
     <div class="uk-grid" data-uk-grid-margin>
         <div class="uk-width-medium-1-1">
 
@@ -14,7 +13,7 @@
                     <h1 class="uk-heading-large">What are <strong>your</strong><br> favorite podcasts?</h1>
                     <p class="uk-text-large">Create a personal podcast profile. Show others what you listen to.</p>
                     <p>
-                        <a class="uk-button uk-button-primary uk-button-large" href="#">Sign in with Twitter</a>
+                        <a class="uk-button uk-button-primary uk-button-large" href="auth/twitter">Sign in with Twitter</a>
                     </p>
                 </div>
             </div>
@@ -59,7 +58,7 @@
     <div class="uk-grid" data-uk-grid-margin>
         <div class="uk-width-medium-1-1">
             <div class="uk-panel uk-panel-box uk-text-center">
-                <p>Which podcasts do <strong>you</strong> listen to? Create your podcast profile now. <a class="uk-button uk-button-primary uk-margin-left" href="#">Sign in with Twitter</a></p>
+                <p>Which podcasts do <strong>you</strong> listen to? Create your podcast profile now. <a class="uk-button uk-button-primary uk-margin-left" href="auth/twitter">Sign in with Twitter</a></p>
             </div>
         </div>
     </div>

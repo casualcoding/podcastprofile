@@ -29,6 +29,6 @@ class User extends Authenticatable
      */
     public function podcasts()
     {
-        return $this->belongsToMany('App\Podcast');
+        return $this->belongsToMany('App\Models\Podcast');
     }
 }

@@ -16,7 +16,7 @@ class CreatePodcastsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('url');
-            $table->string('feedurl');
+            $table->string('feed');
             $table->string('coverimage');
             $table->text('description');
             $table->timestamps();

@@ -21,6 +21,7 @@
     </ul>
 
     <form action="/api/v1.0/upload/opml" method="post" enctype="multipart/form-data">
+        {{ csrf_field() }}
         <input type="file" name="xml" value="">
         <input type="submit">
     </form>
