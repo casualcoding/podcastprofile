@@ -47,6 +47,7 @@ class ProfileApiController extends BaseController
         $xml = simplexml_load_file($file);
 
         $pos = $user->podcasts()->count();
+        $added = [];
 
         foreach ($xml->body->outline as $outline) {
             $feed = (string) $outline['xmlUrl'];
@@ -65,9 +66,10 @@ class ProfileApiController extends BaseController
                     'position' => $pos,
                     'visible' => true]);
                 $pos++;
+                $added[] = $podcast;
             }
         }
 
-        return response()->json(['success' => true]);
+        return response()->json(['success' => true, 'new' => $added]);
     }
 }
