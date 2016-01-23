@@ -8,18 +8,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Input;
 
 class ProfileApiController extends BaseController
-{    
-    /**
-     * Get the user profile and related podcasts.
-     *
-     * @param  string  $name
-     * @return Response
-     */
-    public function getProfile($name)
-    {
-        $user = User::where('name', $name)->firstOrFail();
-        return $user->toJson();
-    }
+{
 
     /**
      * Set the user profile.

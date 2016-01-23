@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use SimplePie;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class StaticController extends Controller
 {
@@ -13,9 +14,11 @@ class StaticController extends Controller
         return view('index');
     }
 
-    public function getProfile()
+    public function getProfile($handle)
     {
-        return view('profile');
+        $user = User::where('handle', $handle)->firstOrFail();
+        return view('profile', ['user' => $user]);
+
     }
 
     public function getSettings()

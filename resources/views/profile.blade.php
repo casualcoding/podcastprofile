@@ -5,6 +5,7 @@
 
     <div class="uk-container uk-container-center uk-margin-top">
 
+
         <h1>Example Profile</h1>
 
         <p>
@@ -12,7 +13,7 @@
         </p>
 
         <p>
-            Name
+            {{ $user->name }}
         </p>
 
         <p>

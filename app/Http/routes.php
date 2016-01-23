@@ -26,7 +26,6 @@ Route::get('/feed', 'StaticController@testFeed');
 
 Route::group(['middleware' => ['web']], function () {
     Route::get('/', 'StaticController@getIndex')->name('home');
-    Route::get('/profile', 'StaticController@getProfile')->name('profile');
 
     Route::group(['prefix' => 'auth/twitter', 'as' => 'auth::'], function () {
         Route::get('/', 'Auth\AuthController@redirectToProvider')->name('login');
@@ -39,11 +38,13 @@ Route::group(['middleware' => ['web']], function () {
     });
 
     Route::group(['prefix' => 'api/v1.0', 'as' => 'api::'], function () {
-        Route::get('profile/{name}', 'ProfileApiController@getProfile')->name('getProfile');        
-
         Route::group(['middleware' => ['auth']], function () {
             Route::post('update', 'ProfileApiController@postProfile')->name('postProfile');
             Route::post('upload/opml/', 'ProfileApiController@postPodcastsByOpml')->name('postPodcastsByOpml');
         });
     });
+
+    // last
+    Route::get('/{handle}', 'StaticController@getProfile')->name('profile');
+
 });
