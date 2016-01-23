@@ -1,14 +1,8 @@
-<!DOCTYPE html>
-<html>  
+@extends('layouts.master')
+@section('title', 'Show what podcasts you listen to')
 
-    <head>
-        <title>Your Podcast Profile</title>
-        <link rel="stylesheet" href="/assets/dist/app.css" media="screen">
-    </head>
+@section('content')
 
-    <body>
-
-        <h1>Your Podcast Profile</h1>
         <p>
             You are logged in!
         </p>
@@ -19,5 +13,4 @@
             <img src="{{ Auth::user()->avatar }}" height="200" width="200" />
         </div>
 
-    </body>
-</html>
+@stop
