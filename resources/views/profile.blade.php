@@ -5,7 +5,7 @@
 
     <div class="uk-container uk-container-center uk-margin-top">
 
-        <div class="uk-grid">
+        <div class="uk-grid" data-uk-grid-margin>
 
             <div class="uk-width-medium-1-5">
 
@@ -28,25 +28,32 @@
 
             </div>
 
-            @foreach ($user->podcastsPublic as $podcast)
 
             <div class="uk-width-medium-4-5">
+                @foreach ($user->podcastsPublic as $podcast)
                 <div class="uk-panel uk-panel-box uk-text-center">
                     <div class="uk-grid">
                         <div class="uk-width-medium-1-3">
                             <img src="{{ $podcast->coverimage }}" alt="" />
                         </div>
                         <div class="uk-width-medium-2-3">
-                            {{ $podcast->pivot->description }}
+
+                            <a href="{{ $podcast->feed }}">Subscribe</a>
+                            <p>
+                                User says: {{ $podcast->pivot->description }}
+                            </p>
+                            <p>
+                                Podcast says: {{ $podcast->description }}
+                            </p>
                         </div>
 
                     </div>
                 </div>
+                @endforeach
 
             </div>
 
-            @endforeach
-            
+
         </div>
 
     </div>
