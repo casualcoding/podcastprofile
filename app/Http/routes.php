@@ -27,5 +27,9 @@ Route::get('/', function () {
 */
 
 Route::group(['middleware' => ['web']], function () {
-    //
+
+    Route::group(['prefix' => 'api', 'as' => 'api::'], function () {
+        Route::get('profile/{id}', 'ProfileApiController@getProfile')->name('profile');
+    });
+
 });
