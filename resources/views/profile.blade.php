@@ -9,10 +9,9 @@
 
             <div class="uk-width-medium-1-5">
 
-
                 <div class="uk-panel uk-panel-box uk-text-center">
                     <img class="uk-border-circle" width="120" height="120" src="{{ $user->avatar }}" alt="">
-                    <h3><strong>{{ $user->name }}</strong> listens to 23 podcasts</h3>
+                    <h3><strong>{{ $user->name }}</strong> listens to {{ $user->podcastsPublic->count() }} podcasts</h3>
 
                     <p>
                         <a href="https://twitter.com/{{ $user->handle }}">{{ "@".$user->handle }}</a>
@@ -25,11 +24,10 @@
                     @endif
 
                 </div>
-
             </div>
 
-
             <div class="uk-width-medium-4-5">
+
                 @foreach ($user->podcastsPublic as $podcast)
                 <div class="uk-panel uk-panel-box uk-text-center">
                     <div class="uk-grid">
@@ -52,11 +50,7 @@
                 @endforeach
 
             </div>
-
-
         </div>
-
     </div>
-
 
 @stop
