@@ -51,7 +51,17 @@ class ProfileApiController extends BaseController
             ->max('position');
         $added = [];
 
-        foreach ($xml->body->outline as $outline) {
+        // The standard OPML structure is
+        // <body> <outline ... /> <outline ... /> </body> 
+        $outlines = $xml->body->outline;
+        
+        // Pocket Casts and some other clients use the structure
+        // <body> <outline> <outline ... /> <outline ... /> <outline> </body>
+        if (isset($xml->body->outline->outline)) {
+            $outlines = $xml->body->outline->outline;
+        }
+        
+        foreach ($outlines as $outline) {
             $feed = (string) $outline['xmlUrl'];
 
             $podcast = Podcast::where('feed', $feed)->first();
