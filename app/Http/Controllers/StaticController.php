@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\View\View;
+use Illuminate\Http\Request;
 
 class StaticController extends Controller
 {
@@ -22,11 +23,15 @@ class StaticController extends Controller
         return view('settings');
     }
 
-    public function postUpload()
+    public function postUpload(Request $request)
     {
-        // process uploaded XML...
+        $file = $request->file('upload');
+        $xml = simplexml_load_file($file);
 
-        echo "processing xml";
+        foreach ($xml->body->outline as $outline) {
+            print_r((string) $outline['xmlUrl'].'<br>');
+            // send feed url to the queue
+        }
 
         // TODO render view or redirect
         return "<br>DONE";
