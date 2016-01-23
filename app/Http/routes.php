@@ -16,7 +16,6 @@ Route::get('/settings', 'StaticController@getSettings');
 Route::get('/profile', 'StaticController@getProfile');
 Route::post('/upload', 'StaticController@postUpload');
 
-
 /*
 |--------------------------------------------------------------------------
 | Application Routes
