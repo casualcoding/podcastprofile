@@ -18,26 +18,11 @@ class StaticController extends Controller
     {
         $user = User::where('handle', $handle)->firstOrFail();
         return view('profile', ['user' => $user]);
-
     }
 
     public function getSettings()
     {
         return view('settings');
-    }
-
-    public function postUpload(Request $request)
-    {
-        $file = $request->file('upload');
-        $xml = simplexml_load_file($file);
-
-        foreach ($xml->body->outline as $outline) {
-            print_r((string) $outline['xmlUrl'].'<br>');
-            // send feed url to the queue
-        }
-
-        // TODO render view or redirect
-        return '<br>DONE';
     }
 
     public function testFeed()
