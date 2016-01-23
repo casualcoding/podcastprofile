@@ -29,9 +29,14 @@ Route::post('/upload', 'StaticController@postUpload');
 
 Route::group(['middleware' => ['web']], function () {
 
-    Route::group(['prefix' => 'api', 'as' => 'api::'], function () {
-        Route::get('create/{name}', 'ProfileApiController@createUser')->name('create'); # TODO: POST
-        Route::get('profile/{name}', 'ProfileApiController@getProfile')->name('profile');
-    });
+});
 
+Route::group(['prefix' => 'api/v1.0', 'as' => 'api::'], function () {
+    Route::get('create/{name}', 'ProfileApiController@postNewUser')->name('postNewUser'); # TODO: POST
+    Route::get('profile/{name}', 'ProfileApiController@getProfile')->name('getProfile');
+
+    Route::group(['middleware' => []], function () { # TODO: 'auth' middleware
+        Route::get('update', 'ProfileApiController@postProfile')->name('postProfile'); # TODO: POST
+        Route::post('upload/opml/', 'ProfileApiController@postPodcastsByOpml')->name('postPodcastsByOpml');
+    });
 });
