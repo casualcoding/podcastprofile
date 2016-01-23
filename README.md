@@ -30,6 +30,6 @@ Source of the website.
         to: /home/vagrant/podcastprofile/public
   ```
 
-5. Add to `/etc/hosts`: ```192.168.10.10  homestead.app```
+5. Add to `/etc/hosts`: ```192.168.10.10  podcastprofile.dev```
 6. `vagrant up`
 7. Open `http://podcastprofile.dev`
