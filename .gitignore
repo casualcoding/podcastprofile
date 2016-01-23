@@ -3,6 +3,7 @@
 .DS_Store
 .idea
 public/node_modules
+public/bower_components
 public/assets/vendor
 public/assets/dist
 .bash_aliases

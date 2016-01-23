@@ -8,7 +8,12 @@ Source of the website.
 1. Clone
 2. `composer install`
 
-### Vagrant with Homestead
+## Front end shizzle
+1. `npm install`
+2. `bower install`
+3. `gulp` or `gulp watch`
+
+## Vagrant with Homestead
 
 1. Clone `git clone https://github.com/laravel/homestead.git Homestead`
 2. `bash init.sh`
@@ -27,4 +32,4 @@ Source of the website.
 
 5. Add to `/etc/hosts`: ```192.168.10.10  homestead.app```
 6. `vagrant up`
-7. Open `http://podcastprofile.dev` 
+7. Open `http://podcastprofile.dev`
