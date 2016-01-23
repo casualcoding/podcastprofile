@@ -29,3 +29,11 @@ Route::get('/', function () {
 Route::group(['middleware' => ['web']], function () {
     //
 });
+
+
+Route::get('auth/twitter', 'Auth\AuthController@redirectToProvider');
+Route::get('auth/twitter/callback', 'Auth\AuthController@handleProviderCallback');
+
+Route::get('home', array('as' => 'home', 'uses' => function(){
+  return view('home');
+}));

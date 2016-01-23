@@ -10,8 +10,14 @@
 
         <h1>Your Podcast Profile</h1>
         <p>
-            <a href="auth/twitter">Sign in with Twitter</a>
+            You are logged in!
         </p>
+
+        <div>
+            Your name is {{ Auth::user()->name }}<br/>
+            Your twitter handle is {{ Auth::user()->handle }}<br/>
+            <img src="{{ Auth::user()->avatar }}" height="200" width="200" />
+        </div>
 
     </body>
 </html>
