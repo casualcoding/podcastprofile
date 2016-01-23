@@ -20,7 +20,6 @@ class ProfileApiController extends BaseController
         $user = Auth::user();
 
         $user->name = Input::get('name');
-        $user->realname = Input::get('realname');
         $user->avatar = Input::get('avatar');
         $user->url = Input::get('url');
         $user->save();
