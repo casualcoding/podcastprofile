@@ -7,8 +7,10 @@ use App\Models\User;
 use Auth;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use InvalidArgumentException;
 use Socialite;
 use Validator;
+
 
 class AuthController extends Controller
 {
@@ -96,6 +98,8 @@ class AuthController extends Controller
     {
         try {
             $user = Socialite::driver('twitter')->user();
+        } catch (InvalidArgumentException $e) {
+            return redirect('/');
         } catch (Exception $e) {
             return redirect('auth/twitter');
         }
@@ -104,7 +108,11 @@ class AuthController extends Controller
 
         Auth::login($authUser, true);
 
-        return redirect('/');
+        if (Auth::check()) {
+            return redirect()->route('profile', ['handle' => $authUser->handle]);
+        } else {
+            return redirect('/');
+        }
     }
 
     /**
