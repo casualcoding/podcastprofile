@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -12,7 +12,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'realname', 'avatar', 'url', 'handle', 'twitter_id',
     ];
 
     /**
@@ -21,6 +21,14 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'remember_token',
     ];
+
+    /**
+     * The podcasts that belong to the user.
+     */
+    public function podcasts()
+    {
+        return $this->belongsToMany('App\Podcast');
+    }
 }
