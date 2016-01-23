@@ -11,6 +11,7 @@
         <div class="uk-navbar-flip">
             <ul class="uk-navbar-nav">
                 @if (Auth::check())
+                    <li><a href="/{{ Auth::user()->handle }}">Profile</a></li>
                     <li><a href="{{ URL::route('settings') }}">Settings</a></li>
                     <li><a href="{{ URL::route('auth::logout') }}">Logout</a></li>
                 @else
