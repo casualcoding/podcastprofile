@@ -15,7 +15,6 @@
                     <p class="uk-text-large">Create a personal podcast profile. Show others what you listen to.</p>
                     <p>
                         <a class="uk-button uk-button-primary uk-button-large" href="#">Sign in with Twitter</a>
-                        <a class="uk-button uk-button-large" href="#">Learn more</a>
                     </p>
                 </div>
             </div>
