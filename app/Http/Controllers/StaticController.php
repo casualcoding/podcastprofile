@@ -18,14 +18,13 @@ class StaticController extends Controller
     {
         $user = User::where('handle', $handle)->firstOrFail();
         return view('profile', ['user' => $user]);
-
     }
 
     public function getSettings()
     {
         return view('settings');
     }
-    
+
     public function testFeed()
     {
         $json = file_get_contents('https://itunes.apple.com/search?media=podcast&term=life&limit=50');

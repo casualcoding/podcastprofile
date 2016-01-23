@@ -9,7 +9,7 @@
 
         <h2>Upload XML file</h2>
 
-        <form action="/upload" method="post" enctype="multipart/form-data">
+        <form action="{{ URL::route('api::postProfile') }}" method="post" enctype="multipart/form-data">
             <input type="file" name="upload" value="">
             <input type="submit">
         </form>
