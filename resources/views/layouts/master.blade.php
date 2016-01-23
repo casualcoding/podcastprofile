@@ -13,6 +13,8 @@
 
     <body>
 
+            @yield('top')
+
             @yield('content')
 
     </body>
