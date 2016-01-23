@@ -10,7 +10,7 @@ use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use InvalidArgumentException;
 use Socialite;
 use Validator;
-
+use TwitterAPIExchange;
 
 class AuthController extends Controller
 {
@@ -124,9 +124,24 @@ class AuthController extends Controller
     private function findOrCreateUser($twitterUser)
     {
         $authUser = User::where('twitter_id', $twitterUser->id)->first();
+        $nickUser = User::where('handle', $twitterUser->nickname)->first();
 
-        if ($authUser){
+        if ($authUser) {
+            if ($authUser->handle != $twitterUser->nickname) {
+                if (!$nickUser) {
+                    $authUser->handle = $twitterUser->nickname;
+                    $authUser->save();
+                } else {
+                    // $nickUser Infos von Twitter auslesen und rekursiv anpassen
+                }
+            }
             return $authUser;
+        }
+
+        // $this->recursiveCheckNicknames($authUser);
+        if ($nickUser) {
+            // $nickUser Infos von Twitter auslesen und rekursiv anpassen
+            // $this->recursiveCheckNicknames($nickUser);
         }
 
         return User::create([
@@ -147,5 +162,27 @@ class AuthController extends Controller
         Auth::logout();
 
         return redirect('/');
+    }
+
+    /**
+     * Recursively check twitter nicknames of users and change them
+     *
+     * @return Boolean
+     */
+    private function recursiveCheckNicknames($user)
+    {
+        $settings = array(
+            'oauth_access_token' => env('TWITTER_ACCESS_TOKEN'),
+            'oauth_access_token_secret' => env('TWITTER_ACCESS_TOKEN_SECRET'),
+            'consumer_key' => env('TWITTER_CONSUMER_KEY'),
+            'consumer_secret' => env('TWITTER_COMSUMER_SECRET')
+        );
+        $url = 'https://api.twitter.com/1.1/users/show.json';
+        $getfield = '?user_id='.$user->twitter_id;
+        $requestMethod = 'GET';
+        $twitter = new TwitterAPIExchange($settings);
+        die($twitter->setGetfield($getfield)
+            ->buildOauth($url, $requestMethod)
+            ->performRequest());
     }
 }

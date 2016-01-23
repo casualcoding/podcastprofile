@@ -8,7 +8,8 @@
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*",
         "laravel/socialite": "^2.0",
-        "simplepie/simplepie": "dev-master"
+        "simplepie/simplepie": "dev-master",
+        "j7mbo/twitter-api-php": "dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
