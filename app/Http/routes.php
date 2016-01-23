@@ -29,17 +29,16 @@ Route::post('/upload', 'StaticController@postUpload');
 
 Route::group(['middleware' => ['web']], function () {
 
+    Route::get('auth/twitter', 'Auth\AuthController@redirectToProvider');
+    Route::get('auth/twitter/callback', 'Auth\AuthController@handleProviderCallback');
+    Route::get('auth/twitter/logout', 'Auth\AuthController@logout');
+    Route::get('home', array('as' => 'home', 'uses' => function(){
+      return view('home');
+    }));
+
     Route::group(['prefix' => 'api', 'as' => 'api::'], function () {
         Route::get('create/{name}', 'ProfileApiController@createUser')->name('create'); # TODO: POST
         Route::get('profile/{name}', 'ProfileApiController@getProfile')->name('profile');
     });
 
 });
-
-
-Route::get('auth/twitter', 'Auth\AuthController@redirectToProvider');
-Route::get('auth/twitter/callback', 'Auth\AuthController@handleProviderCallback');
-
-Route::get('home', array('as' => 'home', 'uses' => function(){
-  return view('home');
-}));

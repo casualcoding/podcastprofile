@@ -13,6 +13,8 @@
             reprehenderit in voluptate velit esse cillum dolore eu fugiat.
         </p>
 
-        <a href="auth/twitter">Sign in with Twitter</a>
+        <div>
+            <a href="auth/twitter">Sign in with Twitter</a>
+        </div>
 
 @stop

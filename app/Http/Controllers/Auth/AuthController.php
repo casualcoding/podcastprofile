@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
+use App\Models\User;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -30,7 +30,7 @@ class AuthController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new authentication controller instance.
@@ -72,7 +72,8 @@ class AuthController extends Controller
         ]);
     }
 
-    protected $redirectPath = '/home';
+    // http://goodheads.io/2015/08/24/using-twitter-authentication-for-login-in-laravel-5/
+    // protected $redirectPath = '/home';
 
     /**
      * Redirect the user to the Twitter authentication page.
@@ -101,7 +102,7 @@ class AuthController extends Controller
 
         Auth::login($authUser, true);
 
-        return redirect()->route('home');
+        return redirect('home');
     }
 
     /**
@@ -124,5 +125,17 @@ class AuthController extends Controller
             'twitter_id' => $twitterUser->id,
             'avatar' => $twitterUser->avatar_original
         ]);
+    }
+
+    /**
+     * Logs user out
+     *
+     * @return Response
+     */
+    public function logout()
+    {
+        Auth::logout();
+
+        return redirect('/');
     }
 }
