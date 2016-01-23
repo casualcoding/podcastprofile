@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', 'StaticController@getIndex');
 Route::get('/settings', 'StaticController@getSettings');
-Route::get('/profile', 'StaticController@getProfile');
 Route::post('/upload', 'StaticController@postUpload');
 
 /*
@@ -29,12 +27,11 @@ Route::post('/upload', 'StaticController@postUpload');
 
 Route::group(['middleware' => ['web']], function () {
 
+    Route::get('/', 'StaticController@getIndex');
+    Route::get('/profile', 'StaticController@getProfile');
     Route::get('auth/twitter', 'Auth\AuthController@redirectToProvider');
     Route::get('auth/twitter/callback', 'Auth\AuthController@handleProviderCallback');
     Route::get('auth/twitter/logout', 'Auth\AuthController@logout');
-    Route::get('home', array('as' => 'home', 'uses' => function(){
-      return view('home');
-    }));
 
     Route::group(['prefix' => 'api', 'as' => 'api::'], function () {
         Route::get('create/{name}', 'ProfileApiController@createUser')->name('create'); # TODO: POST

@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\User;
-use Validator;
 use App\Http\Controllers\Controller;
+use App\Models\User;
+use Auth;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
-use Auth;
 use Socialite;
+use Validator;
 
 class AuthController extends Controller
 {
@@ -102,7 +102,7 @@ class AuthController extends Controller
 
         Auth::login($authUser, true);
 
-        return redirect('home');
+        return redirect('/');
     }
 
     /**
