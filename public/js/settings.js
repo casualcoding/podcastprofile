@@ -97,9 +97,8 @@ $(function() {
 
                 this.$http.post(url, data).then(function () {
                     UIkit.notify('Uploaded', 'success');
-                }).catch(function (resp) {
-                    console.log(resp);
-                    UIkit.notify('Upload failed', 'danger');
+                }).catch(function (resp, b, c) {
+                    UIkit.notify('Upload failed: '+resp.data.error, 'danger');
                 });
             }
 

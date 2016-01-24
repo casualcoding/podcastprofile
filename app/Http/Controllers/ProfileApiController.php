@@ -94,17 +94,17 @@ class ProfileApiController extends Controller
     {
 
         if (!$request->hasFile('xml')) {
-            return response()->json(['error' => 'no file.']);
+            return response()->json(['error' => 'No file.'], $status = 500);
         } elseif (!$request->file('xml')->isValid()) {
-            return response()->json(['error' => 'file invalid.']);
+            return response()->json(['error' => 'File invalid.'], $status = 500);
         }
 
         $user = Auth::user();
         $file = $request->file('xml');
         try {
-            $feeds = $parser->parseOpml($file);            
+            $feeds = $parser->parseOpml($file);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'file could not be parsed.']);
+            return response()->json(['error' => 'File could not be parsed.'], $status = 500);
         }
         $new = [];
         $pos = $user->podcasts()
