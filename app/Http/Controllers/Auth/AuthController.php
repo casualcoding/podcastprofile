@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Jobs\UpdateUserAvatar;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -171,13 +172,17 @@ class AuthController extends Controller
             $url = $twitterUser->user['entities']['url']['urls'][0]['expanded_url'];
         };
 
-        return [User::create([
+        $user = User::create([
             'name' => $twitterUser->name,
             'handle' => $twitterUser->nickname,
             'twitter_id' => $twitterUser->id,
             'avatar' => $twitterUser->avatar_original,
             'url' => $url
-        ]), true];
+        ]);
+        
+        $this->dispatch(new UpdateUserAvatar($user));
+        
+        return [$user, true];
     }
 
     /**
