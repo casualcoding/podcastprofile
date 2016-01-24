@@ -103,7 +103,8 @@ class ProfileApiController extends Controller
         $new = [];
         $pos = $user->podcasts()
             ->withPivot('position')
-            ->max('position') ?? 0;
+            ->max('position');
+        $pos = $pos ? $pos : 0;
         $added = [];
 
         foreach ($feeds as $feed) {
