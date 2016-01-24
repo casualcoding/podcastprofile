@@ -1,29 +1,36 @@
-@extends('layouts.master')
-@section('title', 'User Profile')
+@extends('layouts.navbar')
+@section('title', 'Settings')
 
 @section('content')
 
-    <h1>Your Profile Settings</h1>
+    <div class="uk-container uk-container-center uk-margin-top">
 
-    <div class="uk-panel uk-panel-box">
+        <h1>Your Profile Settings</h1>
 
-        <h2>Upload XML file</h2>
+        <div class="uk-panel uk-panel-box">
 
-        <form action="{{ URL::route('api::postProfile') }}" method="post" enctype="multipart/form-data">
-            <input type="file" name="upload" value="">
-            <input type="submit">
-        </form>
+            <h2>Upload something. Doesn't do anything. Joke is on you.</h2>
+
+            <form action="{{ URL::route('api::postProfile') }}" method="post" enctype="multipart/form-data" class="uk-form">
+                <input type="file" name="upload" value="">
+                <input type="submit">
+            </form>
+
+        </div>
+
+        <hr class="uk-grid-divider">
+
+        <div class="uk-panel uk-panel-box">
+            <form action="{{ URL::route('api::postPodcastsByOpml') }}" method="post" enctype="multipart/form-data"  class="uk-form">
+                <h2>Upload OPML</h2>
+
+                {{ csrf_field() }}
+                <input type="file" name="xml" value="">
+                <button  class="uk-button uk-button-primary">Upload</button>
+            </form>
+        </div>
 
     </div>
 
-    <ul>
-
-    </ul>
-
-    <form action="{{ URL::route('api::postPodcastsByOpml') }}" method="post" enctype="multipart/form-data">
-        {{ csrf_field() }}
-        <input type="file" name="xml" value="">
-        <input type="submit">
-    </form>
 
 @stop

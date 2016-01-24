@@ -10,8 +10,13 @@
 
         <div class="uk-navbar-flip">
             <ul class="uk-navbar-nav">
-                <li><a href="/settings">Settings</a></li>
-                <li><a href="/logout">Logout</a></li>
+                @if (Auth::check())
+                    <li><a href="/{{ Auth::user()->handle }}">Profile</a></li>
+                    <li><a href="{{ URL::route('settings') }}">Settings</a></li>
+                    <li><a href="{{ URL::route('auth::logout') }}">Logout</a></li>
+                @else
+                    <li><a href="{{ URL::route('auth::login') }}">Login</a></li>
+                @endif
             </ul>
         </div>
     </div>
