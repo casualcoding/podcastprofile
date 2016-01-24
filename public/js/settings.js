@@ -13,45 +13,6 @@ window.$podcasts = window.$podcasts.map(function(podcast) {
 
 $(function() {
 
-    var uploadform = new Vue({
-
-        el: '#upload-opml',
-
-        ready: function() {
-            console.log("upload LEBT");
-        },
-
-        data: {
-            uploading: false,
-            uploaded: false
-        },
-
-        methods: {
-
-            performupload: function(e) {
-
-                var url = e.target.getAttribute('action');
-                console.log(url);
-                var files = this.$els.xml.files;
-                var data = new FormData();
-                data.append('xml', files[0]);
-
-                this.uploading = true;
-
-                this.$http.post(url, data).then(function () {
-
-                    UIkit.notify('Uploaded', 'success');
-                    this.uploaded = true;
-                    this.uploading = false;
-
-                }).catch(function (resp, b, c) {
-                    this.uploading = false;
-                    UIkit.notify('Upload failed: '+resp.data.error, 'danger');
-                });
-            }
-        }
-    });
-
     var settings = new Vue({
 
         el: '#settings',
@@ -77,16 +38,10 @@ $(function() {
                     url: this.user.url,
                     avatar: this.user.avatar
                 }).then(function () {
-
-                    // // cleanup empty items - maybe fixed with future vue.js version
-                    // sortables.children().each(function () {
-                    //     if (!this.children.length) $(this).remove();
-                    // });
+                    UIkit.notify("Saved.", "success");
                 }).catch(function() {
                     UIkit.notify("Saving failed.", "danger");
-                }).finally(function() {
-                    UIkit.notify("Saved.", "success");
-                })
+                });
 
             },
 
@@ -113,16 +68,48 @@ $(function() {
                     };
                 });
 
-                this.$http.post(window.$routes.savePodcasts, {podcasts: data}).then(function() {
-                    UIkit.notify("Saved", "success");
-                }).catch(function() {
-                    UIkit.notify("Oops, could not save.", "danger");
-                });
-
+                this.$http.post(window.$routes.savePodcasts, {podcasts: data})
+                    .then(function() {
+                        UIkit.notify("Saved", "success");
+                    }).catch(function() {
+                        UIkit.notify("Oops, could not save.", "danger");
+                    });
             }
         }
     });
 
+    var uploadform = new Vue({
 
+        el: '#upload-opml',
+
+        data: {
+            uploading: false,
+            uploaded: false
+        },
+
+        methods: {
+
+            performupload: function(e) {
+
+                var url = e.target.getAttribute('action');
+                var files = this.$els.xml.files;
+                var data = new FormData();
+                data.append('xml', files[0]);
+
+                this.uploading = true;
+
+                this.$http.post(url, data).then(function () {
+
+                    UIkit.notify('Uploaded', 'success');
+                    this.uploaded = true;
+                    this.uploading = false;
+
+                }).catch(function (resp, b, c) {
+                    this.uploading = false;
+                    UIkit.notify('Upload failed: '+resp.data.error, 'danger');
+                });
+            }
+        }
+    });
 
 });

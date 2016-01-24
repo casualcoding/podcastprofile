@@ -15,7 +15,7 @@
 
 @section('content')
 
-    <div class="uk-container uk-container-center uk-margin-large-top">
+<div class="uk-container uk-container-center uk-margin-large-top">
 
         <div id="settings">
 
@@ -137,7 +137,7 @@
     <hr class="uk-grid-divider">
 
     <div class="uk-panel uk-panel-box" id="upload-opml">
-        <form action="{{ URL::route('api::postPodcastsByOpml') }}" method="post" enctype="multipart/form-data"  class="uk-form" @submit.prevent="performupload($event)" v-el="form">
+        <form action="{{ URL::route('api::postPodcastsByOpml') }}" method="post" enctype="multipart/form-data" class="uk-form" @submit.prevent="performupload($event)" v-el="form">
 
             <pre>@{{ demo | json }}</pre>
 
@@ -166,6 +166,6 @@
         </form>
     </div>
 
-    </div>
+</div>
 
 @stop
