@@ -151,7 +151,7 @@
             {{ csrf_field() }}
 
             <p class="uk-margin uk-alert uk-alert-note" v-if="uploading">
-                <i class="uk-icon-spinner uk-icon-spin"></i> Uploading... Please stand by.
+                <img src="/assets/loading-small.gif" alt="Loading" /> Uploading... Please stand by.
             </p>
             <p class="uk-margin uk-alert uk-alert-success" v-if="uploaded">
                 Thanks! We are now processing the upload. Your podcasts will appear here in the settings and on your profile. This will take <strong>a few moments</strong>. Hit refresh whenever you feel like it.
