@@ -140,12 +140,18 @@ class AuthController extends Controller
         if ($nickUser) {
             $this->recursiveUpdateNicknames($nickUser);
         }
+        
+        $url = '';
+        if (isset($twitterUser->user['entities']['url']['urls'][0]['expanded_url'])) {
+            $url = $twitterUser->user['entities']['url']['urls'][0]['expanded_url'];
+        };
 
         return User::create([
             'name' => $twitterUser->name,
             'handle' => $twitterUser->nickname,
             'twitter_id' => $twitterUser->id,
-            'avatar' => $twitterUser->avatar_original
+            'avatar' => $twitterUser->avatar_original,
+            'url' => $url
         ]);
     }
 

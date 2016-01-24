@@ -22,13 +22,17 @@ gulp.task('dist', function() {
 
    // JS
    gulp.src(['bower_components/jquery/dist/jquery.min.js',
-        'bower_components/uikit/js/uikit.min.js',
-        'bower_components/uikit/js/components/grid.min.js',
-        'bower_components/vue/**/*.min.js',
-        'bower_components/vue-resource/**/*.min.js',
-        'assets/js/*.js'])
+        'bower_components/uikit/js/uikit.min.js'])
        .pipe(rename({dirname: ''}))
        .pipe(concat('app.js'))
+       .pipe(uglify())
+       .pipe(gulp.dest('./assets/dist/'));
+
+       gulp.src(['bower_components/vue/**/*.min.js',
+       'bower_components/vue-resource/**/*.min.js',
+       'js/settings.js'])
+       .pipe(rename({dirname: ''}))
+       .pipe(concat('settings.js'))
        .pipe(uglify())
        .pipe(gulp.dest('./assets/dist/'));
 
@@ -39,6 +43,6 @@ gulp.task('default', ['dist']);
 gulp.task('watch', function() {
 
     // when any less file is changed: recompile
-    gulp.watch('less/*.less', ['dist']);
+    gulp.watch(['less/*.less', 'js/*.js'], ['dist']);
 
 });
