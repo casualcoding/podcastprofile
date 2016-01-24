@@ -7,6 +7,8 @@ use App\Services\FeedService;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
+use Validator;
+use Image;
 
 class ProfileApiController extends Controller
 {
@@ -21,11 +23,48 @@ class ProfileApiController extends Controller
         $user = Auth::user();
 
         $user->name = Input::get('name');
-        $user->avatar = Input::get('avatar');
         $user->url = Input::get('url');
         $user->save();
 
         return $user->toJson();
+    }
+
+    /**
+     * Upload the user profile image.
+     *
+     * @return Response
+     */
+    public function postProfileImage(Request $request)
+    {
+        $user = Auth::user();
+
+        $rules = array('image' => 'required|image',);
+        $validator = Validator::make(Input::all(), $rules);
+
+        if ($validator->passes()) {
+            $public_path = '/images/';
+            $internal_path = __DIR__ . '/../../../public';
+            $path = $internal_path . $public_path;
+            $extension = Input::file('image')->getClientOriginalExtension();
+            $filename = md5($user->twitter_id).'.'.$extension;
+
+            // checking file is valid.
+            if (Input::file('image')->isValid()) {
+                try {
+                    unlink($internal_path . $user->avatar);
+                } catch (\Exception $e) {
+                    // if old image not there do nothing
+                }
+                Image::make(Input::file('image'), array('width' => 400,'height' => 400, 'crop' => true))->save($path.$filename);
+                $user->avatar = $public_path.$filename;
+                $user->save();
+            }
+        }
+        if ($request->ajax()) {
+            return $user->toJson();
+        } else {
+            return redirect()->route('settings');
+        }
     }
 
     /**

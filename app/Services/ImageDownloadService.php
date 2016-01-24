@@ -41,7 +41,8 @@ class ImageDownloadService
 
         Image::make($path, array(
             'width' => $width,
-            'height' => $height
+            'height' => $height,
+            'crop' => true
         ))->save($path);
         
         return $public_path;
