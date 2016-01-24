@@ -13,6 +13,40 @@ window.$podcasts = window.$podcasts.map(function(podcast) {
 
 $(function() {
 
+    var uploadform = new Vue({
+
+        el: '#upload-opml',
+
+        data: {
+            uploading: false,
+            uploaded: false
+        },
+
+        methods: {
+
+            performupload: function(e) {
+
+                var url = e.target.getAttribute('action');
+                var files = this.$els.xml.files;
+                var data = new FormData();
+                data.append('xml', files[0]);
+
+                this.uploading = true;
+
+                this.$http.post(url, data).then(function () {
+
+                    UIkit.notify('Uploaded', 'success');
+                    this.uploaded = true;
+                    this.uploading = false;
+
+                }).catch(function (resp, b, c) {
+                    this.uploading = false;
+                    UIkit.notify('Upload failed: '+resp.data.error, 'danger');
+                });
+            }
+        }
+    });
+
     var settings = new Vue({
 
         el: '#settings',
@@ -74,40 +108,6 @@ $(function() {
                     }).catch(function() {
                         UIkit.notify("Oops, could not save.", "danger");
                     });
-            }
-        }
-    });
-
-    var uploadform = new Vue({
-
-        el: '#upload-opml',
-
-        data: {
-            uploading: false,
-            uploaded: false
-        },
-
-        methods: {
-
-            performupload: function(e) {
-
-                var url = e.target.getAttribute('action');
-                var files = this.$els.xml.files;
-                var data = new FormData();
-                data.append('xml', files[0]);
-
-                this.uploading = true;
-
-                this.$http.post(url, data).then(function () {
-
-                    UIkit.notify('Uploaded', 'success');
-                    this.uploaded = true;
-                    this.uploading = false;
-
-                }).catch(function (resp, b, c) {
-                    this.uploading = false;
-                    UIkit.notify('Upload failed: '+resp.data.error, 'danger');
-                });
             }
         }
     });
