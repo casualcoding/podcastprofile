@@ -46,7 +46,9 @@ class ProfileApiController extends BaseController
         $file = $request->file('xml');
         $xml = simplexml_load_file($file);
 
-        $pos = $user->podcasts()->count();
+        $pos = $user->podcasts()
+            ->withPivot('position')
+            ->max('position');
         $added = [];
 
         // The standard OPML structure is

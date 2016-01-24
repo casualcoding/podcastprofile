@@ -40,6 +40,6 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Models\Podcast')
             ->wherePivot('visible', true)
             ->withPivot('description', 'position')
-            ->orderBy('pivot_position', 'asc');;
+            ->orderBy('pivot_position', 'asc');
     }
 }

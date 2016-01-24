@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('avatar');
             $table->string('url');
             $table->string('handle')->unique();
-            $table->integer('twitter_id');
+            $table->string('twitter_id');
             $table->rememberToken();
             $table->timestamps();
         });
