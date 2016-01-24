@@ -4,7 +4,7 @@ namespace App\Jobs;
 
 use App\Jobs\Job;
 use App\Models\User;
-use Image;
+use App\Services\ImageDownloadService;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -31,18 +31,12 @@ class UpdateUserAvatar extends Job implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(ImageDownloadService $downloader)
     {
-        $public_path = '/images/' . $this->user->twitter_id . '.jpg';
-        $path = __DIR__ . '/../../public' . $public_path;
-        file_put_contents($path, fopen($this->user->avatar, 'r'));
-
-        Image::make($path, array(
-            'width' => 400,
-            'height' => 400
-        ))->save($path);
+        $filename = md5($this->user->twitter_id);
+        $image_path = $downloader->saveImage($this->user->avatar, $filename, 400, 400);
         
-        $this->user->avatar = $public_path;
+        $this->user->avatar = $image_path;
         $this->user->save();
     }
 }
