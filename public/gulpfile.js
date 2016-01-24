@@ -24,6 +24,7 @@ gulp.task('dist', function() {
    gulp.src(['bower_components/jquery/dist/jquery.min.js',
         'bower_components/uikit/js/uikit.min.js',
         'bower_components/uikit/js/components/sticky.min.js',
+        'bower_components/uikit/js/components/notify.min.js',
         'bower_components/uikit/js/components/sortable.min.js'])
        .pipe(rename({dirname: ''}))
        .pipe(concat('app.js'))

@@ -89,7 +89,7 @@ class ProfileApiController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function postPodcastsByRss(Request $request, $feed)
+    public function postPodcastByRss(Request $request, $feed)
     {
         $user = Auth::user();
         $podcast = Podcast::getOrCreateFromRss($feed);
@@ -112,15 +112,19 @@ class ProfileApiController extends Controller
     public function postPodcastsByOpml(Request $request, FeedService $parser)
     {
         if (!$request->hasFile('xml')) {
-            return response()->json(['error' => 'no file.']);
+            return response()->json(['error' => 'No file.'], $status = 500);
         } elseif (!$request->file('xml')->isValid()) {
-            return response()->json(['error' => 'file invalid.']);
+            return response()->json(['error' => 'File invalid.'], $status = 500);
         }
 
         $user = Auth::user();
         $file = $request->file('xml');
-        $feeds = $parser->parseOpml($file);
         $pos = $user->getNewPodcastPosition();
+        try {
+            $feeds = $parser->parseOpml($file);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'File could not be parsed.'], $status = 500);
+        }
 
         foreach ($feeds as $feed) {
             $podcast  = Podcast::getOrCreateFromRss($feed);

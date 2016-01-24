@@ -54,9 +54,11 @@
                     </div>
                 </div>
                 @empty
-                    <p>
-                        {{ $user->name }} has not added any podcasts to their profile yet.
-                    </p>
+                    <div class="uk-article-lead">
+                        <p class="uk-width-2-3 uk-text-center uk-align-center">
+                            {{ $user->name }} has not added any podcasts to their profile yet.
+                        </p>
+                    </div>
                 @endforelse
 
             </div>
