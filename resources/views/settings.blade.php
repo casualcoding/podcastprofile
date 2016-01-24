@@ -5,17 +5,21 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <script type="text/javascript">
     window.$user = <?php echo json_encode($user) ?>;
+    window.$podcasts = <?php echo $user->podcastsPublic()->get()->toJson() ?>;
+    window.$routes = {
+        savePodcasts: "{{ URL::route('api::podcasts') }}"
+    }
 </script>
 <script src="/assets/dist/settings.js"></script>
 @stop
 
 @section('content')
 
-    <div class="uk-container uk-container-center uk-margin-top">
+    <div class="uk-container uk-container-center uk-margin-large-top" id="settings">
 
         <div class="uk-panel uk-panel-box">
 
-            <div class="uk-grid" id="settings">
+            <div class="uk-grid">
                 <div class="uk-width-1-4 uk-text-center">
                     <p>
                         <img class="uk-border-circle" width="180" height="180" src="{{ $user->avatar }}" alt="">
@@ -24,8 +28,6 @@
                 </div>
 
                 <div class="uk-width-3-4">
-
-                    <h2>Profile Details</h2>
 
                     <form class="uk-form uk-form-stacked" action="{{ URL::route('api::profile') }}" @submit.prevent="save($event)">
                         <div class="uk-form-row">
@@ -44,14 +46,76 @@
 
                         <div class="uk-form-row">
                             <div class="uk-form-controls uk-align-right">
-                                <button class="uk-button uk-button-primary uk-button-large">Save</button>
+                                <button class="uk-button uk-button-primary uk-button-large">Save profile</button>
                             </div>
                         </div>
                     </form>
+
+
+
                 </div>
+
+
 
             </div>
         </div>
+
+        <!-- This is the tabbed navigation containing the toggling elements -->
+        <ul class="uk-tab uk-margin-large-top" data-uk-tab="{connect:'#lists'}">
+            <li><a href="">Manage Podcasts</a></li>
+            <li><a href="">Reorder</a></li>
+        </ul>
+
+        <!-- This is the container of the content items -->
+        <ul id="lists" class="uk-switcher uk-margin">
+            <li>
+
+                <ul class="uk-sortable uk-list uk-list-space">
+                    <li v-for="podcast in podcasts">
+                        <div class="uk-panel uk-panel-box">
+                            <div class="uk-grid">
+                                <div class="uk-width-1-4">
+                                    <img :src="podcast.coverimage" width="150" height="150" alt="Podcast cover" />
+                                </div>
+                                <div class="uk-width-3-4">
+                                    <h3>Say something about <strong>@{{{ podcast.name }}}</strong>:</h3>
+                                    <textarea class="uk-width-1-1 site-podcast-comment" rows="4" v-model="podcast.comment"></textarea><br>
+                                    <input type="checkbox" v-model="podcast.visible"> Show in list
+
+                                    <p class="uk-text-right">
+                                        <button class="uk-button uk-button-primary" @click="savePodcasts">Save</button>
+                                    </p>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </li>
+                </ul>
+
+
+            </li>
+            <li>
+
+                <p class="uk-text-right">
+                    <button class="uk-button uk-button-primary" @click="savePodcasts">Save new order</button>
+                </p>
+
+                <ul class="uk-sortable uk-list uk-list-space" v-el:list>
+                    <li v-for="podcast in podcasts" data-id="@{{ podcast.id }}">
+                        <div class="uk-panel uk-panel-box">
+                            <div class="uk-sortable-handle uk-icon uk-icon-bars uk-margin-small-right"></div>
+                            <strong>@{{{ podcast.name }}}</strong>
+                        </div>
+                    </li>
+                </ul>
+
+                <p class="uk-text-right">
+                    <button class="uk-button uk-button-primary" @click="savePodcasts">Save new order</button>
+                </p>
+
+            </li>
+        </ul>
 
         <hr class="uk-grid-divider">
 

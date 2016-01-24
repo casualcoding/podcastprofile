@@ -12,7 +12,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'realname', 'avatar', 'url', 'handle', 'twitter_id',
+        'name', 'avatar', 'url', 'handle', 'twitter_id',
     ];
 
     /**
@@ -39,7 +39,7 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Models\Podcast')
             ->wherePivot('visible', true)
-            ->withPivot('description', 'position')
+            ->withPivot('description', 'position', 'visible')
             ->orderBy('pivot_position', 'asc');
     }
 }
