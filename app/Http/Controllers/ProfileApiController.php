@@ -28,31 +28,8 @@ class ProfileApiController extends Controller
         return $user->toJson();
     }
 
-    // /**
-    //  * Set visibility for podcast.
-    //  *
-    //  * @param  Request  $request
-    //  * @return Response
-    //  */
-    // public function postSetVisibility(Request $request)
-    // {
-    //     $user = Auth::user();
-    //     $podcast_id = Input::get('podcast');
-    //     $visible = (bool) Input::get('visible');
-    //
-    //     $podcast = $user->podcasts()
-    //         ->where('podcast_id', $podcast_id)
-    //         ->withPivot('visible')
-    //         ->firstOrFail();
-    //
-    //     $podcast->pivot->visible = $visible;
-    //     $podcast->pivot->save();
-    //
-    //     return $podcast->toJson();
-    // }
-
     /**
-     * Set order for list of podcasts.
+     * Set description, position and visibility for list of podcasts.
      *
      * @param  Request  $request
      * @return Response
@@ -60,24 +37,14 @@ class ProfileApiController extends Controller
     public function postUpdatePodcasts(Request $request)
     {
         $user = Auth::user();
-
         $podcasts = Input::get('podcasts');
-        // $podcastIds = array_map(function($podcast) {
-        //     return (int)$podcast['id'];
-        // }, $podcastsJson);
-
-        // $podcasts = $user->podcasts()
-        //     ->whereIn('podcast_id', $podcast_ids)
-        //     ->withPivot('visible', 'position');
 
         foreach ($podcasts as $podcast) {
-            $user->podcasts()
-                ->where('podcast_id', $podcast['id'])
-                ->withPivot('visible', 'position', 'description')
-                ->update([
-                    'podcast_user.description' => $podcast['description'],
-                    'visible' => $podcast['visible'],
-                    'position' => $podcast['position']]);
+            $user->podcasts()->updateExistingPivot($podcast['id'], [
+                'description' => $podcast['description'],
+                'visible' => $podcast['visible'],
+                'position' => $podcast['position'],
+            ]);
         }
 
         return response()->json(['success' => true]);
