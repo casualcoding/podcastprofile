@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Jobs\Job;
 use App\Models\Podcast;
 use App\Services\FeedService;
+use App\Services\ImageDownloadService;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -31,12 +32,15 @@ class UpdatePodcastFromRss extends Job implements ShouldQueue
      *
      * @return void
      */
-    public function handle(FeedService $parser)
+    public function handle(FeedService $parser, ImageDownloadService $downloader)
     {
         $feed = $parser->loadDetailsFromRss($this->podcast->feed);
         $this->podcast->name = $feed['title'];
         $this->podcast->url = $feed['link'];
-        $this->podcast->coverimage = $feed['image'];
+
+        $image_path = $downloader->saveImage($feed['image'], md5($this->podcast->url), 600, 600);
+        
+        $this->podcast->coverimage = $image_path;
         $this->podcast->description = $feed['summary'];
         $this->podcast->save();
     }

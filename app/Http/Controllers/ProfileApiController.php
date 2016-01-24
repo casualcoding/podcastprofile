@@ -61,12 +61,11 @@ class ProfileApiController extends Controller
     public function postUpdatePodcasts(Request $request)
     {
         $user = Auth::user();
+
         $podcasts = Input::get('podcasts');
         // $podcastIds = array_map(function($podcast) {
-        //     return $podcast->id;
+        //     return (int)$podcast['id'];
         // }, $podcastsJson);
-
-        return var_dump($podcasts);
 
         // $podcasts = $user->podcasts()
         //     ->whereIn('podcast_id', $podcast_ids)
@@ -74,12 +73,15 @@ class ProfileApiController extends Controller
 
         foreach ($podcasts as $podcast) {
             $user->podcasts()
-                ->where('podcast_id', $podcast->id)
-                ->withPivot('visible', 'position')
+                ->where('podcast_id', $podcast['id'])
+                ->withPivot('visible', 'position', 'description')
                 ->update([
-                    'pivot_visible' => $podcast->visible,
-                    'pivot_position' => $podcast->position]);
+                    'podcast_user.description' => $podcast['description'],
+                    'visible' => $podcast['visible'],
+                    'position' => $podcast['position']]);
         }
+
+        return response()->json(['success' => true]);
     }
 
     /**
