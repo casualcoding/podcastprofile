@@ -37,11 +37,15 @@ class UpdatePodcastFromRss extends Job implements ShouldQueue
         $feed = $parser->loadDetailsFromRss($this->podcast->feed);
         $this->podcast->name = $feed['title'];
         $this->podcast->url = $feed['link'];
+        $this->podcast->description = $feed['summary'];
 
         $image_path = $downloader->saveImage($feed['image'], md5($this->podcast->url), 600, 600);
-        
         $this->podcast->coverimage = $image_path;
-        $this->podcast->description = $feed['summary'];
+
+        if ($this->podcast->name == null) {
+            $this->podcast->error = 17; // podcast could not be parsed error
+        }
+
         $this->podcast->save();
     }
 }
