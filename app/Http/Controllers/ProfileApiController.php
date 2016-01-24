@@ -1,13 +1,15 @@
 <?php namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+use App\Jobs\UpdatePodcastFromRss;
 use App\Models\User;
 use App\Models\Podcast;
+use App\Services\FeedService;
 use Auth;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Input;
 
-class ProfileApiController extends BaseController
+class ProfileApiController extends Controller
 {
 
     /**
@@ -33,7 +35,7 @@ class ProfileApiController extends BaseController
      * @param  Request  $request
      * @return Response
      */
-    public function postPodcastsByOpml(Request $request)
+    public function postPodcastsByOpml(Request $request, FeedService $parser)
     {
 
         if (!$request->hasFile('xml')) {
@@ -44,25 +46,13 @@ class ProfileApiController extends BaseController
 
         $user = Auth::user();
         $file = $request->file('xml');
-        $xml = simplexml_load_file($file);
-
+        $feeds = $parser->parseOpml($file);
+        $new = [];
         $pos = $user->podcasts()
             ->withPivot('position')
             ->max('position');
-        $added = [];
 
-        // The standard OPML structure is
-        // <body> <outline ... /> <outline ... /> </body> 
-        $outlines = $xml->body->outline;
-        
-        // Pocket Casts and some other clients use the structure
-        // <body> <outline> <outline ... /> <outline ... /> <outline> </body>
-        if (isset($xml->body->outline->outline)) {
-            $outlines = $xml->body->outline->outline;
-        }
-        
-        foreach ($outlines as $outline) {
-            $feed = (string) $outline['xmlUrl'];
+        foreach ($feeds as $feed) {
 
             $podcast = Podcast::where('feed', $feed)->first();
             if (!$podcast) {
@@ -70,7 +60,8 @@ class ProfileApiController extends BaseController
                 $podcast->feed = $feed;
                 $podcast->save();
 
-                // send feed url to the queue
+                // load feed details asynchronously
+                $this->dispatch(new UpdatePodcastFromRss($podcast));
             }
 
             if (!$user->podcasts()->where('feed', $feed)->exists()) {
@@ -78,10 +69,10 @@ class ProfileApiController extends BaseController
                     'position' => $pos,
                     'visible' => true]);
                 $pos++;
-                $added[] = $podcast;
+                $new[] = $podcast;
             }
         }
 
-        return response()->json(['success' => true, 'new' => $added]);
+        return response()->json(['success' => true, 'new' => $new, 'feeds' => $feeds]);
     }
 }
