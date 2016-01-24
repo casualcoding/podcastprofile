@@ -49,19 +49,20 @@
         <div class="uk-text-center">
             <img src="/assets/screenshot@2x.png" width="500" height="495" alt="Screenshot">
         </div>
-        <p>
-            Create a personal podcast profile. <br>
-            Show others what you listen to.
-        </p>
+        <div class="uk-flex uk-flex-middle">
+            <div>
+                <p>
+                    Create a personal podcast profile. <br>
+                    Show others what you listen to.
+                </p>
+                <h2 class="uk-margin-large-top">It’s easy.</h2>
+                <p>
+                    Export your subscribed podcasts from any popular <br>
+                    podcast client. Simply upload that file. Done.
+                </p>
+            </div>
+        </div>
     </div>
-</section>
-
-<section class="uk-block uk-block-large site-block-home site-block-three uk-text-center">
-    <h2>It’s easy.</h2>
-    <p>
-        Export your subscribed podcasts from any popular <br>
-        podcast client. Simply upload that file. Done.
-    </p>
 </section>
 
 <footer class="uk-block uk-block-large site-block-footer uk-text-center">
