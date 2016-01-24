@@ -10,7 +10,6 @@
         savePodcasts: "{{ URL::route('api::podcasts') }}"
     }
 </script>
-<script src="/assets/dist/settings.js"></script>
 @stop
 
 @section('content')
@@ -167,5 +166,7 @@
     </div>
 
 </div>
+
+<script src="/assets/dist/settings.js"></script>
 
 @stop

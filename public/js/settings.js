@@ -11,105 +11,101 @@ window.$podcasts = window.$podcasts.map(function(podcast) {
     return podcast;
 });
 
-$(function() {
+var uploadform = new Vue({
 
-    var uploadform = new Vue({
+    el: '#upload-opml',
 
-        el: '#upload-opml',
+    data: {
+        uploading: false,
+        uploaded: false
+    },
 
-        data: {
-            uploading: false,
-            uploaded: false
-        },
+    methods: {
 
-        methods: {
+        performupload: function(e) {
 
-            performupload: function(e) {
+            var url = e.target.getAttribute('action');
+            var files = this.$els.xml.files;
+            var data = new FormData();
+            data.append('xml', files[0]);
 
-                var url = e.target.getAttribute('action');
-                var files = this.$els.xml.files;
-                var data = new FormData();
-                data.append('xml', files[0]);
+            this.uploading = true;
 
-                this.uploading = true;
+            this.$http.post(url, data).then(function () {
 
-                this.$http.post(url, data).then(function () {
+                UIkit.notify('Uploaded', 'success');
+                this.uploaded = true;
+                this.uploading = false;
 
-                    UIkit.notify('Uploaded', 'success');
-                    this.uploaded = true;
-                    this.uploading = false;
-
-                }).catch(function (resp, b, c) {
-                    this.uploading = false;
-                    UIkit.notify('Upload failed: '+resp.data.error, 'danger');
-                });
-            }
+            }).catch(function (resp, b, c) {
+                this.uploading = false;
+                UIkit.notify('Upload failed: '+resp.data.error, 'danger');
+            });
         }
-    });
+    }
+});
 
-    var settings = new Vue({
+var settings = new Vue({
 
-        el: '#settings',
+    el: '#settings',
 
-        ready: function() {
-            if(window.$podcasts.length > 0) {
-                this.sortable = UIkit.sortable(this.$els.list, { handleClass:'uk-sortable-handle' });
-            }
+    ready: function() {
+        if(window.$podcasts.length > 0) {
+            this.sortable = UIkit.sortable(this.$els.list, { handleClass:'uk-sortable-handle' });
+        }
+    },
+
+    data: {
+        user: window.$user,
+        podcasts: window.$podcasts
+    },
+
+    methods: {
+        save: function(e) {
+
+            var url = $(e.target).attr('action');
+
+            this.$http.post(url, {
+                name: this.user.name,
+                url: this.user.url,
+                avatar: this.user.avatar
+            }).then(function () {
+                UIkit.notify("Saved.", "success");
+            }).catch(function() {
+                UIkit.notify("Saving failed.", "danger");
+            });
+
         },
 
-        data: {
-            user: window.$user,
-            podcasts: window.$podcasts
-        },
+        savePodcasts: function() {
 
-        methods: {
-            save: function(e) {
+            var ids = this.sortable.serialize().map(function(obj) {
+                return obj.id;
+            });
 
-                var url = $(e.target).attr('action');
+            var positionForId = function(id) {
+                var pos = 0;
+                while (ids[pos] != id && pos<ids.length) {
+                    pos++;
+                }
+                return pos;
+            };
 
-                this.$http.post(url, {
-                    name: this.user.name,
-                    url: this.user.url,
-                    avatar: this.user.avatar
-                }).then(function () {
-                    UIkit.notify("Saved.", "success");
-                }).catch(function() {
-                    UIkit.notify("Saving failed.", "danger");
-                });
-
-            },
-
-            savePodcasts: function() {
-
-                var ids = this.sortable.serialize().map(function(obj) {
-                    return obj.id;
-                });
-
-                var positionForId = function(id) {
-                    var pos = 0;
-                    while (ids[pos] != id && pos<ids.length) {
-                        pos++;
-                    }
-                    return pos;
+            var data = this.podcasts.map(function(podcast) {
+                return {
+                    id: podcast.id,
+                    position: positionForId(podcast.id),
+                    visible: podcast.visible, // FIXME
+                    description: podcast.comment
                 };
+            });
 
-                var data = this.podcasts.map(function(podcast) {
-                    return {
-                        id: podcast.id,
-                        position: positionForId(podcast.id),
-                        visible: podcast.visible, // FIXME
-                        description: podcast.comment
-                    };
+            this.$http.post(window.$routes.savePodcasts, {podcasts: data})
+                .then(function() {
+                    UIkit.notify("Saved", "success");
+                }).catch(function() {
+                    UIkit.notify("Oops, could not save.", "danger");
                 });
-
-                this.$http.post(window.$routes.savePodcasts, {podcasts: data})
-                    .then(function() {
-                        UIkit.notify("Saved", "success");
-                    }).catch(function() {
-                        UIkit.notify("Oops, could not save.", "danger");
-                    });
-            }
         }
-    });
-
+    }
 });
