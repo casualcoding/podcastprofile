@@ -9,8 +9,8 @@ use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use InvalidArgumentException;
 use Socialite;
-use Validator;
 use TwitterAPIExchange;
+use Validator;
 
 class AuthController extends Controller
 {
@@ -128,20 +128,17 @@ class AuthController extends Controller
 
         if ($authUser) {
             if ($authUser->handle != $twitterUser->nickname) {
-                if (!$nickUser) {
-                    $authUser->handle = $twitterUser->nickname;
-                    $authUser->save();
-                } else {
-                    // $nickUser Infos von Twitter auslesen und rekursiv anpassen
+                if ($nickUser) {
+                    $this->recursiveUpdateNicknames($nickUser);
                 }
+                $authUser->handle = $twitterUser->nickname;
+                $authUser->save();
             }
             return $authUser;
         }
 
-        // $this->recursiveCheckNicknames($authUser);
         if ($nickUser) {
-            // $nickUser Infos von Twitter auslesen und rekursiv anpassen
-            // $this->recursiveCheckNicknames($nickUser);
+            $this->recursiveUpdateNicknames($nickUser);
         }
 
         return User::create([
@@ -167,9 +164,26 @@ class AuthController extends Controller
     /**
      * Recursively check twitter nicknames of users and change them
      *
-     * @return Boolean
      */
-    private function recursiveCheckNicknames($user)
+    private function recursiveUpdateNicknames($user)
+    {
+        $current_nick = $this->getNickFromTwitter($user->twitter_id);
+        if ($current_nick != $user->handle) {
+            $nickUser = User::where('handle', $current_nick)->first();
+            if ($nickUser) {
+                $this->recursiveUpdateNicknames($nickUser);
+            }
+            $user->handle = $current_nick;
+            $user->save();
+        }
+    }
+
+    /**
+     * Contacts Twitter and gets the current nickname to a twitter ID
+     *
+     * @return String
+     */
+    private function getNickFromTwitter($twitter_id)
     {
         $settings = array(
             'oauth_access_token' => env('TWITTER_ACCESS_TOKEN'),
@@ -178,11 +192,12 @@ class AuthController extends Controller
             'consumer_secret' => env('TWITTER_COMSUMER_SECRET')
         );
         $url = 'https://api.twitter.com/1.1/users/show.json';
-        $getfield = '?user_id='.$user->twitter_id;
+        $getfield = '?user_id='.$twitter_id;
         $requestMethod = 'GET';
         $twitter = new TwitterAPIExchange($settings);
-        die($twitter->setGetfield($getfield)
+        $json = json_decode($twitter->setGetfield($getfield)
             ->buildOauth($url, $requestMethod)
             ->performRequest());
+        return $json->screen_name;
     }
 }
