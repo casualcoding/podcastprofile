@@ -13,6 +13,8 @@ class UpdatePodcastFromRss extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 
+    protected $podcast;
+
     /**
      * Create a new job instance.
      *
@@ -34,7 +36,7 @@ class UpdatePodcastFromRss extends Job implements ShouldQueue
         $feed = $parser->loadDetailsFromRss($this->podcast->feed);
         $this->podcast->name = $feed['title'];
         $this->podcast->url = $feed['link'];
-        $this->podcast->coverimage = $feed['iamge'];
+        $this->podcast->coverimage = $feed['image'];
         $this->podcast->description = $feed['summary'];
         $this->podcast->save();
     }

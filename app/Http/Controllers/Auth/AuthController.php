@@ -100,7 +100,7 @@ class AuthController extends Controller
             return redirect('auth/twitter');
         }
 
-        $authUser = $this->findOrCreateUser($user);
+        list($authUser, $created) = $this->findOrCreateUser($user);
 
         Auth::login($authUser, true);
 
@@ -118,16 +118,16 @@ class AuthController extends Controller
         $authUser = User::where('twitter_id', $twitterUser->id)->first();
 
         if ($authUser){
-            return $authUser;
+            return [$authUser, false];
         }
 
-        return User::create([
+        return [User::create([
             'name' => $twitterUser->name,
             'handle' => $twitterUser->nickname,
             'twitter_id' => $twitterUser->id,
             'avatar' => $twitterUser->avatar_original,
             'url' => $twitterUser->user['entities']['url']['urls'][0]['expanded_url']
-        ]);
+        ], true]);
     }
 
     /**
