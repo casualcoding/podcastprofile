@@ -5,7 +5,7 @@
 
 <header class="site-block-home site-block-header uk-text-center">
 
-    <div class="uk-container uk-container-center">
+    <div class="site-navigation-absolute">
 
         <div class="uk-navbar-flip">
             <ul class="uk-navbar-nav">
@@ -22,7 +22,7 @@
 
 
     <div class="uk-block uk-block-large">
-        <h1 class="uk-contrast">LOGO</h1>
+        <h1 class="uk-contrast"><img src="/assets/logo@2x.png" width="250" alt="Logo"></h1>
     </div>
 
 
