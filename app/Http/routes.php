@@ -29,7 +29,8 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::group(['prefix' => 'auth/twitter', 'as' => 'auth::'], function () {
         Route::get('/', 'Auth\AuthController@redirectToProvider')->name('login');
-        Route::get('/callback', 'Auth\AuthController@handleProviderCallback')->name('callback');
+        Route::get('/callback', 'Auth\AuthController@handleProviderCallbackAsRedirect')->name('callback');
+        Route::get('/callback/json', 'Auth\AuthController@handleProviderCallbackAsJson')->name('callback::json');
         Route::get('/logout', 'Auth\AuthController@logout')->name('logout');
     });
 
