@@ -10,6 +10,7 @@
 
         <div class="uk-navbar-flip">
             <ul class="uk-navbar-nav">
+                    {{-- <li><a href="/{{ URL::route('top') }}">Top Podcasts</a></li> --}}
                 @if (Auth::check())
                     <li><a href="/{{ Auth::user()->handle }}">Profile</a></li>
                     <li><a href="{{ URL::route('settings') }}">Settings</a></li>
