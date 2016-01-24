@@ -39,13 +39,12 @@
                         <div class="uk-width-medium-2-3 uk-flex uk-flex-middle">
 
                             <div>
-                                <h2><a href="{{ $podcast->url }}">{{ $podcast->name }}</a></h2>
+                                <h2><a href="{{ $podcast->url }}" class="uk-link-reset">{{ $podcast->name }}</a></h2>
                                 <p class="uk-article-lead">
-                                    <!-- A funny podcast. Good for a train ride. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. -->
                                     {{ $podcast->pivot->description }}
                                 </p>
                                 <p>
-                                    <a href="{{ $podcast->feed }}">Subscribe</a>
+                                    <a href="{{ $podcast->feed }}" class="uk-link-reset">Subscribe</a>
                                 </p>
                             </div>
 
