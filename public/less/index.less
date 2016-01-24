@@ -1,8 +1,18 @@
 .site-navigation-absolute {
-    position: absolute;
-    right: 0;
+    position: relative;
     z-index: 999999;
 }
+
+@media (min-width: @breakpoint-medium) {
+
+    .site-navigation-absolute {
+        position: absolute;
+        right: 0;
+        z-index: 999999;
+    }
+
+}
+
 
 .site-block-home p {
     font-size: 24px;
@@ -15,9 +25,20 @@
 }
 
 .site-tagline {
-    font-size: 48px;
-    line-height: 56px;
+    padding: 0 15px;
+    font-size: 36px;
+    line-height: 42px;
     font-weight: @site-font-weight-light;
+}
+@media (min-width: @breakpoint-medium) {
+    .site-tagline {
+        font-size: 48px;
+        line-height: 56px;
+    }
+}
+
+.site-padding {
+    padding: 0 10px;
 }
 
 .site-button-twitter {
@@ -35,14 +56,19 @@
     a {
         color: #9b9b9b;
         text-decoration: none;
-        padding: 0 30px;
+
     }
 
     a:hover {
         color: #ccc;
     }
-
 }
+@media (min-width: @breakpoint-medium) {
+    .site-block-footer a {
+        padding: 0 30px;
+    }
+}
+
 .site-block-one {
     background-color: #fff;
     color: #333333;
