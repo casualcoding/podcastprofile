@@ -31,7 +31,7 @@
 
                             {{ csrf_field() }}
 
-                            <input type="file" name="image" @change="uploadavatar" class="site-file-inpu" />
+                            <input type="file" name="image" @change="uploadavatar" class="site-file-input" />
                             <button type="submit" class="uk-button uk-button-link">Upload</button>
                         </form>
                     </div>
