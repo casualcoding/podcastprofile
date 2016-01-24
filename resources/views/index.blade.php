@@ -51,11 +51,12 @@
         </div>
         <div class="uk-flex uk-flex-middle">
             <div class="site-padding">
+                <h2>Your profile.</h2>
                 <p>
                     Create a personal podcast profile. <br>
                     Show others what you listen to.
                 </p>
-                <h2 class="uk-margin-large-top">It’s easy.</h2>
+                <h2 class="uk-margin-large-top">Easy import.</h2>
                 <p>
                     Export your subscribed podcasts from any popular <br>
                     podcast client. Simply upload that file. Done.
