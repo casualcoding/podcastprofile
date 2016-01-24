@@ -50,7 +50,7 @@
             <img src="/assets/screenshot@2x.png" width="500" height="495" alt="Screenshot">
         </div>
         <div class="uk-flex uk-flex-middle">
-            <div>
+            <div class="site-padding">
                 <p>
                     Create a personal podcast profile. <br>
                     Show others what you listen to.
@@ -67,6 +67,7 @@
 
 <footer class="uk-block uk-block-large site-block-footer uk-text-center">
     <a href="https://twitter.com/podcastprofile">@podcastprofile</a>
+    <br class="uk-visible-small">
     <a href="http://casualcoding.com">a casualcoding project</a>
 </footer>
 @stop
