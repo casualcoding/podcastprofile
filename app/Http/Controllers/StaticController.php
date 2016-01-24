@@ -6,6 +6,7 @@ use SimplePie;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Auth;
 
 class StaticController extends Controller
 {
@@ -22,7 +23,10 @@ class StaticController extends Controller
 
     public function getSettings()
     {
-        return view('settings');
+
+        $user = Auth::user();
+
+        return view('settings', compact('user'));
     }
 
     public function testFeed()

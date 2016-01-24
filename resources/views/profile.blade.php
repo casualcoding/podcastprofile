@@ -17,9 +17,9 @@
                         <a href="https://twitter.com/{{ $user->handle }}">{{ "@".$user->handle }}</a>
                     </p>
 
-                    @if($user->website)
+                    @if($user->url)
                     <p>
-                        <a href="{{ $user->website }}">{{ $user->website }}</a>
+                        <a href="{{ $user->url }}">{{ $user->url }}</a>
                     </p>
                     @endif
 

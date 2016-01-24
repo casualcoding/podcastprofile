@@ -48,7 +48,7 @@ class ProfileApiController extends BaseController
 
         $pos = $user->podcasts()
             ->withPivot('position')
-            ->max('position');
+            ->max('position') ?? 0;
         $added = [];
 
         // The standard OPML structure is
