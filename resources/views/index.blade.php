@@ -35,7 +35,11 @@
     </h2>
 
     <p class="uk-margin-large">
-        <a class="uk-button uk-button-primary uk-button-large site-button-twitter" href="auth/twitter">Sign in with Twitter</a>
+        @if (Auth::check())
+           <p>You can visit your <a href="/{{ Auth::user()->handle }}">profile</a> or edit the <a href="{{ URL::route('settings') }}">settings</a>.</p>
+        @else
+            <a class="uk-button uk-button-primary uk-button-large site-button-twitter" href="auth/twitter">Sign in with Twitter</a>
+        @endif
     </p>
 
 </section>
