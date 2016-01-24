@@ -101,7 +101,11 @@ class ProfileApiController extends Controller
 
         $user = Auth::user();
         $file = $request->file('xml');
-        $feeds = $parser->parseOpml($file);
+        try {
+            $feeds = $parser->parseOpml($file);            
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'file could not be parsed.']);
+        }
         $new = [];
         $pos = $user->podcasts()
             ->withPivot('position')

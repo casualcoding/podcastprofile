@@ -35,7 +35,7 @@ class ImageDownloadService
                 file_put_contents($path, file_get_contents($url));
             } catch (\Exception $e) {
                 // file doesn't seem to exist
-                return '';
+                return '/assets/default.png';
             }
         }
 
