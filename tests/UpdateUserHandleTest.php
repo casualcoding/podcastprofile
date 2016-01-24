@@ -18,6 +18,8 @@ class UpdateUserHandleTest extends TestCase
      */
     public function testUpdateHandles()
     {
+        //TODO mock Twitter api request, change test data (twitter ids and handles)
+
         $user1 = factory(App\Models\User::class)->create(['twitter_id' => '78598098', 'handle' => 'maxfriedrich']);
         $user2 = factory(App\Models\User::class)->create(['twitter_id' => '14247082', 'handle' => 'florianletsch']);
         $user3 = factory(App\Models\User::class)->create(['twitter_id' => '183628109', 'handle' => 'rolfboom']);
@@ -38,15 +40,4 @@ class UpdateUserHandleTest extends TestCase
         $this->seeInDatabase('users', ['twitter_id' => '14247082', 'handle' => 'maxfriedrich']);
         $this->seeInDatabase('users', ['twitter_id' => '183628109', 'handle' => 'FlorianLetsch']);
     }
-
-    // private function getNickFromTwitter($twitter_id)
-    // {
-    //     if ($twitter_id == '1') {
-    //         return 'b';
-    //     } else if ($twitter_id == '2') {
-    //         return 'c';
-    //     } else if ($twitter_id == '3') {
-    //         return 'a';
-    //     }
-    // }
 }
