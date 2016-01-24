@@ -47,7 +47,7 @@
 <section class="uk-block uk-block-large site-block-home site-block-two">
     <div class="uk-grid uk-grid-width-medium-1-2">
         <div class="uk-text-center">
-            <img src="/assets/screenshot-1000.png" width="500" height="495" alt="Screenshot">
+            <img src="/assets/screenshot@2x.png" width="500" height="495" alt="Screenshot">
         </div>
         <p>
             Create a personal podcast profile. <br>
