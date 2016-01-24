@@ -27,9 +27,16 @@ class ImageDownloadService
         }
         
         try {
+            // stream the file using fopen
             file_put_contents($path, fopen($url, 'r'));
         } catch (\Exception $e) {
-            return '';
+            try {
+                // try downloading the whole file into memory 
+                file_put_contents($path, file_get_contents($url));
+            } catch (\Exception $e) {
+                // file doesn't seem to exist
+                return '/assets/default.png';
+            }
         }
 
         Image::make($path, array(

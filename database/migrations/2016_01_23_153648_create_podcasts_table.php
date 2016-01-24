@@ -19,6 +19,7 @@ class CreatePodcastsTable extends Migration
             $table->string('feed');
             $table->string('coverimage');
             $table->text('description');
+            $table->integer('error');
             $table->timestamps();
         });
     }

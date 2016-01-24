@@ -1,7 +1,6 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Jobs\UpdatePodcastFromRss;
 use App\Models\User;
 use App\Models\Podcast;
 use App\Services\FeedService;
@@ -29,31 +28,8 @@ class ProfileApiController extends Controller
         return $user->toJson();
     }
 
-    // /**
-    //  * Set visibility for podcast.
-    //  *
-    //  * @param  Request  $request
-    //  * @return Response
-    //  */
-    // public function postSetVisibility(Request $request)
-    // {
-    //     $user = Auth::user();
-    //     $podcast_id = Input::get('podcast');
-    //     $visible = (bool) Input::get('visible');
-    //
-    //     $podcast = $user->podcasts()
-    //         ->where('podcast_id', $podcast_id)
-    //         ->withPivot('visible')
-    //         ->firstOrFail();
-    //
-    //     $podcast->pivot->visible = $visible;
-    //     $podcast->pivot->save();
-    //
-    //     return $podcast->toJson();
-    // }
-
     /**
-     * Set order for list of podcasts.
+     * Set description, position and visibility for list of podcasts.
      *
      * @param  Request  $request
      * @return Response
@@ -61,27 +37,37 @@ class ProfileApiController extends Controller
     public function postUpdatePodcasts(Request $request)
     {
         $user = Auth::user();
-
         $podcasts = Input::get('podcasts');
-        // $podcastIds = array_map(function($podcast) {
-        //     return (int)$podcast['id'];
-        // }, $podcastsJson);
-
-        // $podcasts = $user->podcasts()
-        //     ->whereIn('podcast_id', $podcast_ids)
-        //     ->withPivot('visible', 'position');
 
         foreach ($podcasts as $podcast) {
-            $user->podcasts()
-                ->where('podcast_id', $podcast['id'])
-                ->withPivot('visible', 'position', 'description')
-                ->update([
-                    'podcast_user.description' => $podcast['description'],
-                    'visible' => $podcast['visible'],
-                    'position' => $podcast['position']]);
+            $user->podcasts()->updateExistingPivot($podcast['id'], [
+                'description' => $podcast['description'],
+                'visible' => $podcast['visible'],
+                'position' => $podcast['position'],
+            ]);
         }
 
         return response()->json(['success' => true]);
+    }
+
+    /**
+     * Save podcasts from rss xml string.
+     *
+     * @param  Request  $request
+     * @return Response
+     */
+    public function postPodcastByRss(Request $request, $feed)
+    {
+        $user = Auth::user();
+        $podcast = Podcast::getOrCreateFromRss($feed);
+        $pos = $user->getNewPodcastPosition();
+        $created = $user->addPodcast($podcast, $pos);
+
+        return response()->json([
+            'success' => true,
+            'podcast' => $podcast,
+            'created' => $created
+        ]);
     }
 
     /**
@@ -92,44 +78,34 @@ class ProfileApiController extends Controller
      */
     public function postPodcastsByOpml(Request $request, FeedService $parser)
     {
-
         if (!$request->hasFile('xml')) {
-            return response()->json(['error' => 'no file.']);
+            return response()->json(['error' => 'No file.'], $status = 500);
         } elseif (!$request->file('xml')->isValid()) {
-            return response()->json(['error' => 'file invalid.']);
+            return response()->json(['error' => 'File invalid.'], $status = 500);
         }
 
         $user = Auth::user();
         $file = $request->file('xml');
-        $feeds = $parser->parseOpml($file);
-        $new = [];
-        $pos = $user->podcasts()
-            ->withPivot('position')
-            ->max('position');
-        $pos = $pos ? $pos : 0;
-        $added = [];
+        $pos = $user->getNewPodcastPosition();
+        try {
+            $feeds = $parser->parseOpml($file);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'File could not be parsed.'], $status = 500);
+        }
 
         foreach ($feeds as $feed) {
-
-            $podcast = Podcast::where('feed', $feed)->first();
-            if (!$podcast) {
-                $podcast = new Podcast;
-                $podcast->feed = $feed;
-                $podcast->save();
-
-                // load feed details asynchronously
-                $this->dispatch(new UpdatePodcastFromRss($podcast));
-            }
-
-            if (!$user->podcasts()->where('feed', $feed)->exists()) {
-                $user->podcasts()->save($podcast, [
-                    'position' => $pos,
-                    'visible' => true]);
+            $podcast  = Podcast::getOrCreateFromRss($feed);
+            $created = $user->addPodcast($podcast, $pos);
+            if ($created) {
                 $pos++;
                 $new[] = $podcast;
             }
         }
 
-        return response()->json(['success' => true, 'new' => $new, 'feeds' => $feeds]);
+        return response()->json([
+            'success' => true,
+            'new' => $new,
+            'feeds' => $feeds
+        ]);
     }
 }

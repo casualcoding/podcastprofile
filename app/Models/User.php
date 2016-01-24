@@ -29,7 +29,8 @@ class User extends Authenticatable
      */
     public function podcasts()
     {
-        return $this->belongsToMany('App\Models\Podcast');
+        return $this->belongsToMany('App\Models\Podcast')
+            ->where('error', 0);
     }
 
     /**
@@ -38,9 +39,31 @@ class User extends Authenticatable
     public function podcastsPublic()
     {
         return $this->belongsToMany('App\Models\Podcast')
+            ->where('error', 0)
             ->wherePivot('visible', true)
             ->withPivot('description', 'position', 'visible')
             ->orderBy('pivot_position', 'asc');
+    }
+
+    /**
+     * Add podcast at the position.
+     *
+     * @param Podcast $podcast
+     * @param int $pos
+     * @return bool
+     */
+    public function addPodcast($podcast, $pos)
+    {
+        $created = false;
+
+        if (!$this->podcasts()->where('podcast_id', $podcast->id)->exists()) {
+            $this->podcasts()->save($podcast, [
+                'position' => $pos,
+                'visible' => true]);
+            $created = true;
+        }
+
+        return $created;
     }
 
     /**
@@ -55,5 +78,18 @@ class User extends Authenticatable
             $handle = str_random(40);
         }
         return $handle;
+    }
+
+    /**
+     * Return position where the next podcast can be inserted.
+     *
+     * @return String
+     */
+    public function getNewPodcastPosition()
+    {
+        $pos = $this->podcasts()
+            ->withPivot('position')
+            ->max('position');
+        return is_null($pos) ? 0 : $pos+1;
     }
 }
