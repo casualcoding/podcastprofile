@@ -11,7 +11,7 @@
 
             <div class="uk-width-medium-1-5">
 
-                <div class="uk-panel site-panel-profile uk-text-center">
+                <div class="uk-panel site-panel-profile uk-text-center" data-uk-sticky="{top: 15}">
                     <img class="uk-border-circle" width="120" height="120" src="{{ $user->avatar }}" alt="">
                     <h3><strong>{{ $user->name }}</strong> listens to {{ $user->podcastsPublic->count() }} podcasts</h3>
 
