@@ -13,79 +13,86 @@ window.$podcasts = window.$podcasts.map(function(podcast) {
 
 $(function() {
 
-    var settings = new Vue({
+    if(window.$podcasts.length > 0) {
+        var settings = new Vue({
 
-        el: '#settings',
+            el: '#settings',
 
-        ready: function() {
-            this.sortable = UIkit.sortable(this.$els.list, { handleClass:'uk-sortable-handle' });
-        },
-
-        data: {
-            user: window.$user,
-            podcasts: window.$podcasts
-        },
-
-        methods: {
-            save: function(e) {
-
-                var url = $(e.target).attr('action');
-
-                this.$http.post(url, {
-                    name: this.user.name,
-                    url: this.user.url,
-                    avatar: this.user.avatar
-                }).then(function () {
-
-                    // // cleanup empty items - maybe fixed with future vue.js version
-                    // sortables.children().each(function () {
-                    //     if (!this.children.length) $(this).remove();
-                    // });
-                }).catch(function() {
-                    alert('Saving failed')
-                }).finally(function() {
-
-                })
-
+            ready: function() {
+                this.sortable = UIkit.sortable(this.$els.list, { handleClass:'uk-sortable-handle' });
             },
 
-            savePodcasts: function() {
+            data: {
+                user: window.$user,
+                podcasts: window.$podcasts
+            },
 
-                var ids = this.sortable.serialize().map(function(obj) {
-                    return obj.id;
-                });
+            methods: {
+                save: function(e) {
 
-                var positionForId = function(id) {
-                    var pos = 0;
-                    while (ids[pos] != id && pos<ids.length) {
-                        pos++
-                    }
-                    return pos;
-                };
+                    var url = $(e.target).attr('action');
 
-                var data = this.podcasts.map(function(podcast) {
-                    return {
-                        id: podcast.id,
-                        position: positionForId(podcast.id),
-                        visible: podcast.visible, // FIXME
-                        description: podcast.comment
-                    }
-                });
+                    this.$http.post(url, {
+                        name: this.user.name,
+                        url: this.user.url,
+                        avatar: this.user.avatar
+                    }).then(function () {
 
-                this.$http.post(window.$routes.savePodcasts, {podcasts: data}).then(function() {
-                    UIkit.notify("Saved", "success");
-                }).catch(function() {
-                    UIkit.notify("Oops, could not save.", "danger");
-                })
+                        // // cleanup empty items - maybe fixed with future vue.js version
+                        // sortables.children().each(function () {
+                        //     if (!this.children.length) $(this).remove();
+                        // });
+                    }).catch(function() {
+                        alert('Saving failed')
+                    }).finally(function() {
+
+                    })
+
+                },
+
+                savePodcasts: function() {
+
+                    var ids = this.sortable.serialize().map(function(obj) {
+                        return obj.id;
+                    });
+
+                    var positionForId = function(id) {
+                        var pos = 0;
+                        while (ids[pos] != id && pos<ids.length) {
+                            pos++
+                        }
+                        return pos;
+                    };
+
+                    var data = this.podcasts.map(function(podcast) {
+                        return {
+                            id: podcast.id,
+                            position: positionForId(podcast.id),
+                            visible: podcast.visible, // FIXME
+                            description: podcast.comment
+                        }
+                    });
+
+                    this.$http.post(window.$routes.savePodcasts, {podcasts: data}).then(function() {
+                        UIkit.notify("Saved", "success");
+                    }).catch(function() {
+                        UIkit.notify("Oops, could not save.", "danger");
+                    })
 
 
-                // data = [{id: 23, position: 2, visible: true, description: 'Hello'}]
+                    // data = [{id: 23, position: 2, visible: true, description: 'Hello'}]
+                }
             }
-        }
-    });
+        });
+    }
 
     var upload = new Vue({
         el: '#upload-opml',
+
+        data: {
+            uploading: false,
+            uploaded: false
+        },
 
         methods: {
 
@@ -95,24 +102,19 @@ $(function() {
                 var data = new FormData();
                 data.append('xml', files[0]);
 
+                this.uploading = true;
+
                 this.$http.post(url, data).then(function () {
+
                     UIkit.notify('Uploaded', 'success');
+                    this.uploaded = true;
+                    this.uploading = false;
+
                 }).catch(function (resp, b, c) {
+                    this.uploading = false;
                     UIkit.notify('Upload failed: '+resp.data.error, 'danger');
                 });
             }
-
-            // upload: function() {
-            //     var url = this.$els.form.getAttribute('action');
-            //
-            //     var input = this.$els.file.files;
-            //
-            //     this.newInput = { name: '', image: ''};
-            //
-            //     input.image = this.$$.fileInput.files; // Get the input as the DOM and get the files, With the v-model you are getting the name of the file
-            //     console.log(input);
-            //     this.$http.post(url,input);
-            // }
         }
     });
 

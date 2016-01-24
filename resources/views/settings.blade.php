@@ -58,6 +58,8 @@
                 </div>
             </div>
 
+        @if($user->podcastsPublic->count() > 0)
+
             <!-- This is the tabbed navigation containing the toggling elements -->
             <ul class="uk-tab uk-margin-large-top" data-uk-tab="{connect:'#lists'}">
                 <li><a href="">Manage Podcasts</a></li>
@@ -123,22 +125,35 @@
             </ul>
         </div>
 
-        <hr class="uk-grid-divider">
+    @endif
+
+    <hr class="uk-grid-divider">
 
         <div class="uk-panel uk-panel-box" id="upload-opml">
-            <form action="{{ URL::route('api::postPodcastsByOpml') }}" method="post" enctype="multipart/form-data"  class="uk-form" @submit.prevent="upload($event)" v-el="form" >
+            <form action="{{ URL::route('api::postPodcastsByOpml') }}" method="post" enctype="multipart/form-data"  class="uk-form" @submit.prevent="upload($event)" v-el="form">
 
-                <h2>Upload Podcast List</h2>
+                <h2>Upload your podcasts</h2>
 
-                <ol>
+                <ol class="uk-text-large">
                     <li>Open your podcast client or app</li>
                     <li>Export the list of podcasts (this should be an <code>*.opml</code> or <code>*.xml</code> file)</li>
                     <li>Select and upload that file below.</li>
                 </ol>
 
                 {{ csrf_field() }}
-                <input type="file" name="xml" value="" v-el:xml>
-                <button class="uk-button uk-button-primary">Upload</button>
+
+                <p class="uk-margin uk-alert uk-alert-note" v-if="uploading">
+                    <i class="uk-icon-spinner uk-icon-spin"></i> Uploading... Please stand by.
+                </p>
+                <p class="uk-margin uk-alert uk-alert-success" v-if="uploaded">
+                    Thanks! We are now processing the upload. Your podcasts will appear here in the settings and on your profile. This will take <strong>a few moments</strong>. Hit refresh whenever you feel like it.
+                </p>
+                <div class="uk-form" v-if="!uploading && !uploaded">
+                    <input type="file" name="xml" value="" class="" v-el:xml>
+                    <p class="uk-text-right">
+                        <button class="uk-button uk-button-large uk-button-primary">Upload</button>
+                    </p>
+                </div>
             </form>
         </div>
 
