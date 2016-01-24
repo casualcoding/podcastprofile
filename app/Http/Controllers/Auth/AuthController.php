@@ -7,8 +7,10 @@ use App\Models\User;
 use Auth;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use InvalidArgumentException;
 use Socialite;
 use Validator;
+
 
 class AuthController extends Controller
 {
@@ -96,6 +98,8 @@ class AuthController extends Controller
     {
         try {
             $user = Socialite::driver('twitter')->user();
+        } catch (InvalidArgumentException $e) {
+            return redirect('/');
         } catch (Exception $e) {
             return redirect('auth/twitter');
         }
@@ -104,7 +108,14 @@ class AuthController extends Controller
 
         Auth::login($authUser, true);
 
-        return redirect('/');
+        if (Auth::check()) {
+            if ($created) {
+                return redirect()->route('settings', ['handle' => $authUser->handle]);
+            }
+            return redirect()->route('profile', ['handle' => $authUser->handle]);
+        } else {
+            return redirect('/');
+        }
     }
 
     /**
@@ -121,13 +132,18 @@ class AuthController extends Controller
             return [$authUser, false];
         }
 
+        $url = '';
+        if (isset($twitterUser->user['entities']['url']['urls'][0]['expanded_url'])) {
+            $url = $twitterUser->user['entities']['url']['urls'][0]['expanded_url'];
+        };
+
         return [User::create([
             'name' => $twitterUser->name,
             'handle' => $twitterUser->nickname,
             'twitter_id' => $twitterUser->id,
             'avatar' => $twitterUser->avatar_original,
-            'url' => $twitterUser->user['entities']['url']['urls'][0]['expanded_url']
-        ], true]);
+            'url' => $url
+        ]), true];
     }
 
     /**

@@ -37,9 +37,9 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('/settings', 'StaticController@getSettings')->name('settings');
     });
 
-    Route::group(['prefix' => 'api/v1.0', 'as' => 'api::'], function () {
+    Route::group(['prefix' => 'api/1', 'as' => 'api::'], function () {
         Route::group(['middleware' => ['auth']], function () {
-            Route::post('update', 'ProfileApiController@postProfile')->name('postProfile');
+            Route::post('update', 'ProfileApiController@postProfile')->name('profile');
             Route::post('upload/opml/', 'ProfileApiController@postPodcastsByOpml')->name('postPodcastsByOpml');
         });
     });
