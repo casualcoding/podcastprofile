@@ -168,11 +168,7 @@ class AuthController extends Controller
         if ($authUser) {
             if ($twitterUser->nickname != $authUser->handle) {
                 if ($nickUser) {
-                    $handle = $nickUser->twitter_id;
-                    while(User::where('handle', $handle)->first()) {
-                        $handle = str_random(40);
-                    }
-                    $nickUser->handle = $handle;
+                    $nickUser->handle = $nickUser->generateUniqueHandler();
                     $nickUser->save();
                     // update user handle asynchronously
                     $this->dispatch(new UpdateUserHandle($nickUser));
@@ -184,11 +180,7 @@ class AuthController extends Controller
         }
 
         if ($nickUser) {
-            $handle = $nickUser->twitter_id;
-            while(User::where('handle', $handle)->first()) {
-                $handle = str_random(40);
-            }
-            $nickUser->handle = $handle;
+            $nickUser->handle = $nickUser->generateUniqueHandler();
             $nickUser.save();
             // update user handle asynchronously
             $this->dispatch(new UpdateUserHandle($nickUser));

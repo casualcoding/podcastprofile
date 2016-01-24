@@ -38,11 +38,7 @@ class UpdateUserHandle extends Job implements ShouldQueue
             $current_nick = $this->getNickFromTwitter($this->user->twitter_id);
             $nickUser = User::where('handle', $current_nick)->first();
             if ($nickUser) {
-                $handle = $nickUser->twitter_id;
-                while(User::where('handle', $handle)->first()) {
-                    $handle = str_random(40);
-                }
-                $nickUser->handle = $handle;
+                $nickUser->handle = $nickUser->generateUniqueHandler();
                 $nickUser->save();    
             } else {
                 $loop = false;

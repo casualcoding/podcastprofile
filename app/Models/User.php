@@ -42,4 +42,18 @@ class User extends Authenticatable
             ->withPivot('description', 'position', 'visible')
             ->orderBy('pivot_position', 'asc');
     }
+
+    /**
+     * Return a random unique handler
+     *
+     * @return String
+     */
+    public function generateUniqueHandler()
+    {
+        $handle = str_random(40);
+        while(User::where('handle', $handle)->first()) {
+            $handle = str_random(40);
+        }
+        return $handle;
+    }
 }
