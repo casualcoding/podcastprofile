@@ -7,7 +7,6 @@ window.$podcasts = window.$podcasts.map(function(podcast) {
     podcast.comment = podcast.pivot.description;
     podcast.position = podcast.pivot.position;
     podcast.visible = podcast.pivot.visible;
-    // del podcast.pivot;
 
     return podcast;
 });
@@ -15,6 +14,7 @@ window.$podcasts = window.$podcasts.map(function(podcast) {
 $(function() {
 
     var settings = new Vue({
+
         el: '#settings',
 
         ready: function() {
@@ -73,14 +73,47 @@ $(function() {
                 });
 
                 this.$http.post(window.$routes.savePodcasts, {podcasts: data}).then(function() {
-                    alert("yes");
+                    UIkit.notify("Saved", "success");
                 }).catch(function() {
-                    alert("no");
+                    UIkit.notify("Oops, could not save.", "danger");
                 })
 
 
                 // data = [{id: 23, position: 2, visible: true, description: 'Hello'}]
             }
+        }
+    });
+
+    var upload = new Vue({
+        el: '#upload-opml',
+
+        methods: {
+
+            upload: function(e) {
+                var url = e.target.getAttribute('action');
+                var files = this.$els.xml.files;
+                var data = new FormData();
+                data.append('xml', files[0]);
+
+                this.$http.post(url, data).then(function () {
+                    UIkit.notify('Uploaded', 'success');
+                }).catch(function (resp) {
+                    console.log(resp);
+                    UIkit.notify('Upload failed', 'danger');
+                });
+            }
+
+            // upload: function() {
+            //     var url = this.$els.form.getAttribute('action');
+            //
+            //     var input = this.$els.file.files;
+            //
+            //     this.newInput = { name: '', image: ''};
+            //
+            //     input.image = this.$$.fileInput.files; // Get the input as the DOM and get the files, With the v-model you are getting the name of the file
+            //     console.log(input);
+            //     this.$http.post(url,input);
+            // }
         }
     });
 
