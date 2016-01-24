@@ -18,7 +18,11 @@
 
             @yield('top')
 
-            @yield('content')
+            <div class="site-content">
+
+                @yield('content')
+
+            </div>
 
             @yield('bottom')
 
