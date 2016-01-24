@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Auth;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use InvalidArgumentException;
@@ -91,9 +92,9 @@ class AuthController extends Controller
     /**
      * Obtain the user information from Twitter.
      *
-     * @return Response
+     * @return User
      */
-    public function handleProviderCallback()
+    private function handleProviderCallback()
     {
         try {
             $user = Socialite::driver('twitter')->user();
@@ -103,15 +104,52 @@ class AuthController extends Controller
             return redirect('auth/twitter');
         }
 
-        $authUser = $this->findOrCreateUser($user);
+        list($authUser, $created) = $this->findOrCreateUser($user);
 
         Auth::login($authUser, true);
 
+        return [$authUser, $created];
+    }
+
+    /**
+     * Obtain the user information from Twitter and redirect.
+     *
+     * @return Response
+     */
+    public function handleProviderCallbackAsRedirect()
+    {
+        list($user, $created) = $this->handleProviderCallback();
+
         if (Auth::check()) {
-            return redirect()->route('profile', ['handle' => $authUser->handle]);
+            if ($created) {
+                return redirect()->route('settings');
+            }
+            return redirect()->route('profile', ['handle' => $user->handle]);
         } else {
             return redirect('/');
         }
+    }
+
+    /**
+     * Obtain the user information from Twitter and return Json.
+     *
+     * @return Json
+     */
+    public function handleProviderCallbackAsJson(Request $request)
+    {
+        list($user, $created) = $this->handleProviderCallback();
+
+        if (Auth::check()) {
+            $token = $request->session()->get('_token');
+            if ($created) {
+                $arr = array('success' => true, 'token' => $token, 'created' => true);
+            } else {
+                $arr = array('success' => true, 'token' => $token, 'created' => false);
+            }
+        } else {
+            $arr = array('error' => 'login failed');
+        }
+        return json_encode($arr);
     }
 
     /**
@@ -133,8 +171,7 @@ class AuthController extends Controller
                 $authUser->handle = $twitterUser->nickname;
                 $authUser->save();
             }
-            return $authUser;
-        }
+            return [$authUser, false];;
 
         if ($nickUser) {
             $this->recursiveUpdateNicknames($nickUser);
@@ -145,13 +182,13 @@ class AuthController extends Controller
             $url = $twitterUser->user['entities']['url']['urls'][0]['expanded_url'];
         };
 
-        return User::create([
+        return [User::create([
             'name' => $twitterUser->name,
             'handle' => $twitterUser->nickname,
             'twitter_id' => $twitterUser->id,
             'avatar' => $twitterUser->avatar_original,
             'url' => $url
-        ]);
+        ]), true];
     }
 
     /**

@@ -29,7 +29,8 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::group(['prefix' => 'auth/twitter', 'as' => 'auth::'], function () {
         Route::get('/', 'Auth\AuthController@redirectToProvider')->name('login');
-        Route::get('/callback', 'Auth\AuthController@handleProviderCallback')->name('callback');
+        Route::get('/callback', 'Auth\AuthController@handleProviderCallbackAsRedirect')->name('callback');
+        Route::get('/callback/json', 'Auth\AuthController@handleProviderCallbackAsJson')->name('callback::json');
         Route::get('/logout', 'Auth\AuthController@logout')->name('logout');
     });
 
@@ -37,10 +38,11 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('/settings', 'StaticController@getSettings')->name('settings');
     });
 
-    Route::group(['prefix' => 'api/v1.0', 'as' => 'api::'], function () {
+    Route::group(['prefix' => 'api/1', 'as' => 'api::'], function () {
         Route::group(['middleware' => ['auth']], function () {
-            Route::post('update', 'ProfileApiController@postProfile')->name('postProfile');
-            Route::post('upload/opml/', 'ProfileApiController@postPodcastsByOpml')->name('postPodcastsByOpml');
+            Route::post('update', 'ProfileApiController@postProfile')->name('profile');
+            Route::post('podcasts', 'ProfileApiController@postUpdatePodcasts')->name('podcasts');
+            Route::post('upload/opml', 'ProfileApiController@postPodcastsByOpml')->name('postPodcastsByOpml');
         });
     });
 

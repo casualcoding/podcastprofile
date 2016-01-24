@@ -14,11 +14,13 @@
 
     </head>
 
-    <body>
+    <body class="@yield('body-classes')">
 
             @yield('top')
 
             @yield('content')
+
+            @yield('bottom')
 
     </body>
 </html>

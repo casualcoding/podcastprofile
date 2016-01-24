@@ -2,6 +2,7 @@
 @section('title', 'Settings')
 
 @section('head')
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <script type="text/javascript">
     window.$user = <?php echo json_encode($user) ?>;
 </script>
@@ -15,7 +16,7 @@
         <div class="uk-panel uk-panel-box">
 
             <div class="uk-grid" id="settings">
-                <div class="uk-width-1-4">
+                <div class="uk-width-1-4 uk-text-center">
                     <p>
                         <img class="uk-border-circle" width="180" height="180" src="{{ $user->avatar }}" alt="">
                     </p>
@@ -26,45 +27,30 @@
 
                     <h2>Profile Details</h2>
 
-                    <form class="uk-form uk-form-stacked" action="" method="">
+                    <form class="uk-form uk-form-stacked" action="{{ URL::route('api::profile') }}" @submit.prevent="save($event)">
                         <div class="uk-form-row">
                             <label class="uk-form-label" for="name">Name</label>
                             <div class="uk-form-controls">
-                                <input type="text" name="name" v-model="user.name">
+                                <input type="text" name="name" class="uk-form-large uk-width-1-1" placeholder="Your real name" v-model="user.name">
                             </div>
                         </div>
 
                         <div class="uk-form-row">
-                            <label class="uk-form-label" for="website">Website</label>
+                            <label class="uk-form-label" for="url">Website</label>
                             <div class="uk-form-controls">
-                                <input type="text" name="website" v-model="user.url">
+                                <input type="url" name="url" class="uk-form-large uk-width-1-1" placeholder="http://" v-model="user.url">
                             </div>
                         </div>
 
                         <div class="uk-form-row">
-                            <div class="uk-form-controls">
-                                <button class="uk-button uk-button-primary" @click.prevent="save">Save</button>
+                            <div class="uk-form-controls uk-align-right">
+                                <button class="uk-button uk-button-primary uk-button-large">Save</button>
                             </div>
                         </div>
                     </form>
                 </div>
 
             </div>
-
-
-        </div>
-
-        <hr class="uk-grid-divider">
-
-        <div class="uk-panel uk-panel-box">
-
-            <h2>Upload something. Doesn't do anything. Joke is on you.</h2>
-
-            <form action="{{ URL::route('api::postProfile') }}" method="post" enctype="multipart/form-data" class="uk-form">
-                <input type="file" name="upload" value="">
-                <input type="submit">
-            </form>
-
         </div>
 
         <hr class="uk-grid-divider">

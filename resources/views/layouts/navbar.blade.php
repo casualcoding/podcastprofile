@@ -5,7 +5,7 @@
 <div class="uk-navbar">
     <div class="uk-container uk-container-center">
         <a href="/" class="uk-navbar-brand">
-            <img src="/assets/logo@1x.png" alt="Logo" />
+            <img src="/assets/logo-long@2x.png" width="165" height="25" alt="Podcast Profile Logo">
         </a>
 
         <div class="uk-navbar-flip">
@@ -21,5 +21,14 @@
         </div>
     </div>
 </div>
+
+@stop
+
+@section('bottom')
+
+<footer class="uk-block uk-block-large site-block-footer uk-text-center uk-margin-large-top">
+    <a href="https://twitter.com/podcastprofile">@podcastprofile</a>
+    <a href="http://casualcoding.com">a casualcoding project</a>
+</footer>
 
 @stop
