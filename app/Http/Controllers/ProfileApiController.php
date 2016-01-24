@@ -126,6 +126,8 @@ class ProfileApiController extends Controller
         $user = Auth::user();
         $file = $request->file('xml');
         $pos = $user->getNewPodcastPosition();
+        $new = [];
+        
         try {
             $feeds = $parser->parseOpml($file);
         } catch (\Exception $e) {
