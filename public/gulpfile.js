@@ -22,7 +22,8 @@ gulp.task('dist', function() {
 
    // JS
    gulp.src(['bower_components/jquery/dist/jquery.min.js',
-        'bower_components/uikit/js/uikit.min.js'])
+        'bower_components/uikit/js/uikit.min.js',
+        'bower_components/uikit/js/components/sticky.min.js'])
        .pipe(rename({dirname: ''}))
        .pipe(concat('app.js'))
        .pipe(uglify())

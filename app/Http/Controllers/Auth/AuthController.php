@@ -110,7 +110,7 @@ class AuthController extends Controller
 
         if (Auth::check()) {
             if ($created) {
-                return redirect()->route('settings', ['handle' => $authUser->handle]);
+                return redirect()->route('settings');
             }
             return redirect()->route('profile', ['handle' => $authUser->handle]);
         } else {
