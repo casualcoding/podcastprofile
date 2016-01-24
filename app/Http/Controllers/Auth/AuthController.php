@@ -9,7 +9,6 @@ use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use InvalidArgumentException;
 use Socialite;
-use TwitterAPIExchange;
 use Validator;
 
 class AuthController extends Controller
@@ -25,7 +24,7 @@ class AuthController extends Controller
     |
     */
 
-    use AuthenticatesAndRegistersUsers, ThrottlesLogins;
+    use AuthenticatesAndRegistersUsers, ThrottlesLogins, TwitterApi;
 
     protected $loginPath = '/';
 
@@ -127,7 +126,7 @@ class AuthController extends Controller
         $nickUser = User::where('handle', $twitterUser->nickname)->first();
 
         if ($authUser) {
-            if ($authUser->handle != $twitterUser->nickname) {
+            if ($twitterUser->nickname != $authUser->handle) {
                 if ($nickUser) {
                     $this->recursiveUpdateNicknames($nickUser);
                 }
@@ -165,45 +164,5 @@ class AuthController extends Controller
         Auth::logout();
 
         return redirect('/');
-    }
-
-    /**
-     * Recursively update twitter nicknames of users and change them
-     *
-     */
-    private function recursiveUpdateNicknames($user)
-    {
-        $current_nick = $this->getNickFromTwitter($user->twitter_id);
-        if ($current_nick != $user->handle) {
-            $nickUser = User::where('handle', $current_nick)->first();
-            if ($nickUser) {
-                $this->recursiveUpdateNicknames($nickUser);
-            }
-            $user->handle = $current_nick;
-            $user->save();
-        }
-    }
-
-    /**
-     * Contacts Twitter and gets the current nickname to a twitter ID
-     *
-     * @return String
-     */
-    private function getNickFromTwitter($twitter_id)
-    {
-        $settings = array(
-            'oauth_access_token' => env('TWITTER_ACCESS_TOKEN'),
-            'oauth_access_token_secret' => env('TWITTER_ACCESS_TOKEN_SECRET'),
-            'consumer_key' => env('TWITTER_CONSUMER_KEY'),
-            'consumer_secret' => env('TWITTER_COMSUMER_SECRET')
-        );
-        $url = 'https://api.twitter.com/1.1/users/show.json';
-        $getfield = '?user_id='.$twitter_id;
-        $requestMethod = 'GET';
-        $twitter = new TwitterAPIExchange($settings);
-        $json = json_decode($twitter->setGetfield($getfield)
-            ->buildOauth($url, $requestMethod)
-            ->performRequest());
-        return $json->screen_name;
     }
 }

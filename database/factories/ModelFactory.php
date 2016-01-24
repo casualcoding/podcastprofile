@@ -15,6 +15,9 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'handle' => str_random(10),
+        'twitter_id' => str_random(10),
         'remember_token' => str_random(10),
+        'avatar' => str_random(10),
+        'url' => ''
     ];
 });
