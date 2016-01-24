@@ -5,17 +5,21 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <script type="text/javascript">
     window.$user = <?php echo json_encode($user) ?>;
+    window.$podcasts = <?php echo $user->podcastsPublic()->get()->toJson() ?>;
+    window.$routes = {
+        savePodcasts: "{{ URL::route('api::podcasts') }}"
+    }
 </script>
 <script src="/assets/dist/settings.js"></script>
 @stop
 
 @section('content')
 
-    <div class="uk-container uk-container-center uk-margin-top">
+    <div class="uk-container uk-container-center uk-margin-top" id="settings">
 
         <div class="uk-panel uk-panel-box">
 
-            <div class="uk-grid" id="settings">
+            <div class="uk-grid">
                 <div class="uk-width-1-4 uk-text-center">
                     <p>
                         <img class="uk-border-circle" width="180" height="180" src="{{ $user->avatar }}" alt="">
@@ -50,8 +54,26 @@
                     </form>
                 </div>
 
+
+
             </div>
         </div>
+
+        <p class="uk-text-right">
+            <button class="uk-button" @click="savePodcasts">Save podcasts</button>
+        </p>
+
+        <ul class="uk-sortable uk-list uk-list-space" v-el:list>
+            <li v-for="podcast in podcasts" data-id="@{{ podcast.id }}">
+                <div class="uk-panel uk-panel-box">
+                    <div class="uk-sortable-handle uk-icon uk-icon-bars uk-margin-small-right"></div>
+                    <strong>@{{ podcast.name }}</strong> | Position: @{{ podcast.position }}<br>
+                    Say something about this podacst:<br>
+                    <textarea name="name" rows="8" cols="40" v-model="podcast.comment"></textarea><br>
+                    <input type="checkbox" v-model="podcast.visible"> Visible
+                </div>
+            </li>
+        </ul>
 
         <hr class="uk-grid-divider">
 
@@ -64,6 +86,8 @@
                 <button  class="uk-button uk-button-primary">Upload</button>
             </form>
         </div>
+
+
 
     </div>
 
