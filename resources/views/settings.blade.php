@@ -136,33 +136,35 @@
 
     <hr class="uk-grid-divider">
 
-        <div class="uk-panel uk-panel-box" id="upload-opml">
-            <form action="{{ URL::route('api::postPodcastsByOpml') }}" method="post" enctype="multipart/form-data"  class="uk-form" @submit.prevent="upload($event)" v-el="form">
+    <div class="uk-panel uk-panel-box" id="upload-opml">
+        <form action="{{ URL::route('api::postPodcastsByOpml') }}" method="post" enctype="multipart/form-data"  class="uk-form" @submit.prevent="performupload($event)" v-el="form">
 
-                <h2>Upload your podcasts</h2>
+            <pre>@{{ demo | json }}</pre>
 
-                <ol class="uk-text-large">
-                    <li>Open your podcast client or app</li>
-                    <li>Export the list of podcasts (this should be an <code>*.opml</code> or <code>*.xml</code> file)</li>
-                    <li>Select and upload that file below.</li>
-                </ol>
+            <h2>Upload your podcasts</h2>
 
-                {{ csrf_field() }}
+            <ol class="uk-text-large">
+                <li>Open your podcast client or app</li>
+                <li>Export the list of podcasts (this should be an <code>*.opml</code> or <code>*.xml</code> file)</li>
+                <li>Select and upload that file below.</li>
+            </ol>
 
-                <p class="uk-margin uk-alert uk-alert-note" v-if="uploading">
-                    <i class="uk-icon-spinner uk-icon-spin"></i> Uploading... Please stand by.
+            {{ csrf_field() }}
+
+            <p class="uk-margin uk-alert uk-alert-note" v-if="uploading">
+                <i class="uk-icon-spinner uk-icon-spin"></i> Uploading... Please stand by.
+            </p>
+            <p class="uk-margin uk-alert uk-alert-success" v-if="uploaded">
+                Thanks! We are now processing the upload. Your podcasts will appear here in the settings and on your profile. This will take <strong>a few moments</strong>. Hit refresh whenever you feel like it.
+            </p>
+            <div class="uk-form" v-if="!(uploading || uploaded)">
+                <input type="file" name="xml" value="" class="" v-el:xml>
+                <p class="uk-text-right">
+                    <button class="uk-button uk-button-large uk-button-primary">Upload</button>
                 </p>
-                <p class="uk-margin uk-alert uk-alert-success" v-if="uploaded">
-                    Thanks! We are now processing the upload. Your podcasts will appear here in the settings and on your profile. This will take <strong>a few moments</strong>. Hit refresh whenever you feel like it.
-                </p>
-                <div class="uk-form" v-if="!uploading && !uploaded">
-                    <input type="file" name="xml" value="" class="" v-el:xml>
-                    <p class="uk-text-right">
-                        <button class="uk-button uk-button-large uk-button-primary">Upload</button>
-                    </p>
-                </div>
-            </form>
-        </div>
+            </div>
+        </form>
+    </div>
 
     </div>
 
