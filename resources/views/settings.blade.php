@@ -124,7 +124,14 @@
 
         <div class="uk-panel uk-panel-box">
             <form action="{{ URL::route('api::postPodcastsByOpml') }}" method="post" enctype="multipart/form-data"  class="uk-form">
-                <h2>Upload OPML</h2>
+
+                <h2>Upload Podcast List</h2>
+
+                <ol>
+                    <li>Open your podcast client or app </li>
+                    <li>Export the list of podcasts (this should be an <code>*.opml</code> or <code>*.xml</code> file)</li>
+                    <li>Select and upload that file below.</li>
+                </ol>
 
                 {{ csrf_field() }}
                 <input type="file" name="xml" value="">
