@@ -22,7 +22,7 @@
 
 
     <div class="uk-block uk-block-large">
-        <h1 class="uk-contrast"><img src="/assets/logo@2x.png" width="250" alt="Logo"></h1>
+        <h1 class="uk-contrast"><img src="/assets/logo@2x.png" width="250" height="91" alt="Podcast Profile Logo"></h1>
     </div>
 
 

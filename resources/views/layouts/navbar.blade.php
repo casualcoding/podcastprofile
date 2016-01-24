@@ -5,7 +5,7 @@
 <div class="uk-navbar">
     <div class="uk-container uk-container-center">
         <a href="/" class="uk-navbar-brand">
-            <img src="/assets/logo-long@2x.png" alt="Logo" width="200">
+            <img src="/assets/logo-long@2x.png" width="165" height="25" alt="Podcast Profile Logo">
         </a>
 
         <div class="uk-navbar-flip">
