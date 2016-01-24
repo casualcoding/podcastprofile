@@ -26,7 +26,14 @@
                         <p>
                             <img class="uk-border-circle" width="180" height="180" src="{{ $user->avatar }}" alt="">
                         </p>
-                        <button type="button" class="uk-button uk-button-link">Upload new image</button>
+
+                        <form action="{{ URL::route('api::profile::image') }}" method="post" enctype="multipart/form-data" v-el="avatarform">
+
+                            {{ csrf_field() }}
+
+                            <input type="file" name="image" @change="uploadavatar" class="site-file-inpu" />
+                            <button type="submit" class="uk-button uk-button-link">Upload</button>
+                        </form>
                     </div>
 
                     <div class="uk-width-3-4">
