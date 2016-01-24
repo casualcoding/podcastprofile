@@ -1,5 +1,5 @@
 @extends('layouts.navbar')
-@section('title', 'User Profile')
+@section('title', $user->name)
 
 @section('body-classes', 'site-profile')
 
