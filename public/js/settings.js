@@ -2,7 +2,6 @@ Vue.use(VueResource);
 
 Vue.http.headers.common['X-CSRF-TOKEN'] = $('meta[name="csrf-token"]').attr('content');
 
-
 window.$podcasts = window.$podcasts.map(function(podcast) {
 
     podcast.comment = podcast.pivot.description;
@@ -20,7 +19,6 @@ $(function() {
 
         ready: function() {
             this.sortable = UIkit.sortable(this.$els.list, { handleClass:'uk-sortable-handle' });
-            $(this.$els.list).on('change.uk.sortable', this.reorder);
         },
 
         data: {
@@ -82,22 +80,6 @@ $(function() {
 
 
                 // data = [{id: 23, position: 2, visible: true, description: 'Hello'}]
-            },
-
-            reorder: function(e, sortable) {
-                if (!sortable) {
-                    return;
-                }
-
-                sortable.element.children().each(function(i) {
-                    // this.__vfrag__.scope.$set('role.priority', i);
-                });
-
-        //    this.Roles.save({ id: 'bulk' }, { roles: this.roles }, function (data) {
-        //        this.$notify('Roles reordered.');
-        //    }, function (data) {
-        //        this.$notify(data, 'danger');
-        //    });
             }
         }
     });

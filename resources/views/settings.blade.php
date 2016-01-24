@@ -51,11 +51,7 @@
                         </div>
                     </form>
 
-
-
                 </div>
-
-
 
             </div>
         </div>
@@ -70,7 +66,11 @@
         <ul id="lists" class="uk-switcher uk-margin">
             <li>
 
-                <ul class="uk-sortable uk-list uk-list-space">
+                <div class="uk-panel uk-panel-box" v-if="!podcasts.length">
+                    Please upload a list of podcasts below.
+                </div>
+
+                <ul class="uk-sortable uk-list uk-list-space" v-if="podcasts.length">
                     <li v-for="podcast in podcasts">
                         <div class="uk-panel uk-panel-box">
                             <div class="uk-grid">
@@ -97,9 +97,12 @@
             </li>
             <li>
 
-                <p class="uk-text-right">
-                    <button class="uk-button uk-button-primary" @click="savePodcasts">Save new order</button>
+                <p class="uk-text-right" v-if="podcasts.length">
+                    <button class="uk-button uk-button-primary" @click="savePodcasts">Save</button>
                 </p>
+                <div class="uk-panel uk-panel-box" v-else>
+                    You have to upload podcasts before you can reorder them.
+                </div>
 
                 <ul class="uk-sortable uk-list uk-list-space" v-el:list>
                     <li v-for="podcast in podcasts" data-id="@{{ podcast.id }}">
@@ -110,8 +113,8 @@
                     </li>
                 </ul>
 
-                <p class="uk-text-right">
-                    <button class="uk-button uk-button-primary" @click="savePodcasts">Save new order</button>
+                <p class="uk-text-right" v-if="podcasts.list">
+                    <button class="uk-button uk-button-primary" @click="savePodcasts">Save</button>
                 </p>
 
             </li>
