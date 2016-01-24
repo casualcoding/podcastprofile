@@ -2,6 +2,13 @@
 
 class TestCase extends Illuminate\Foundation\Testing\TestCase
 {
+
+    public function setUp(){
+        parent::setUp();
+
+        $this->prepareForTests();
+    }
+    
     /**
      * The base URL to use while testing the application.
      *
@@ -21,5 +28,10 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
         $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
 
         return $app;
+    }
+
+    public function prepareForTests(){
+        Config::set('database.default', 'sqlite');
+        Artisan::call('migrate:refresh');
     }
 }

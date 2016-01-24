@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\UpdateUserHandle;
 use App\Models\User;
 use App\Jobs\UpdateUserAvatar;
 use Auth;
@@ -162,11 +163,37 @@ class AuthController extends Controller
     private function findOrCreateUser($twitterUser)
     {
         $authUser = User::where('twitter_id', $twitterUser->id)->first();
+        $nickUser = User::where('handle', $twitterUser->nickname)->first();
 
-        if ($authUser){
+        if ($authUser) {
+            if ($twitterUser->nickname != $authUser->handle) {
+                if ($nickUser) {
+                    $handle = $nickUser->twitter_id;
+                    while(User::where('handle', $handle)->first()) {
+                        $handle = str_random(40);
+                    }
+                    $nickUser->handle = $handle;
+                    $nickUser->save();
+                    // update user handle asynchronously
+                    $this->dispatch(new UpdateUserHandle($nickUser));
+                }
+                $authUser->handle = $twitterUser->nickname;
+                $authUser->save();
+            }
             return [$authUser, false];
         }
 
+        if ($nickUser) {
+            $handle = $nickUser->twitter_id;
+            while(User::where('handle', $handle)->first()) {
+                $handle = str_random(40);
+            }
+            $nickUser->handle = $handle;
+            $nickUser.save();
+            // update user handle asynchronously
+            $this->dispatch(new UpdateUserHandle($nickUser));
+        }
+        
         $url = '';
         if (isset($twitterUser->user['entities']['url']['urls'][0]['expanded_url'])) {
             $url = $twitterUser->user['entities']['url']['urls'][0]['expanded_url'];
