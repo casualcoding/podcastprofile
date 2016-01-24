@@ -1,15 +1,17 @@
 @extends('layouts.navbar')
 @section('title', 'User Profile')
 
+@section('body-classes', 'site-profile')
+
 @section('content')
 
-    <div class="uk-container uk-container-center uk-margin-top">
+    <div class="uk-container uk-container-center uk-margin-large-top">
 
         <div class="uk-grid" data-uk-grid-margin>
 
             <div class="uk-width-medium-1-5">
 
-                <div class="uk-panel uk-panel-box uk-text-center">
+                <div class="uk-panel site-panel-profile uk-text-center">
                     <img class="uk-border-circle" width="120" height="120" src="{{ $user->avatar }}" alt="">
                     <h3><strong>{{ $user->name }}</strong> listens to {{ $user->podcastsPublic->count() }} podcasts</h3>
 
@@ -19,7 +21,7 @@
 
                     @if($user->url)
                     <p>
-                        <a href="{{ $user->url }}">{{ $user->url }}</a>
+                        <a href="{{ $user->url }}">Website</a>
                     </p>
                     @endif
 
@@ -28,29 +30,36 @@
 
             <div class="uk-width-medium-4-5">
 
-                @foreach ($user->podcastsPublic as $podcast)
-                <div class="uk-panel uk-panel-box uk-text-center">
+                @forelse ($user->podcastsPublic as $podcast)
+                <div class="uk-panel site-panel-podcast">
                     <div class="uk-grid">
-                        <div class="uk-width-medium-1-3">
-                            <img src="{{ $podcast->coverimage }}" alt="" />
+                        <div class="uk-width-medium-1-3 uk-text-center">
+                            <img src="{{ $podcast->coverimage }}" alt="Podcast Cover image" />
                         </div>
-                        <div class="uk-width-medium-2-3">
+                        <div class="uk-width-medium-2-3 uk-flex uk-flex-middle">
 
-                            <a href="{{ $podcast->feed }}">Subscribe</a>
-                            <p>
-                                User says: {{ $podcast->pivot->description }}
-                            </p>
-                            <p>
-                                Podcast says: {{ $podcast->description }}
-                            </p>
+                            <div>
+                                <h2><a href="{{ $podcast->url }}">{{ $podcast->name }}</a></h2>
+                                <p class="uk-article-lead">
+                                    <!-- A funny podcast. Good for a train ride. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. -->
+                                    {{ $podcast->pivot->description }}
+                                </p>
+                                <p>
+                                    <a href="{{ $podcast->feed }}">Subscribe</a>
+                                </p>
+                            </div>
+
                         </div>
 
                     </div>
                 </div>
-                @endforeach
+                @empty
+                    <p>
+                        {{ $user->name }} has not added any podcasts to their profile yet.
+                    </p>
+                @endforelse
 
             </div>
         </div>
     </div>
-
 @stop
