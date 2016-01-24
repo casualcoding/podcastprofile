@@ -31,6 +31,7 @@ class Podcast extends Model
         if (!$podcast) {
             $podcast = new Podcast;
             $podcast->feed = $feed;
+            $podcast->coverimage = '/assets/default.png';
             $podcast->save();
 
             // load feed details asynchronously
