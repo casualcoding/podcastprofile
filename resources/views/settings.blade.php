@@ -5,7 +5,7 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <script type="text/javascript">
     window.$user = <?php echo json_encode($user) ?>;
-    window.$podcasts = <?php echo $user->podcastsPublic()->get()->toJson() ?>;
+    window.$podcasts = <?php echo $user->podcasts()->get()->toJson() ?>;
     window.$routes = {
         savePodcasts: "{{ URL::route('api::podcasts') }}"
     }

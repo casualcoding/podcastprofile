@@ -30,6 +30,8 @@ class User extends Authenticatable
     public function podcasts()
     {
         return $this->belongsToMany('App\Models\Podcast')
+            ->withPivot('description', 'position', 'visible')
+            ->orderBy('pivot_position', 'asc')
             ->where('error', 0);
     }
 
