@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Jobs\UpdatePodcastFromRss;
+use DB;
 use Illuminate\Database\Eloquent\Model;
 
 class Podcast extends Model
@@ -15,6 +16,29 @@ class Podcast extends Model
         return $this->belongsToMany('App\Models\User')
             ->withPivot('position', 'description', 'visible')
             ->withTimestamps();
+    }
+
+    /**
+     * Get the top Podcasts.
+     *
+     * @param int $count
+     * @return List
+     */
+    public static function getTop($count)
+    {
+        $podcasts = Podcast::join('podcast_user', 'podcast_user.podcast_id', '=', 'podcasts.id')
+            ->groupBy('podcasts.id')
+            ->orderBy(DB::raw('count(podcast_user.id)'), 'desc')
+            ->take($count)
+            ->get([
+                'podcasts.name',
+                'podcasts.url',
+                'podcasts.feed',
+                'podcasts.coverimage',
+                'podcasts.description',
+                DB::raw('count(podcast_user.id) as podcast_user_count')]);
+
+        return $podcasts;
     }
 
     /**

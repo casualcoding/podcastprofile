@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\Models\User;
+use App\Models\Podcast;
 use App\Services\FeedService;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
@@ -27,6 +28,27 @@ class StaticController extends Controller
         $user = Auth::user();
 
         return view('settings', compact('user'));
+    }
+
+    public function getTop()
+    {
+        // $user = (Auth::check() ? Auth::user() : null);
+        // $user = Auth::user();
+        // return view('top', ['user' => $user]);
+
+        // $podcasts = DB::table('podcasts')
+        //     ->belongsToMany('podcast_user')
+        //     ->withPivot('podcast_id')
+            // ->orderBy('pivot_play_count', 'desc');
+            // ->with(array('podcast_user'))
+            // ->join('podcast_user', 'podcasts.id', '=', 'podcast_user.podcast_id')
+            // ->get();
+
+        $podcasts = Podcast::getTop(10);
+
+        // ->orderBy('podcast_user', 'desc')->get();
+
+        return view('top', ['podcasts' => $podcasts]);
     }
 
     public function testFeed(FeedService $parser)
