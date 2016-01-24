@@ -30,6 +30,29 @@ class ProfileApiController extends Controller
     }
 
     /**
+     * Set visibility for podcast.
+     *
+     * @param  Request  $request
+     * @return Response
+     */
+    public function postSetVisibility(Request $request)
+    {
+        $user = Auth::user();
+        $podcast_id = Input::get('podcast');
+        $visible = (bool) Input::get('visible');
+
+        $podcast = $user->podcasts()
+            ->where('podcast_id', $podcast_id)
+            ->withPivot('visible')
+            ->firstOrFail();
+
+        $podcast->pivot->visible = $visible;
+        $podcast->pivot->save();
+
+        return $podcast->toJson();
+    }
+
+    /**
      * Save podcasts from uploaded opml file.
      *
      * @param  Request  $request
