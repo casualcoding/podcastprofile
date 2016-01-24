@@ -32,7 +32,7 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Models\Podcast')
             ->where('error', 0)
             ->withPivot('description', 'position', 'visible')
-            ->orderBy('pivot_position', 'asc');
+            ->orderBy('position', 'asc');
     }
 
     /**
@@ -87,7 +87,6 @@ class User extends Authenticatable
     public function getNewPodcastPosition()
     {
         $pos = $this->podcasts()
-            ->withPivot('position')
             ->max('position');
         return is_null($pos) ? 0 : $pos+1;
     }
