@@ -29,7 +29,8 @@ class User extends Authenticatable
      */
     public function podcasts()
     {
-        return $this->belongsToMany('App\Models\Podcast');
+        return $this->belongsToMany('App\Models\Podcast')
+            ->where('error', 0);
     }
 
     /**
@@ -38,6 +39,7 @@ class User extends Authenticatable
     public function podcastsPublic()
     {
         return $this->belongsToMany('App\Models\Podcast')
+            ->where('error', 0)
             ->wherePivot('visible', true)
             ->withPivot('description', 'position', 'visible')
             ->orderBy('pivot_position', 'asc');
