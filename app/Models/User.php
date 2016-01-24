@@ -25,26 +25,23 @@ class User extends Authenticatable
     ];
 
     /**
-     * The podcasts that belong to the user.
+     * All podcasts that belong to the user.
      */
     public function podcasts()
     {
         return $this->belongsToMany('App\Models\Podcast')
+            ->where('error', 0)
             ->withPivot('description', 'position', 'visible')
-            ->orderBy('pivot_position', 'asc')
-            ->where('error', 0);
+            ->orderBy('pivot_position', 'asc');
     }
 
     /**
-     * The podcasts that belong to the user.
+     * The public podcasts that belong to the user.
      */
     public function podcastsPublic()
     {
-        return $this->belongsToMany('App\Models\Podcast')
-            ->where('error', 0)
-            ->wherePivot('visible', true)
-            ->withPivot('description', 'position', 'visible')
-            ->orderBy('pivot_position', 'asc');
+        return $this->podcasts()
+            ->wherePivot('visible', true);
     }
 
     /**
