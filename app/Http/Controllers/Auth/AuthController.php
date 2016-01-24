@@ -167,8 +167,11 @@ class AuthController extends Controller
         if ($authUser) {
             if ($twitterUser->nickname != $authUser->handle) {
                 if ($nickUser) {
-                    // TODO if save fails make random string until save success
-                    $nickUser->handle = $nickUser->twitter_id;
+                    $handle = $nickUser->twitter_id;
+                    while(User::where('handle', $handle)->first()) {
+                        $handle = str_random(40);
+                    }
+                    $nickUser->handle = $handle;
                     $nickUser->save();
                     // update user handle asynchronously
                     $this->dispatch(new UpdateUserHandle($nickUser));
@@ -180,8 +183,11 @@ class AuthController extends Controller
         }
 
         if ($nickUser) {
-            // TODO if save fails make random string until save success
-            $nickUser->handle = $nickUser->twitter_id;
+            $handle = $nickUser->twitter_id;
+            while(User::where('handle', $handle)->first()) {
+                $handle = str_random(40);
+            }
+            $nickUser->handle = $handle;
             $nickUser.save();
             // update user handle asynchronously
             $this->dispatch(new UpdateUserHandle($nickUser));
