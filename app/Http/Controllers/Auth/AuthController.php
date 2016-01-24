@@ -162,7 +162,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Recursively check twitter nicknames of users and change them
+     * Recursively update twitter nicknames of users and change them
      *
      */
     private function recursiveUpdateNicknames($user)
