@@ -19,7 +19,6 @@ $(function() {
         el: '#settings',
 
         ready: function() {
-            console.log(this.$els.list);
             this.sortable = UIkit.sortable(this.$els.list, { handleClass:'uk-sortable-handle' });
             $(this.$els.list).on('change.uk.sortable', this.reorder);
         },
