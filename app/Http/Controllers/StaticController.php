@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Models\User;
 use App\Services\FeedService;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
-use SimplePie;
 
 class StaticController extends Controller
 {
@@ -23,7 +23,10 @@ class StaticController extends Controller
 
     public function getSettings()
     {
-        return view('settings');
+
+        $user = Auth::user();
+
+        return view('settings', compact('user'));
     }
 
     public function testFeed(FeedService $parser)
