@@ -42,6 +42,7 @@ Route::group(['middleware' => ['web']], function () {
         Route::group(['middleware' => ['auth']], function () {
             Route::post('update', 'ProfileApiController@postProfile')->name('profile');
             Route::post('podcasts', 'ProfileApiController@postUpdatePodcasts')->name('podcasts');
+            Route::post('upload/rss', 'ProfileApiController@postPodcastsByRss')->name('postPodcastsByRss');
             Route::post('upload/opml', 'ProfileApiController@postPodcastsByOpml')->name('postPodcastsByOpml');
         });
     });

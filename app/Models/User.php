@@ -44,6 +44,27 @@ class User extends Authenticatable
     }
 
     /**
+     * Add podcast at the position.
+     *
+     * @param Podcast $podcast
+     * @param int $pos
+     * @return bool
+     */
+    public function addPodcast($podcast, $pos)
+    {
+        $created = false;
+
+        if (!$this->podcasts()->where('podcast_id', $podcast->id)->exists()) {
+            $this->podcasts()->save($podcast, [
+                'position' => $pos,
+                'visible' => true]);
+            $created = true;
+        }
+
+        return $created;
+    }
+
+    /**
      * Return a random unique handler
      *
      * @return String
@@ -55,5 +76,18 @@ class User extends Authenticatable
             $handle = str_random(40);
         }
         return $handle;
+    }
+
+    /**
+     * Return position where the next podcast can be inserted.
+     *
+     * @return String
+     */
+    public function getNewPodcastPosition()
+    {
+        $pos = $this->podcasts()
+            ->withPivot('position')
+            ->max('position');
+        return is_null($pos) ? 0 : $pos+1;
     }
 }

@@ -1,7 +1,6 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Jobs\UpdatePodcastFromRss;
 use App\Models\User;
 use App\Models\Podcast;
 use App\Services\FeedService;
@@ -85,6 +84,26 @@ class ProfileApiController extends Controller
     }
 
     /**
+     * Save podcasts from rss xml string.
+     *
+     * @param  Request  $request
+     * @return Response
+     */
+    public function postPodcastsByRss(Request $request, $feed)
+    {
+        $user = Auth::user();
+        $podcast = Podcast::getOrCreateFromRss($feed);
+        $pos = $user->getNewPodcastPosition();
+        $created = $user->addPodcast($podcast, $pos);
+
+        return response()->json([
+            'success' => true,
+            'podcast' => $podcast,
+            'created' => $created
+        ]);
+    }
+
+    /**
      * Save podcasts from uploaded opml file.
      *
      * @param  Request  $request
@@ -92,7 +111,6 @@ class ProfileApiController extends Controller
      */
     public function postPodcastsByOpml(Request $request, FeedService $parser)
     {
-
         if (!$request->hasFile('xml')) {
             return response()->json(['error' => 'no file.']);
         } elseif (!$request->file('xml')->isValid()) {
@@ -102,34 +120,21 @@ class ProfileApiController extends Controller
         $user = Auth::user();
         $file = $request->file('xml');
         $feeds = $parser->parseOpml($file);
-        $new = [];
-        $pos = $user->podcasts()
-            ->withPivot('position')
-            ->max('position');
-        $pos = $pos ? $pos : 0;
-        $added = [];
+        $pos = $user->getNewPodcastPosition();
 
         foreach ($feeds as $feed) {
-
-            $podcast = Podcast::where('feed', $feed)->first();
-            if (!$podcast) {
-                $podcast = new Podcast;
-                $podcast->feed = $feed;
-                $podcast->save();
-
-                // load feed details asynchronously
-                $this->dispatch(new UpdatePodcastFromRss($podcast));
-            }
-
-            if (!$user->podcasts()->where('feed', $feed)->exists()) {
-                $user->podcasts()->save($podcast, [
-                    'position' => $pos,
-                    'visible' => true]);
+            $podcast  = Podcast::getOrCreateFromRss($feed);
+            $created = $user->addPodcast($podcast, $pos);
+            if ($created) {
                 $pos++;
                 $new[] = $podcast;
             }
         }
 
-        return response()->json(['success' => true, 'new' => $new, 'feeds' => $feeds]);
+        return response()->json([
+            'success' => true,
+            'new' => $new,
+            'feeds' => $feeds
+        ]);
     }
 }
