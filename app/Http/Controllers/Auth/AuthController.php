@@ -101,9 +101,9 @@ class AuthController extends Controller
         try {
             $user = Socialite::driver('twitter')->user();
         } catch (InvalidArgumentException $e) {
-            return redirect('/');
-        } catch (Exception $e) {
-            return redirect('auth/twitter');
+            return [redirect('/'), false];
+        } catch (\Exception $e) {
+            return [redirect('auth/twitter'), false];
         }
 
         list($authUser, $created) = $this->findOrCreateUser($user);
