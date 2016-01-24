@@ -29,27 +29,57 @@ class ProfileApiController extends Controller
         return $user->toJson();
     }
 
+    // /**
+    //  * Set visibility for podcast.
+    //  *
+    //  * @param  Request  $request
+    //  * @return Response
+    //  */
+    // public function postSetVisibility(Request $request)
+    // {
+    //     $user = Auth::user();
+    //     $podcast_id = Input::get('podcast');
+    //     $visible = (bool) Input::get('visible');
+    //
+    //     $podcast = $user->podcasts()
+    //         ->where('podcast_id', $podcast_id)
+    //         ->withPivot('visible')
+    //         ->firstOrFail();
+    //
+    //     $podcast->pivot->visible = $visible;
+    //     $podcast->pivot->save();
+    //
+    //     return $podcast->toJson();
+    // }
+
     /**
-     * Set visibility for podcast.
+     * Set order for list of podcasts.
      *
      * @param  Request  $request
      * @return Response
      */
-    public function postSetVisibility(Request $request)
+    public function postUpdatePodcasts(Request $request)
     {
         $user = Auth::user();
-        $podcast_id = Input::get('podcast');
-        $visible = (bool) Input::get('visible');
+        $podcasts = Input::get('podcasts');
+        // $podcastIds = array_map(function($podcast) {
+        //     return $podcast->id;
+        // }, $podcastsJson);
 
-        $podcast = $user->podcasts()
-            ->where('podcast_id', $podcast_id)
-            ->withPivot('visible')
-            ->firstOrFail();
+        return var_dump($podcasts);
 
-        $podcast->pivot->visible = $visible;
-        $podcast->pivot->save();
+        // $podcasts = $user->podcasts()
+        //     ->whereIn('podcast_id', $podcast_ids)
+        //     ->withPivot('visible', 'position');
 
-        return $podcast->toJson();
+        foreach ($podcasts as $podcast) {
+            $user->podcasts()
+                ->where('podcast_id', $podcast->id)
+                ->withPivot('visible', 'position')
+                ->update([
+                    'pivot_visible' => $podcast->visible,
+                    'pivot_position' => $podcast->position]);
+        }
     }
 
     /**
