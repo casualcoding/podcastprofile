@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\UpdateUserHandle;
 use App\Models\User;
 use Auth;
 use Illuminate\Http\Request;
@@ -25,7 +26,7 @@ class AuthController extends Controller
     |
     */
 
-    use AuthenticatesAndRegistersUsers, ThrottlesLogins, TwitterApi;
+    use AuthenticatesAndRegistersUsers, ThrottlesLogins;
 
     protected $loginPath = '/';
 
@@ -166,15 +167,24 @@ class AuthController extends Controller
         if ($authUser) {
             if ($twitterUser->nickname != $authUser->handle) {
                 if ($nickUser) {
-                    $this->recursiveUpdateNicknames($nickUser);
+                    // TODO if save fails make random string until save success
+                    $nickUser->handle = $nickUser->twitter_id;
+                    $nickUser->save();
+                    // update user handle asynchronously
+                    $this->dispatch(new UpdateUserHandle($nickUser));
                 }
                 $authUser->handle = $twitterUser->nickname;
                 $authUser->save();
             }
-            return [$authUser, false];;
+            return [$authUser, false];
+        }
 
         if ($nickUser) {
-            $this->recursiveUpdateNicknames($nickUser);
+            // TODO if save fails make random string until save success
+            $nickUser->handle = $nickUser->twitter_id;
+            $nickUser.save();
+            // update user handle asynchronously
+            $this->dispatch(new UpdateUserHandle($nickUser));
         }
         
         $url = '';

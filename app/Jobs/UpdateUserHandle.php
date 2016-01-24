@@ -1,26 +1,52 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Jobs;
 
+use App\Jobs\Job;
 use App\Models\User;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use TwitterAPIExchange;
 
-trait TwitterApi
+class UpdateUserHandle extends Job implements ShouldQueue
 {
+    use InteractsWithQueue, SerializesModels;
+
+    protected $user;
+
+    /**
+     * Create a new job instance.
+     *
+     * @param  User $user
+     * @return void
+     */
+    public function __construct(User $user)
+    {
+        $this->user = $user;
+    }
+
     /**
      * Recursively update twitter nicknames of users and change them
      *
+     * @return void
      */
-    public function recursiveUpdateNicknames($user)
+    public function handle()
     {
-        $current_nick = $this->getNickFromTwitter($user->twitter_id);
-        if ($current_nick != $user->handle) {
+        $loop = true;
+        while($loop) {
+            $current_nick = $this->getNickFromTwitter($this->user->twitter_id);
             $nickUser = User::where('handle', $current_nick)->first();
             if ($nickUser) {
-                $this->recursiveUpdateNicknames($nickUser);
+                // TODO if save fails make random string until save success
+                $nickUser->handle = $nickUser->twitter_id;
+                $nickUser->save();    
+            } else {
+                $loop = false;
             }
-            $user->handle = $current_nick;
-            $user->save();
+            $this->user->handle = $current_nick;
+            $this->user->save();
+            $this->user = $nickUser;
         }
     }
 
