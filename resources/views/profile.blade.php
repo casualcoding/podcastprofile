@@ -11,7 +11,7 @@
 
             <div class="uk-width-medium-1-5">
 
-                <div class="uk-panel site-panel-profile uk-text-center" data-uk-sticky="{top: 15}">
+                <div class="uk-panel site-panel-profile uk-text-center" data-uk-sticky="{top: 15, media: 768}">
                     <img class="uk-border-circle" width="120" height="120" src="{{ $user->avatar }}" alt="">
                     <h3><strong>{{ $user->name }}</strong> listens to {{ $user->podcastsPublic->count() }} podcasts</h3>
 
@@ -32,7 +32,7 @@
 
                 @forelse ($user->podcastsPublic as $podcast)
                 <div class="uk-panel site-panel-podcast">
-                    <div class="uk-grid">
+                    <div class="uk-grid" data-uk-grid-margin>
                         <div class="uk-width-medium-1-3 uk-text-center">
                             <img src="{{ $podcast->coverimage }}" alt="Podcast Cover image" />
                         </div>
