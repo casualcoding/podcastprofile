@@ -55,7 +55,7 @@ class ProfileApiController extends Controller
                 } catch (\Exception $e) {
                     // if old image not there do nothing
                 }
-                Image::make(Input::file('image'), array('width' => 400,'height' => 400, 'crop' => true))->save($path.$filename);
+                Image::make(Input::file('image'))->fit(400, 400)->save($path.$filename);
                 $user->avatar = $public_path.$filename;
                 $user->save();
             }
@@ -127,7 +127,7 @@ class ProfileApiController extends Controller
         $file = $request->file('xml');
         $pos = $user->getNewPodcastPosition();
         $new = [];
-        
+
         try {
             $feeds = $parser->parseOpml($file);
         } catch (\Exception $e) {
