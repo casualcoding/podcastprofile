@@ -90,4 +90,14 @@ class User extends Authenticatable
             ->max('position');
         return is_null($pos) ? 0 : $pos+1;
     }
+
+    /**
+     * Checks if the user is an admin.
+     *
+     * @return boolean
+     */
+    public function isAdmin()
+    {
+        return $this->role == Role::$admin;
+    }
 }

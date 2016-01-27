@@ -36,6 +36,7 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::group(['middleware' => ['auth']], function () {
         Route::get('/settings', 'StaticController@getSettings')->name('settings');
+        Route::get('/admin', 'StaticController@getAdmin')->name('admin');
     });
 
     Route::group(['prefix' => 'api/1', 'as' => 'api::'], function () {
