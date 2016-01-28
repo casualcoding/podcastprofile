@@ -34,7 +34,7 @@
                             <tr>
                                 <td><a href="/{{ $user->handle }}">{{ $user->handle }}</a></td>
                                 <td>{{ $user->name }}</td>
-                                <td><div class="uk-width-1-1 uk-text-truncate"><a href="/{{ $user->url }}">{{ $user->url }}</a></div></td>
+                                <td><div class="uk-width-1-1 uk-text-truncate"><a href="{{ $user->url }}">{{ $user->url }}</a></div></td>
                                 <td>{{ $user->twitter_id }}</td>
                                 <td class="uk-text-right">{{ $user->role }}</td>
                                 <td class="uk-text-small uk-text-muted">{{ $user->created_at }}</td>
@@ -82,7 +82,7 @@
                                         <br><i class="uk-icon-rss"></i> <a href="{{ $podcast->feed }}">{{ $podcast->feed }}</a>
                                     </div>
                                 </td>
-                                <td><a href="/{{ $podcast->coverimage }}"><img src="{{ $podcast->coverimage }}" width="60" height="60"></a></td>
+                                <td><a href="{{ $podcast->coverimage }}"><img src="{{ $podcast->coverimage }}" width="60" height="60"></a></td>
                                 <!-- <td>{{ $podcast->description }}</td> -->
                                 <td  @if ($podcast->error != 0) class="uk-text-danger" @endif>{{ $podcast->error }}</td>
                                 <td class="uk-text-small uk-text-muted">{{ $podcast->created_at }}</td>
