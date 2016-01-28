@@ -40,11 +40,7 @@ class ImageDownloadService
             }
         }
 
-        $img = Image::make($path, array(
-            'width' => $width,
-            'height' => $height,
-            'crop' => true
-        ));
+        $img = Image::make($path)->fit($width, $height);
         $img->save($path);
 
         // free memory explicitely, since this is executed in a queue
