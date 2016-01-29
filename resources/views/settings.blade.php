@@ -90,7 +90,7 @@
                                     <div class="uk-width-3-4">
                                         <h3>Say something about <strong>@{{{ podcast.name }}}</strong>:</h3>
                                         <textarea class="uk-width-1-1 site-podcast-comment" rows="4" v-model="podcast.comment"></textarea><br>
-                                        <input type="checkbox" v-model="podcast.visible"> Show in list
+                                        <label><input type="checkbox" v-model="podcast.visible">Show in list</label>
 
                                         <p class="uk-text-right">
                                             <button class="uk-button uk-button-primary" @click="savePodcasts">Save</button>
