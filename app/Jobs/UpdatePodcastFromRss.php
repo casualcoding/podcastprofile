@@ -39,7 +39,7 @@ class UpdatePodcastFromRss extends Job implements ShouldQueue
         $this->podcast->url = $feed['link'];
         $this->podcast->description = $feed['summary'];
 
-        $image_path = $downloader->saveImage($feed['image'], md5($this->podcast->url), 600, 600);
+        $image_path = $downloader->saveImage($feed['image'], md5($this->podcast->feed), 600, 600);
         if ($image_path != null) {
             $this->podcast->coverimage = $image_path;
         }
