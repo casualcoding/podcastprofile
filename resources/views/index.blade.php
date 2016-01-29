@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Show what podcasts you listen to')
+@section('title', 'Show which podcasts you listen to')
 
 @section('content')
 
