@@ -58,6 +58,6 @@ gulp.task('default', ['fonts', 'less', 'js', 'js-admin']);
 gulp.task('watch', function() {
 
     // when any less file is changed: recompile
-    gulp.watch(['less/*.less', 'js/*.js'], ['dist']);
+    gulp.watch(['less/*.less', 'js/*.js'], ['default']);
 
 });
