@@ -35,7 +35,7 @@ gulp.task('js', function() {
          'bower_components/uikit/js/components/sortable.min.js'])
         .pipe(rename({dirname: ''}))
         .pipe(concat('app.js'))
-        .pipe(uglify())
+        .pipe(uglify({ mangle: false }))
         .pipe(gulp.dest('./assets/dist/'));
 
 });
@@ -48,7 +48,7 @@ gulp.task('js-admin', function() {
        'js/settings.js'])
        .pipe(rename({dirname: ''}))
        .pipe(concat('settings.js'))
-       .pipe(uglify())
+       .pipe(uglify({ mangle: false }))
        .pipe(gulp.dest('./assets/dist/'));
 
 });
