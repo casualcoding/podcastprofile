@@ -1,7 +1,7 @@
 @extends('layouts.navbar')
 @section('title', 'User Profile')
 
-@section('body-classes', 'site-profile')
+@section('body-classes', '@parent site-profile')
 
 @section('content')
 

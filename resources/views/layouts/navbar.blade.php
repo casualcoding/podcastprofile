@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+@section('body-classes', '@parent site-footer-margin')
+
 @section('top')
 
 <div class="uk-navbar">
@@ -22,15 +24,5 @@
         </div>
     </div>
 </div>
-
-@stop
-
-@section('bottom')
-
-<footer class="uk-block uk-block-large site-block-footer uk-text-center uk-margin-large-top">
-    <a href="https://twitter.com/podcastprofile">@podcastprofile</a>
-    <a href="http://casualcoding.com">a casualcoding project</a>
-    <a href="/impressum">Impressum</a>
-</footer>
 
 @stop

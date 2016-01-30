@@ -24,7 +24,13 @@
 
             </div>
 
-            @yield('bottom')
+            <footer class="uk-block uk-block-large site-block-footer uk-text-center">
+                <a href="https://twitter.com/podcastprofile">@podcastprofile</a>
+                <br class="uk-visible-small">
+                <a href="http://casualcoding.com">a casualcoding project</a>
+                <br class="uk-visible-small">
+                <a href="/impressum">Impressum</a>
+            </footer>
 
     </body>
 </html>
