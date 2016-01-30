@@ -42,6 +42,11 @@ class StaticController extends Controller
         }
         return;
     }
+    
+    public function getImpressum()
+    {
+        return view('impressum');
+    }
 
     public function getTop()
     {

@@ -30,6 +30,7 @@
 <footer class="uk-block uk-block-large site-block-footer uk-text-center uk-margin-large-top">
     <a href="https://twitter.com/podcastprofile">@podcastprofile</a>
     <a href="http://casualcoding.com">a casualcoding project</a>
+    <a href="/impressum">Impressum &amp; Datenschutz</a>
 </footer>
 
 @stop

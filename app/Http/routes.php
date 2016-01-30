@@ -51,6 +51,8 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::get('/top', 'StaticController@getTop')->name('top');    
 
+    Route::get('/impressum', 'StaticController@getImpressum')->name('impressum');
+
     // last
     Route::get('/{handle}', 'StaticController@getProfile')->name('profile');
 

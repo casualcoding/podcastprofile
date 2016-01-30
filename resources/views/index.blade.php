@@ -70,5 +70,7 @@
     <a href="https://twitter.com/podcastprofile">@podcastprofile</a>
     <br class="uk-visible-small">
     <a href="http://casualcoding.com">a casualcoding project</a>
+    <br class="uk-visible-small">
+    <a href="/impressum">Impressum &amp; Datenschutz</a>
 </footer>
 @stop
