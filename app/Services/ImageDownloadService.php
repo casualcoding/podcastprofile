@@ -39,6 +39,11 @@ class ImageDownloadService
                 return '';
             }
         }
+        
+        // Return if the url points to something other than an image
+        if (!$this->isImage($path)) {
+            return '';
+        }
 
         $img = Image::make($path)->fit($width, $height);
         $img->save($path);
@@ -49,5 +54,14 @@ class ImageDownloadService
         Log::info('Memory usage after job: '.memory_get_usage());
 
         return $public_path;
+    }
+    
+    /**
+     * Checks if a variable is an image. 
+     * http://stackoverflow.com/a/15408184
+     */
+    function isImage($path)
+    {
+        return is_array(getimagesize($path));
     }
 }
