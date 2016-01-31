@@ -88,7 +88,14 @@
                                 <td  @if ($podcast->error != 0) class="uk-text-danger" @endif>{{ $podcast->error }}</td>
                                 <td class="uk-text-small uk-text-muted">{{ $podcast->created_at }}</td>
                                 <td class="uk-text-small uk-text-muted">{{ $podcast->updated_at }}</td>
-                                <td><a class="uk-button uk-button-primary" href="{{ URL::route('getEditPodcast', ['id' => $podcast->id]) }}"><i class="uk-icon-cog"></i> Edit</a></td>
+                                <td>
+                                    <a class="uk-button uk-button-primary" href="{{ URL::route('getEditPodcast', ['id' => $podcast->id]) }}">
+                                        <i class="uk-icon-wrench"></i> Edit
+                                    </a>
+                                    @if ($podcast->edited_manually)
+                                    <br><span class="uk-text-small uk-text-muted"><i class="uk-icon-lock"></i> Edited manually</span>
+                                    @endif
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>

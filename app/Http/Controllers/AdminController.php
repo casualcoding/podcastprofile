@@ -44,6 +44,7 @@ class AdminController extends Controller
             $podcast->coverimage = $path;
         }
         
+        $podcast->edited_manually = true;
         $podcast->save();
         return Redirect::route('getEditPodcast', compact('id'));
     }
