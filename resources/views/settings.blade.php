@@ -28,7 +28,7 @@
             <li><a href="">Reorder</a></li>
             <li><a href="">Hidden podcasts</a></li>
             @endif
-            <li><a href="">Upload</a></li>
+            <li class="{{ $user->podcastsPublic->count() == 0 ? 'uk-active' : ''}}"><a href="">Upload</a></li>
         </ul>
 
         <!-- This is the container of the content items -->
