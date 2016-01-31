@@ -157,15 +157,21 @@
 
             <li><!-- Hidden -->
                 <div class="uk-panel uk-panel-box site-panel-box-white">
+                    <p class="uk-text-right">
+                        <button class="uk-button uk-button-primary" @click="savePodcasts">Save</button>
+                    </p>
                     <p>
                         These podcasts do not appear on your profile. We keep them in this list, so that we can
                         keep them hidden the next time you upload your <code>OPML</code> file.
                     </p>
-                    <ul class="uk-list uk-list-space">
+                    <p class="uk-panel uk-panel-box" v-if="!hiddenPodcasts.length">
+                        None of your podcasts are hidden.
+                    </p>
+                    <ul class="uk-grid uk-grid-width-medium-1-3" data-uk-grid-margin data-uk-grid-match="{target:'.uk-panel'}">
                         <li v-for="podcast in hiddenPodcasts">
                             <div class="uk-panel uk-panel-box">
                                 <div class="uk-float-right">
-                                    <button class="uk-button uk-button-mini" data-uk-tooltip title="Put back on your profile" @click="toggle(podcast)"><i class="uk-icon-eye"></i> Unhide</button>
+                                    <button class="uk-button uk-button-mini uk-button-link" data-uk-tooltip title="Put back on your profile" @click="toggle(podcast)"><i class="uk-icon-eye"></i> Unhide</button>
                                 </div>
                                 <strong>@{{{ podcast.name }}}</strong>
                             </div>
