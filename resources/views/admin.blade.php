@@ -52,12 +52,13 @@
                         <thead>
                             <tr>
                                 <th class="uk-width-2-10">name</th>
-                                <th class="uk-width-4-10">url / feed</th>
+                                <th class="uk-width-3-10">url / feed</th>
                                 <th class="uk-width-1-10">cover</th>
                                 <!-- <th>description</th> -->
                                 <th class="uk-width-1-10">error</th>
                                 <th class="uk-width-1-10">created</th>
                                 <th class="uk-width-1-10">updated</th>
+                                <th class="uk-width-1-10"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -87,6 +88,7 @@
                                 <td  @if ($podcast->error != 0) class="uk-text-danger" @endif>{{ $podcast->error }}</td>
                                 <td class="uk-text-small uk-text-muted">{{ $podcast->created_at }}</td>
                                 <td class="uk-text-small uk-text-muted">{{ $podcast->updated_at }}</td>
+                                <td><a class="uk-button uk-button-primary" href="{{ URL::route('getEditPodcast', ['id' => $podcast->id]) }}"><i class="uk-icon-cog"></i> Edit</a></td>
                             </tr>
                             @endforeach
                         </tbody>

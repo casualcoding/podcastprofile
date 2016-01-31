@@ -36,7 +36,11 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::group(['middleware' => ['auth']], function () {
         Route::get('/settings', 'StaticController@getSettings')->name('settings');
-        Route::get('/admin', 'StaticController@getAdmin')->name('admin');
+        
+        Route::group(['middleware' => ['admin']], function () {
+            Route::get('/admin', 'AdminController@getAdmin')->name('admin');
+            Route::get('/admin/editpodcast/{id}', 'AdminController@getEditPodcast')->name('getEditPodcast');
+        });
     });
 
     Route::group(['prefix' => 'api/1', 'as' => 'api::'], function () {
@@ -46,6 +50,11 @@ Route::group(['middleware' => ['web']], function () {
             Route::post('podcasts', 'ProfileApiController@postUpdatePodcasts')->name('podcasts');
             Route::post('upload/rss', 'ProfileApiController@postPodcastByRss')->name('postPodcastByRss');
             Route::post('upload/opml', 'ProfileApiController@postPodcastsByOpml')->name('postPodcastsByOpml');
+
+            Route::group(['middleware' => ['admin']], function () {
+                Route::post('editpodcast/{id}', 'AdminController@postEditPodcast')->name('postEditPodcast');
+            });
+            
         });
     });
 

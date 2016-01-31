@@ -31,18 +31,6 @@ class StaticController extends Controller
         return view('settings', compact('user'));
     }
     
-    public function getAdmin()
-    {
-        if (Auth::user()->isAdmin()) {
-            $users = User::all();
-            $podcasts = Podcast::all();
-            $jobs = DB::select('select * from jobs');
-            $failed_jobs = DB::select('select * from failed_jobs');
-            return view('admin', compact('users', 'podcasts', 'jobs', 'failed_jobs'));
-        }
-        return;
-    }
-    
     public function getImpressum()
     {
         return view('impressum');
