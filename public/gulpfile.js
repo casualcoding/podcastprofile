@@ -33,6 +33,7 @@ gulp.task('js', function() {
          'bower_components/uikit/js/components/sticky.min.js',
          'bower_components/uikit/js/components/notify.min.js',
          'bower_components/uikit/js/components/sortable.min.js',
+         'bower_components/uikit/js/components/tooltip.min.js',
          'bower_components/jquery.cookie/jquery.cookie.js',
          'js/cookie.js'])
         .pipe(rename({dirname: ''}))

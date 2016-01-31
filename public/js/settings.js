@@ -56,8 +56,23 @@ var settings = new Vue({
     },
 
     data: {
+        editing: false,
         user: window.$user,
         podcasts: window.$podcasts
+    },
+
+    computed: {
+        hiddenPodcasts: function() {
+            return this.podcasts.filter(function(el) {
+                return !el.visible;
+            });
+        },
+
+        visiblePodcasts: function() {
+            return this.podcasts.filter(function(el) {
+                return el.visible;
+            });
+        }
     },
 
     methods: {
@@ -71,8 +86,10 @@ var settings = new Vue({
                 avatar: this.user.avatar
             }).then(function () {
                 UIkit.notify("Saved.", "success");
+                this.editing = false;
             }).catch(function() {
                 UIkit.notify("Saving failed.", "danger");
+                this.editing = false;
             });
 
         },
@@ -106,6 +123,10 @@ var settings = new Vue({
                 }).catch(function() {
                     UIkit.notify("Oops, could not save.", "danger");
                 });
+        },
+
+        toggle: function(podcast) {
+            podcast.visible = !podcast.visible;
         }
     }
 });
