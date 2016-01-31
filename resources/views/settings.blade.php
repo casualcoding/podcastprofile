@@ -20,11 +20,11 @@
 
     <div id="settings" class="uk-grid">
         <!-- This is the tabbed navigation containing the toggling elements -->
-        <ul class="uk-tab uk-tab-left uk-width-1-6" data-uk-tab="{connect:'#lists'}">
+        <ul class="uk-tab uk-tab-left uk-width-medium-1-6" data-uk-tab="{connect:'#lists'}">
             <li><a href="">Profile</a></li>
-            <hr>
+            <hr class="uk-visible-large">
             @if ($user->podcastsPublic->count() > 0)
-            <li><a href="">Manage Podcasts</a></li>
+            <li class="uk-active"><a href="">Manage Podcasts</a></li>
             <li><a href="">Reorder</a></li>
             <li><a href="">Hidden podcasts</a></li>
             @endif
@@ -32,9 +32,9 @@
         </ul>
 
         <!-- This is the container of the content items -->
-        <ul id="lists" class="uk-switcher uk-width-5-6">
+        <ul id="lists" class="uk-switcher uk-width-medium-5-6 settings-tabs">
             <li><!-- Profile -->
-                <div class="uk-panel uk-panel-box site-panel-box-white">
+                <div class="uk-panel">
 
                     <div class="uk-width-medium-2-3 uk-align-center uk-margin-large-top uk-margin-large-bottom">
 
@@ -174,7 +174,7 @@
                 </div>
             </li>
             @endif
-            
+
             <li>
                 <div class="uk-panel uk-panel-box site-panel-box-white" id="upload-opml">
                     <form action="{{ URL::route('api::postPodcastsByOpml') }}" method="post" enctype="multipart/form-data" class="uk-form" @submit.prevent="performupload($event)" v-el="form">
