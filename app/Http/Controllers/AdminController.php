@@ -10,8 +10,9 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\Podcast;
 use App\Models\User;
+use App\Services\ImageDownloadService;
 use DB;
-use Image;
+
 
 
 class AdminController extends Controller
@@ -31,25 +32,16 @@ class AdminController extends Controller
         return view('editpodcast', compact('podcast'));
     }
     
-    public function postEditPodcast($id)
+    public function postEditPodcast($id, ImageDownloadService $downloader)
     {
         $podcast = Podcast::where('id', $id)->firstOrFail();
         $podcast->name = Input::get('name');
         $podcast->url = Input::get('url');
         
-        if ($podcast->coverimage != Input::get('coverimage')) {
-            $public_path = '/images/';
-            $internal_path = __DIR__ . '/../../../public';
-            $path = $internal_path . $public_path;
-            $filename = md5($podcast->feed).'.jpg';
-
-            try {
-                unlink($internal_path . $podcast->coverimage);
-            } catch (\Exception $e) {
-                // if old image not there do nothing
-            }
-            Image::make(Input::get('coverimage'))->fit(600, 600)->save($path.$filename);
-            $podcast->coverimage = $public_path.$filename;
+        $imageurl = Input::get('coverimage');
+        if ($podcast->coverimage != $imageurl) { // only download the image if it changed
+            $path = $downloader->saveImage($imageurl, md5($podcast->feed), 600, 600);
+            $podcast->coverimage = $path;
         }
         
         $podcast->save();
