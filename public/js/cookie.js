@@ -1,6 +1,6 @@
 $(function () {
     var cookie_name = 'podcastprofile_eu_cookie_acceptance';
-    console.log($.cookie(cookie_name));
+
     if ($.cookie(cookie_name) !== 'yes') {
         $('.cookie-notice').show();
     }
