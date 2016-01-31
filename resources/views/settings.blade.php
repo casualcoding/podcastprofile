@@ -176,7 +176,7 @@
             @endif
             
             <li>
-                <div class="uk-panel uk-panel-box site-panel-box-white">
+                <div class="uk-panel uk-panel-box site-panel-box-white" id="upload-opml">
                     <form action="{{ URL::route('api::postPodcastsByOpml') }}" method="post" enctype="multipart/form-data" class="uk-form" @submit.prevent="performupload($event)" v-el="form">
 
                         <div class="uk-width-medium-3-4 uk-align-center uk-margin-large-top uk-margin-large-bottom">
