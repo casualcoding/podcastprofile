@@ -32,5 +32,14 @@
                 <a href="/impressum">Impressum</a>
             </footer>
 
+            <div class="cookie-notice">
+                <div class="uk-text-contrast uk-text-center">
+                    podcastprofile.com uses cookies to give you the best experience on our site. By using this site you accept our policy.
+                    <br class="uk-hidden-large"><br class="uk-hidden-large">
+                    <button class="js-cookie-accept uk-button site-button-cookie uk-margin-large-left">OK</button>
+                    <a class="uk-margin-small-left uk-text-contrast" href="/impressum"> More</a>
+                </div>
+            </div>
+
     </body>
 </html>
