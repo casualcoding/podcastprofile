@@ -93,37 +93,36 @@
             </li>
 
             @if($user->podcastsPublic->count() > 0)
-            <li> <!-- Manage -->
-                <div class="uk-panel uk-panel-box" v-if="!podcasts.length">
+            <li class="uk-padding-top-remove"> <!-- Manage -->
+                <div class="uk-panel uk-panel-box uk-margin-top" v-if="!podcasts.length">
                     Please upload a list of podcasts below.
                 </div>
 
                 <div class="uk-panel uk-panel-box site-panel-box-white" v-if="podcasts.length">
-                    <p class="uk-text-right">
-                        <button class="uk-button uk-button-primary" @click="savePodcasts">Save podcast list</button>
-                    </p>
+                    <div class="uk-margin-bottom" style="background:white; z-index: 9999;" data-uk-sticky>
+                        <p class="uk-text-right uk-margin-top">
+                            <button class="uk-button uk-button-primary" @click="savePodcasts">Save podcast list</button>
+                        </p>
+                    </div>
 
-                    <div class="uk-overflow-container uk-height-viewport">
-
-                        <ul class="uk-grid uk-grid-mediu uk-grid-width-small-1-2" data-uk-grid-margin data-uk-grid-match="{target:'.uk-panel'}">
-                            <li v-for="podcast in visiblePodcasts">
-                                <div class="uk-panel uk-width-9-10 uk-align-center site-panel-settings">
-                                    <div class="uk-grid">
-                                        <div class="uk-width-1-3 uk-text-center">
-                                            <img :src="podcast.coverimage" width="200" height="200" alt="Podcast cover" />
-                                        </div>
-                                        <div class="uk-width-2-3">
-                                            <button class="uk-button uk-button-mini" @click="toggle(podcast)"><i class="uk-icon-eye-slash"></i> Hide from profile</button>
-                                            <h3>Say something about <br><strong>@{{{ podcast.name }}}</strong>:</h3>
-                                        </div>
+                    <ul class="uk-grid uk-grid-mediu uk-grid-width-small-1-2" data-uk-grid-margin data-uk-grid-match="{target:'.uk-panel'}">
+                        <li v-for="podcast in visiblePodcasts">
+                            <div class="uk-panel uk-width-9-10 uk-align-center site-panel-settings">
+                                <div class="uk-grid">
+                                    <div class="uk-width-1-3 uk-text-center">
+                                        <img :src="podcast.coverimage" width="200" height="200" alt="Podcast cover" />
                                     </div>
-                                    <div class="uk-margin-top">
-                                        <textarea class="uk-width-1-1 site-podcast-comment" rows="5" v-model="podcast.comment"></textarea><br>
+                                    <div class="uk-width-2-3">
+                                        <button class="uk-button uk-button-mini" @click="toggle(podcast)"><i class="uk-icon-eye-slash"></i> Hide from profile</button>
+                                        <h3>Say something about <br><strong>@{{{ podcast.name }}}</strong>:</h3>
                                     </div>
                                 </div>
-                            </li>
-                        </ul>
-                    </div>
+                                <div class="uk-margin-top">
+                                    <textarea class="uk-width-1-1 site-podcast-comment" rows="5" v-model="podcast.comment"></textarea><br>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
 
                     <p class="uk-text-right">
                         <button class="uk-button uk-button-primary" @click="savePodcasts">Save podcast list</button>
