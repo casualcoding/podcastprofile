@@ -99,10 +99,8 @@
                 </div>
 
                 <div class="uk-panel uk-panel-box site-panel-box-white" v-if="podcasts.length">
-                    <div class="uk-margin-bottom" style="background:white; z-index: 9999;" data-uk-sticky>
-                        <p class="uk-text-right uk-margin-top">
-                            <button class="uk-button uk-button-primary" @click="savePodcasts">Save podcast list</button>
-                        </p>
+                    <div class="uk-text-right" style="background:white; padding: 12px 0 12px; z-index: 9999;" data-uk-sticky>
+                        <button class="uk-button uk-button-primary" @click="savePodcasts">Save podcast list</button>
                     </div>
 
                     <ul class="uk-grid uk-grid-mediu uk-grid-width-small-1-2" data-uk-grid-margin data-uk-grid-match="{target:'.uk-panel'}">
@@ -123,10 +121,7 @@
                             </div>
                         </li>
                     </ul>
-
-                    <p class="uk-text-right">
-                        <button class="uk-button uk-button-primary" @click="savePodcasts">Save podcast list</button>
-                    </p>
+                    
                 </div>
             </li>
 
