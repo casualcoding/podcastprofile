@@ -103,7 +103,7 @@
                         <button class="uk-button uk-button-primary" @click="savePodcasts">Save podcast list</button>
                     </div>
 
-                    <ul class="uk-grid uk-grid-mediu uk-grid-width-small-1-2" data-uk-grid-margin data-uk-grid-match="{target:'.uk-panel'}">
+                    <ul class="uk-grid uk-grid-width-small-1-2" data-uk-grid-margin data-uk-grid-match="{target:'.uk-panel'}">
                         <li v-for="podcast in visiblePodcasts">
                             <div class="uk-panel uk-width-9-10 uk-align-center site-panel-settings">
                                 <div class="uk-grid">
