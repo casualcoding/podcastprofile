@@ -149,4 +149,19 @@ class ProfileApiController extends Controller
             'feeds' => $feeds
         ]);
     }
+
+    /**
+     * Deletes the current user's account.
+     *
+     * @return Response
+     */
+    public function postDeleteAccount()
+    {
+        $user = Auth::user();
+        $user->delete();
+
+        return response()->json([
+            'success' => true
+        ]);
+    }
 }
