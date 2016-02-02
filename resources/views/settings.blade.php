@@ -29,6 +29,8 @@
             <li><a href="">Hidden podcasts</a></li>
             @endif
             <li class="{{ $user->podcastsPublic->count() == 0 ? 'uk-active' : ''}}"><a href="">Upload</a></li>
+            <hr class="uk-visible-large">
+            <li><a href="">Delete Account</a></li>
         </ul>
 
         <!-- This is the container of the content items -->
@@ -121,7 +123,7 @@
                             </div>
                         </li>
                     </ul>
-                    
+
                 </div>
             </li>
 
@@ -205,6 +207,18 @@
                             </div>
                         </div>
                     </form>
+            </li>
+
+            <li><!-- Delete Account -->
+                <div class="uk-panel uk-panel-box site-panel-box-white">
+                    <div class="uk-width-medium-3-4 uk-align-center uk-margin-large-top uk-margin-large-bottom">
+                        <p class="uk-text-center">Are you sure? This cannot be undone.</p>
+                        <form class="uk-text-center" action="{{ URL::route('api::postDeleteAccount') }}" method="post">
+                            {{ csrf_field() }}
+                            <button class="uk-button uk-button-danger"><i class="uk-icon-warning"></i> Delete Account</button>
+                        </form>
+                    </div>
+                </div>
             </li>
         </ul>
     </div>
