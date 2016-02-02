@@ -101,7 +101,7 @@
                 </div>
 
                 <div class="uk-panel uk-panel-box site-panel-box-white" v-if="podcasts.length">
-                    <div class="uk-text-right" style="background:white; padding: 12px 0 12px; z-index: 9999;" data-uk-sticky>
+                    <div class="uk-text-right" style="background:white; padding: 24px 0 12px; z-index: 9999;" data-uk-sticky>
                         <button class="uk-button uk-button-primary" @click="savePodcasts">Save podcast list</button>
                     </div>
 
