@@ -124,7 +124,7 @@
                                 <td class="uk-text-small uk-text-muted">{{ $job->reserved_at }}</td>
                                 <td class="uk-text-small uk-text-muted">{{ $job->created_at }}</td>
                                 <td class="uk-text-small uk-text-muted">{{ $job->available_at }}</td>
-                                <!--<td><a class="uk-button uk-button-danger" href="{ URL::route('api::postDeleteJob', ['id' => $job->id]) }}"><i class="uk-icon-trash-o"></i> Stop</a>-->
+                                {{-- <td><a class="uk-button uk-button-danger" href="{ URL::route('api::postDeleteJob', ['id' => $job->id]) }}"><i class="uk-icon-trash-o"></i> Stop</a> --}
                             </tr>
                             @endforeach
                         </tbody>
