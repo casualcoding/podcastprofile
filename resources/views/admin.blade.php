@@ -102,7 +102,38 @@
                     </table>
                 </div>
             </li>
-            <li><pre>{{ var_dump($jobs) }}</pre></li>
+            <li>
+                <div class="uk-overflow-container">
+                    @if (count($jobs) > 0)
+                    <table class="uk-table uk-table-striped" style="table-layout: fixed;">
+                        <thead>
+                            <tr>
+                                <th class="uk-width-6-10">payload</th>
+                                <th class="uk-width-1-10">attempts</th>
+                                <th class="uk-width-1-10">reserved</th>
+                                <th class="uk-width-1-10">available</th>
+                                <th class="uk-width-1-10">created</th>
+                                <!--<th class="uk-width-1-10"></th>-->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($jobs as $job)
+                            <tr>
+                                <td><pre style="background:none;">{{ $job->payload }}</pre></td>
+                                <td>{{ $job->attempts }}</td>
+                                <td class="uk-text-small uk-text-muted">{{ $job->reserved_at }}</td>
+                                <td class="uk-text-small uk-text-muted">{{ $job->created_at }}</td>
+                                <td class="uk-text-small uk-text-muted">{{ $job->available_at }}</td>
+                                <!--<td><a class="uk-button uk-button-danger" href="{ URL::route('api::postDeleteJob', ['id' => $job->id]) }}"><i class="uk-icon-trash-o"></i> Stop</a>-->
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    @else
+                    <p>There are no jobs.</p>
+                    @endif
+                </div>
+            </li>
             <li><pre>{{ var_dump($failed_jobs) }}</pre></li>
         </ul>
     </div>
