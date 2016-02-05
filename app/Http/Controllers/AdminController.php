@@ -19,33 +19,57 @@ class AdminController extends Controller
 {
     public function getAdmin()
     {
-        $users = User::all();
-        $podcasts = Podcast::all();
-        $jobs = DB::select('select * from jobs');
-        $failed_jobs = DB::select('select * from failed_jobs');
-        return view('admin', compact('users', 'podcasts', 'jobs', 'failed_jobs'));
+        return Redirect::route('admin::getPodcasts', compact('id'));
     }
-    
+
+    public function getUsers()
+    {
+        $users = User::paginate(20);
+        return view('admin.users', $this->mergeModelCounts(compact('users')));
+    }
+
+    public function getPodcasts()
+    {
+        $podcasts = Podcast::paginate(20);
+        return view('admin.podcasts', $this->mergeModelCounts(compact('podcasts')));
+    }
+
+    public function getJobs()
+    {
+        $jobs = DB::table('jobs')->paginate(20);
+        return view('admin.jobs', $this->mergeModelCounts(compact('jobs')));
+    }
+
+    public function getFailedJobs()
+    {
+        $failed_jobs = DB::table('failed_jobs')->paginate(20);
+        return view('admin.failedjobs', $this->mergeModelCounts(compact('failed_jobs')));
+    }
+
     public function getEditPodcast($id)
     {
         $podcast = Podcast::where('id', $id)->firstOrFail();
-        return view('editpodcast', compact('podcast'));
+        return view('admin.editpodcast', $this->mergeModelCounts(compact('podcast')));
     }
-    
-    public function postEditPodcast($id, ImageDownloadService $downloader)
+
+    private function mergeModelCounts(array $array)
     {
-        $podcast = Podcast::where('id', $id)->firstOrFail();
-        $podcast->name = Input::get('name');
-        $podcast->url = Input::get('url');
-        
-        $imageurl = Input::get('coverimage');
-        if ($podcast->coverimage != $imageurl) { // only download the image if it changed
-            $path = $downloader->saveImage($imageurl, md5($podcast->feed), 600, 600);
-            $podcast->coverimage = $path;
-        }
-        
-        $podcast->edited_manually = true;
-        $podcast->save();
-        return Redirect::route('getEditPodcast', compact('id'));
+        $counts = $this->getModelCounts();
+        return array_merge(['counts' => $counts], $array);
+    }
+
+    /**
+     * Returns the counts of the models, e.g.
+     * ['podcasts' => 10, 'users' => 2, ...]
+     *
+     * return array
+     */
+    private function getModelCounts()
+    {
+        $podcasts = Podcast::all()->count();
+        $users = User::all()->count();
+        $jobs = DB::table('jobs')->count();
+        $failed_jobs = DB::table('failed_jobs')->count();
+        return compact('podcasts', 'users', 'jobs', 'failed_jobs');
     }
 }

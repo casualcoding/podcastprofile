@@ -15,7 +15,7 @@
                     {{-- <li><a href="/{{ URL::route('top') }}">Top Podcasts</a></li> --}}
                 @if (Auth::check())
                     @if (Auth::user()->isAdmin())
-                        <li><a href="{{ URL::route('admin') }}">Admin</a></li>
+                        <li><a href="{{ URL::route('admin::admin') }}">Admin</a></li>
                     @endif
                     <li><a href="/{{ Auth::user()->handle }}">Profile</a></li>
                     <li><a href="{{ URL::route('settings') }}">Settings</a></li>
