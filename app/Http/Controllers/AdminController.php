@@ -62,7 +62,7 @@ class AdminController extends Controller
      * Returns the counts of the models, e.g.
      * ['podcasts' => 10, 'users' => 2, ...]
      *
-     * return array
+     * @return array
      */
     private function getModelCounts()
     {
