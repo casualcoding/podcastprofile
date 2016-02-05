@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Input;
 use Validator;
 use Image;
 
+// TODO delete this when postDeleteAccounts returns a JSON response
+use Illuminate\Support\Facades\Redirect;
+
 class ProfileApiController extends Controller
 {
 
@@ -160,8 +163,9 @@ class ProfileApiController extends Controller
         $user = Auth::user();
         $user->delete();
 
-        return response()->json([
-            'success' => true
-        ]);
+        // return response()->json([
+        //     'success' => true
+        // ]);
+        return Redirect::route('auth::logout');
     }
 }
