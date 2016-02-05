@@ -19,7 +19,7 @@ class AdminController extends Controller
 {
     public function getAdmin()
     {
-        return Redirect::route('admin::getPodcasts', compact('id'));
+        return Redirect::route('admin::getPodcasts');
     }
 
     public function getUsers()
