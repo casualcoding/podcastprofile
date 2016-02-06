@@ -11,7 +11,7 @@
         <pre>{{ var_dump($job) }}</pre>
         @endforeach
 
-        {{ $failed_jobs->links() }}
+        @include('layouts.pagination', ['paginator' => $failed_jobs])
 
     </div>
 </div>

@@ -40,7 +40,7 @@
             @endif
         </div>
 
-        {{ $jobs->links() }}
+        @include('layouts.pagination', ['paginator' => $jobs])
 
     </div>
 </div>

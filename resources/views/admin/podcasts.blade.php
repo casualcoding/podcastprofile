@@ -62,7 +62,7 @@
             </table>
         </div>
 
-        {{ $podcasts->links() }}
+        @include('layouts.pagination', ['paginator' => $podcasts])
 
     </div>
 </div>

@@ -36,7 +36,7 @@
             </table>
         </div>
 
-        {{ $users->links() }}
+        @include('layouts.pagination', ['paginator' => $users])
 
     </div>
 </div>
