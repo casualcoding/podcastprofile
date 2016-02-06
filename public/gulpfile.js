@@ -46,13 +46,13 @@ gulp.task('js', function() {
 gulp.task('js-admin', function() {
 
     // Admin JS assets, needed only in backend
-   return gulp.src(['bower_components/vue/**/*.min.js',
-       'bower_components/vue-resource/**/*.min.js',
-       'js/settings.js'])
-       .pipe(rename({dirname: ''}))
-       .pipe(concat('settings.js'))
-       .pipe(uglify({ mangle: false }))
-       .pipe(gulp.dest('./assets/dist/'));
+    return gulp.src(['bower_components/vue/**/*.min.js',
+        'bower_components/vue-resource/**/*.min.js',
+        'js/settings.js'])
+        .pipe(rename({dirname: ''}))
+        .pipe(concat('settings.js'))
+        .pipe(uglify({ mangle: false }))
+        .pipe(gulp.dest('./assets/dist/'));
 
 });
 
