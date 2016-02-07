@@ -44,7 +44,7 @@ Route::group(['middleware' => ['web']], function () {
                 Route::get('/podcasts', 'AdminController@getPodcasts')->name('getPodcasts');
                 Route::get('/podcasts/edit/{id}', 'AdminController@getEditPodcast')->name('getEditPodcast');
                 Route::get('/jobs', 'AdminController@getJobs')->name('getJobs');
-                Route::get('/failedjobs', 'AdminController@getFailedJobs')->name('getFailedJobs');
+                Route::get('/failed', 'AdminController@getFailedJobs')->name('getFailedJobs');
             });
         });
     });
