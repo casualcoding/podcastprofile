@@ -24,25 +24,25 @@ class AdminController extends Controller
 
     public function getUsers()
     {
-        $users = User::paginate(20);
+        $users = User::orderBy('created_at', 'desc')->paginate(20);
         return view('admin.users', $this->mergeModelCounts(compact('users')));
     }
 
     public function getPodcasts()
     {
-        $podcasts = Podcast::paginate(20);
+        $podcasts = Podcast::orderBy('created_at', 'desc')->paginate(20);
         return view('admin.podcasts', $this->mergeModelCounts(compact('podcasts')));
     }
 
     public function getJobs()
     {
-        $jobs = DB::table('jobs')->paginate(20);
+        $jobs = DB::table('jobs')->orderBy('created_at', 'desc')->paginate(20);
         return view('admin.jobs', $this->mergeModelCounts(compact('jobs')));
     }
 
     public function getFailedJobs()
     {
-        $failed_jobs = DB::table('failed_jobs')->paginate(20);
+        $failed_jobs = DB::table('failed_jobs')->orderBy('failed_at', 'desc')->paginate(20);
         return view('admin.failedjobs', $this->mergeModelCounts(compact('failed_jobs')));
     }
 
