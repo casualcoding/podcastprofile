@@ -34,6 +34,12 @@ class AdminController extends Controller
         return view('admin.podcasts', $this->mergeModelCounts(compact('podcasts')));
     }
 
+    public function getRssErrorPodcasts()
+    {
+        $podcasts = Podcast::where('error', config('errors.rss_parsing_error'))->orderBy('created_at', 'desc')->paginate(20);
+        return view('admin.podcasts', $this->mergeModelCounts(compact('podcasts')));
+    }
+
     public function getJobs()
     {
         $jobs = DB::table('jobs')->orderBy('created_at', 'desc')->paginate(20);
@@ -67,9 +73,10 @@ class AdminController extends Controller
     private function getModelCounts()
     {
         $podcasts = Podcast::all()->count();
+        $rss_error_podcasts = Podcast::where('error', config('errors.rss_parsing_error'))->count();
         $users = User::all()->count();
         $jobs = DB::table('jobs')->count();
         $failed_jobs = DB::table('failed_jobs')->count();
-        return compact('podcasts', 'users', 'jobs', 'failed_jobs');
+        return compact('podcasts', 'rss_error_podcasts', 'users', 'jobs', 'failed_jobs');
     }
 }

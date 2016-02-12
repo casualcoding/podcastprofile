@@ -42,6 +42,7 @@ Route::group(['middleware' => ['web']], function () {
                 Route::get('/', 'AdminController@getAdmin')->name('admin');
                 Route::get('/users', 'AdminController@getUsers')->name('getUsers');
                 Route::get('/podcasts', 'AdminController@getPodcasts')->name('getPodcasts');
+                Route::get('/podcasts/error', 'AdminController@getRssErrorPodcasts')->name('getRssErrorPodcasts');
                 Route::get('/podcasts/edit/{id}', 'AdminController@getEditPodcast')->name('getEditPodcast');
                 Route::get('/jobs', 'AdminController@getJobs')->name('getJobs');
                 Route::get('/failed', 'AdminController@getFailedJobs')->name('getFailedJobs');
