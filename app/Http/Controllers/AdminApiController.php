@@ -19,6 +19,7 @@ class AdminApiController extends Controller
         $podcast = Podcast::where('id', $id)->firstOrFail();
         $podcast->name = Input::get('name');
         $podcast->url = Input::get('url');
+        $podcast->error = Input::get('error');
 
         $imageurl = Input::get('coverimage');
         if ($podcast->coverimage != $imageurl) { // only download the image if it changed

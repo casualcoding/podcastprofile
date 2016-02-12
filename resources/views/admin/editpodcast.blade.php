@@ -44,6 +44,13 @@
                 </div>
 
                 <div class="uk-form-row">
+                    <label class="uk-form-label" for="error">Error</label>
+                    <div class="uk-form-controls">
+                        <input type="text" class="uk-form-large uk-width-1-1" name="error" value="{{ $podcast->error }}">
+                    </div>
+                </div>
+
+                <div class="uk-form-row">
                     <div class="uk-form-controls uk-align-right">
                         <button class="uk-button uk-button-primary uk-button-large">Save</button>
                     </div>
