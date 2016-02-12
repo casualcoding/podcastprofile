@@ -45,7 +45,7 @@ class UpdatePodcastFromRss extends Job implements ShouldQueue
         }
 
         if ($this->podcast->name == null) {
-            $this->podcast->error = 17; // podcast could not be parsed error
+            $this->podcast->error = config('errors.rss_parsing_error');;
         }
 
         $this->podcast->save();
