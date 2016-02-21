@@ -98,9 +98,10 @@ class ProfileApiController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function postPodcastByRss(Request $request, $feed)
+    public function postPodcastByRss(Request $request)
     {
         $user = Auth::user();
+        $feed = Input::get('feed_url');
         $podcast = Podcast::getOrCreateFromRss($feed);
         $pos = $user->getNewPodcastPosition();
         $created = $user->addPodcast($podcast, $pos);

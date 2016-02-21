@@ -28,7 +28,7 @@
             <li><a href="">Reorder</a></li>
             <li><a href="">Hidden podcasts</a></li>
             @endif
-            <li class="{{ $user->podcastsPublic->count() == 0 ? 'uk-active' : ''}}"><a href="">Upload</a></li>
+            <li class="{{ $user->podcastsPublic->count() == 0 ? 'uk-active' : ''}}"><a href="">Add podcasts</a></li>
             <hr class="uk-visible-large">
             <li><a href="">Delete Account</a></li>
         </ul>
@@ -177,19 +177,45 @@
             </li>
             @endif
 
-            <li>
+            <li><!-- Add podcasts -->
                 <div class="uk-panel uk-panel-box site-panel-box-white" id="upload-opml">
-                    <form action="{{ URL::route('api::postPodcastsByOpml') }}" method="post" enctype="multipart/form-data" class="uk-form" @submit.prevent="performupload($event)" v-el="form">
 
-                        <div class="uk-width-medium-3-4 uk-align-center uk-margin-large-top uk-margin-large-bottom">
+                    <div class="uk-width-medium-3-4 uk-align-center uk-margin-large-top uk-margin-large-bottom">
 
-                            <h2>Upload your podcasts</h2>
+                        <h2>Add a single podcast</h2>
 
-                            <ol class="uk-text-large">
-                                <li>Open your podcast client or app</li>
-                                <li>Export the list of podcasts (this should be an <code>*.opml</code> or <code>*.xml</code> file)</li>
-                                <li>Select and upload that file below.</li>
-                            </ol>
+                        <form action="{{ URL::route('api::postPodcastByRss') }}" method="post" class="uk-form" @submit.prevent="addsingle($event)" v-el="form" class="uk-form uk-form-stacked">
+                            <div class="uk-form-row">
+                                <label class="uk-form-label">Feed URL:</label>
+                                <div class="uk-form-controls">
+                                    <input type="url" placeholder="http://" class="uk-form-large uk-width-1-1" v-model="feed_url" :disabled="disabled">
+                                </div>
+                            </div>
+                            <div class="uk-form-row">
+                                <button type="submit" class="uk-button uk-button-primary">Add</button>
+                            </div>
+                        </form>
+
+                        <hr>
+
+                        <h2>Add all podcasts from your favorite client</h2>
+
+                        <p>
+                            There is no need to add podcasts one by one. Export an OPML file from your podcast client
+                            and upload it. You can also upload a newer version after a while. We will only add new podcasts,
+                            you will not loose anything added before.
+                        </p>
+
+                        <ol class="uk-text-large">
+                            <li>Open your podcast client or app.</li>
+                            <li>Export the list of podcasts (this should be an <code>*.opml</code> or <code>*.xml</code> file)</li>
+                            <li>Select and upload that file below.</li>
+                            <li>Repeat any time you want. We only add new podcasts to your profile.</li>
+                        </ol>
+
+
+                        <form action="{{ URL::route('api::postPodcastsByOpml') }}" method="post" enctype="multipart/form-data" class="uk-form" @submit.prevent="performupload($event)" v-el="form">
+
 
                             {{ csrf_field() }}
 
@@ -205,8 +231,9 @@
                                     <button class="uk-button uk-button-large uk-button-primary">Upload</button>
                                 </p>
                             </div>
-                        </div>
-                    </form>
+                        </form>
+
+                    </div>
             </li>
 
             <li><!-- Delete Account -->

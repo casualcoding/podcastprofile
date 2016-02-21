@@ -17,10 +17,28 @@ var uploadform = new Vue({
 
     data: {
         uploading: false,
-        uploaded: false
+        uploaded: false,
+        adding: false,
+        feed_url: ''
     },
 
     methods: {
+
+        addsingle: function(e) {
+            var url = e.target.getAttribute('action');
+            var data = {
+                feed_url: this.feed_url,
+            };
+
+            this.adding = true;
+            this.$http.post(url, data).then(function () {
+                this.adding = false;
+                UIkit.notify('Podcast added.', 'success');
+            }).catch(function (resp, b, c) {
+                this.adding = false;
+                UIkit.notify('Error: '+resp.data.error, 'danger');
+            });
+        },
 
         performupload: function(e) {
 
