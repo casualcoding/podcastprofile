@@ -44,7 +44,7 @@
                                     {{ $podcast->pivot->description }}
                                 </p>
                                 <p>
-                                    <a href="{{ $podcast->feed }}" class="uk-link-reset">Subscribe</a>
+                                    <a href="{{ $podcast->feeds->first()->url }}" class="uk-link-reset">Subscribe</a>
                                 </p>
                             </div>
 

@@ -38,7 +38,11 @@
                                 @endif
 
                                 <!-- feed -->
-                                <br><i class="uk-icon-rss"></i> <a href="{{ $podcast->feed }}">{{ $podcast->feed }}</a>
+                                <br><i class="uk-icon-rss"></i>
+                                {{ $podcast->feed }}
+                                @foreach ($podcast->feeds()->get() as $feed)
+                                    <a href="{{ $feed->url }}">{{ $feed->url }}</a><br>
+                                @endforeach
                             </div>
                         </td>
                         <td><a href="{{ $podcast->coverimage }}"><img src="{{ $podcast->coverimage }}" width="60" height="60"></a></td>
