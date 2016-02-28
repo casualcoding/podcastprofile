@@ -19,6 +19,14 @@ class Podcast extends Model
     }
 
     /**
+     * The feed urls that belong to the podcast.
+     */
+    public function feeds()
+    {
+        return $this->hasMany('App\Models\Feed');
+    }
+
+    /**
      * Get the top Podcasts.
      *
      * @param int $count
