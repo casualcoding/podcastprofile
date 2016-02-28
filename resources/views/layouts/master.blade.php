@@ -41,5 +41,7 @@
                 </div>
             </div>
 
+            @yield('bottom')
+
     </body>
 </html>
