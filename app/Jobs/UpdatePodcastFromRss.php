@@ -34,12 +34,15 @@ class UpdatePodcastFromRss extends Job implements ShouldQueue
      */
     public function handle(FeedService $parser, ImageDownloadService $downloader)
     {
-        $feed = $parser->loadDetailsFromRss($this->podcast->feed);
-        $this->podcast->name = $feed['title'];
-        $this->podcast->url = $feed['link'];
-        $this->podcast->description = $feed['summary'];
+        // At this point, a podcast has exactly one feed
+        $feed_url = $this->podcast->feeds->first()->url;
 
-        $image_path = $downloader->saveImage($feed['image'], md5($this->podcast->feed), 600, 600);
+        $feed_data = $parser->loadDetailsFromRss($feed_url);
+        $this->podcast->name = $feed_data['title'];
+        $this->podcast->url = $feed_data['link'];
+        $this->podcast->description = $feed_data['summary'];
+
+        $image_path = $downloader->saveImage($feed_data['image'], md5($feed_url), 600, 600);
         if ($image_path != null) {
             $this->podcast->coverimage = $image_path;
         }

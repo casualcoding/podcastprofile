@@ -56,15 +56,20 @@ class Podcast extends Model
      * @param string $feed
      * @return Podcast
      */
-    public static function getOrCreateFromRss($feed)
+    public static function getOrCreateFromRss($feed_url)
     {
         $created = false;
-        $podcast = Podcast::where('feed', $feed)->first();
+        $podcast = Podcast::whereHas('feeds', function($query) use ($feed_url) {
+            $query->where('url', $feed_url);
+        })->first();
         if (!$podcast) {
             $podcast = new Podcast;
-            $podcast->feed = $feed;
             $podcast->coverimage = '/assets/default.png';
             $podcast->save();
+
+            $feed = new Feed;
+            $feed->url = $feed_url;
+            $podcast->feeds()->save($feed);
 
             // load feed details asynchronously
             dispatch(new UpdatePodcastFromRss($podcast));
