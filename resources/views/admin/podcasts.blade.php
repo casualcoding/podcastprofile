@@ -11,13 +11,11 @@
             <table class="uk-table uk-width-1-1 uk-table-striped" style="table-layout: fixed;">
                 <thead>
                     <tr>
-                        <th class="uk-width-2-10">name</th>
+                        <th class="uk-width-3-10">name</th>
                         <th class="uk-width-3-10">url / feed</th>
                         <th class="uk-width-1-10">cover</th>
-                        <!-- <th>description</th> -->
+                        <th class="uk-width-1-10">listeners</th>
                         <th class="uk-width-1-10">error</th>
-                        <th class="uk-width-1-10">created</th>
-                        <th class="uk-width-1-10">updated</th>
                         <th class="uk-width-1-10"></th>
                     </tr>
                 </thead>
@@ -44,10 +42,8 @@
                             </div>
                         </td>
                         <td><a href="{{ $podcast->coverimage }}"><img src="{{ $podcast->coverimage }}" width="60" height="60"></a></td>
-                        <!-- <td>{{ $podcast->description }}</td> -->
+                        <td>{{ $podcast->users()->count() }}</td>
                         <td  @if ($podcast->error != 0) class="uk-text-danger" @endif>{{ $podcast->error }}</td>
-                        <td class="uk-text-small uk-text-muted">{{ $podcast->created_at }}</td>
-                        <td class="uk-text-small uk-text-muted">{{ $podcast->updated_at }}</td>
                         <td>
                             <a class="uk-button uk-button-primary" href="{{ URL::route('admin::getEditPodcast', ['id' => $podcast->id]) }}">
                                 <i class="uk-icon-wrench"></i> Edit
