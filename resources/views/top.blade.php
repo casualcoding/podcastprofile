@@ -1,5 +1,5 @@
 @extends('layouts.navbar')
-@section('title', 'User Profile')
+@section('title', 'Top Podcasts')
 
 @section('body-classes', '@parent site-profile')
 
