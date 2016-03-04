@@ -16,9 +16,13 @@
 
 
                 <div class="uk-form-row">
-                    <label class="uk-form-label">Feed URL</label>
+                    <label class="uk-form-label">Feed URLs</label>
                     <div class="uk-form-controls">
-                        <input type="text" class="uk-form-large uk-width-1-1" disabled value="{{ $podcast->feed }}">
+                        <ul class="uk-list uk-list-line uk-text-large uk-text-muted">
+                        @foreach ($podcast->feeds()->get() as $feed)
+                            <li>{{ $feed->url }}</li>
+                        @endforeach
+                        </ul>
                     </div>
                 </div>
 
