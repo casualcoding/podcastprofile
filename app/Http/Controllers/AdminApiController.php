@@ -20,6 +20,7 @@ class AdminApiController extends Controller
         $podcast->name = Input::get('name');
         $podcast->url = Input::get('url');
         $podcast->error = Input::get('error');
+        $podcast->description = Input::get('description');
 
         $imageurl = Input::get('coverimage');
         if ($podcast->coverimage != $imageurl) { // only download the image if it changed

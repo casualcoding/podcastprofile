@@ -30,7 +30,7 @@ class StaticController extends Controller
 
         return view('settings', compact('user'));
     }
-    
+
     public function getImpressum()
     {
         return view('impressum');
@@ -50,7 +50,7 @@ class StaticController extends Controller
             // ->join('podcast_user', 'podcasts.id', '=', 'podcast_user.podcast_id')
             // ->get();
 
-        $podcasts = Podcast::getTop(10);
+        $podcasts = Podcast::getTop(25);
 
         // ->orderBy('podcast_user', 'desc')->get();
 

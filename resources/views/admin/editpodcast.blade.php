@@ -51,6 +51,13 @@
                 </div>
 
                 <div class="uk-form-row">
+                    <label class="uk-form-label" for="description">Description</label>
+                    <div class="uk-form-controls">
+                        <textarea class="uk-form-large uk-width-1-1" name="description">{{ $podcast->description }}</textarea>
+                    </div>
+                </div>
+
+                <div class="uk-form-row">
                     <div class="uk-form-controls uk-align-right">
                         <button class="uk-button uk-button-primary uk-button-large">Save</button>
                     </div>
