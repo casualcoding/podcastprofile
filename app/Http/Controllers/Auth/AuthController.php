@@ -196,7 +196,8 @@ class AuthController extends Controller
             'handle' => $twitterUser->nickname,
             'twitter_id' => $twitterUser->id,
             'avatar' => $twitterUser->avatar_original,
-            'url' => $url
+            'url' => $url,
+            'api_token' => str_random(60)
         ]);
         
         $this->dispatch(new UpdateUserAvatar($user));
