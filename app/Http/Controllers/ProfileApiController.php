@@ -120,13 +120,36 @@ class ProfileApiController extends Controller
      */
     public function postPodcastsByOpml(Request $request, FeedService $parser)
     {
+        return $this->postPodcastsByOpml($request, $parser, Auth::user());
+    }
+
+    /**
+     * Save podcasts from uploaded opml file with token auth.
+     *
+     * @param  Request  $request
+     * @return Response
+     */
+    public function postPodcastsByOpmlWithToken(Request $request, FeedService $parser)
+    {
+        $this->postPodcastsByOpml($request, $parser, $Auth::guard('api')->user());
+    }
+
+    /**
+     * Starts the opml parsing and saving.
+     *
+     * @param Request  $request
+     * @param FeedService  $parser
+     * @param User  $user
+     *
+     */
+    private function postPodcastsByOpml(Request $request, FeedService $parser, User $user)
+    {
         if (!$request->hasFile('xml')) {
             return response()->json(['error' => 'No file.'], $status = 500);
         } elseif (!$request->file('xml')->isValid()) {
             return response()->json(['error' => 'File invalid.'], $status = 500);
         }
 
-        $user = Auth::user();
         $file = $request->file('xml');
         $pos = $user->getNewPodcastPosition();
         $new = [];

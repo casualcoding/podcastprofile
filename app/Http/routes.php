@@ -51,6 +51,10 @@ Route::group(['middleware' => ['web']], function () {
     });
 
     Route::group(['prefix' => 'api/1', 'as' => 'api::'], function () {
+        Route::group(['prefix' => 'token', 'middleware' => ['auth:api']], function () {
+            Route::post('upload/opml', 'ProfileApiController@postPodcastsByOpmlWithToken');
+        });
+
         Route::group(['middleware' => ['auth']], function () {
             Route::post('update', 'ProfileApiController@postProfile')->name('profile');
             Route::post('update/image', 'ProfileApiController@postProfileImage')->name('profile::image');
