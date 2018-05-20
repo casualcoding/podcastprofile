@@ -13,8 +13,8 @@
 
         <p>
             Max Friedrich<br>
-            Rumpffsweg 27<br>
-            20537 Hamburg<br>
+            Selliusstraße 6<br>
+            20255 Hamburg<br>
             <a href="mailto:team@casualcoding.com">team@casualcoding.com</a>
         </p>
 
