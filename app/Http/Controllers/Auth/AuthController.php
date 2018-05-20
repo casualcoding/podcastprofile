@@ -126,6 +126,9 @@ class AuthController extends Controller
             if ($created) {
                 return redirect()->route('settings');
             }
+            if (!$user->accepted_dsgvo) {
+                // TODO: redirect to datenschutz
+            }
             return redirect()->route('profile', ['handle' => $user->handle]);
         } else {
             return redirect('/');
