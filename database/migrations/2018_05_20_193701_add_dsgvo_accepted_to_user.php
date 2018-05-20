@@ -13,7 +13,7 @@ class AddDsgvoAcceptedToUser extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->boolean('hasAcceptedDSGVO')->default(false);
+            $table->boolean('accepted_dsgvo')->default(false);
         });
     }
 
@@ -25,7 +25,7 @@ class AddDsgvoAcceptedToUser extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('hasAcceptedDSGVO');
+            $table->dropColumn('accepted_dsgvo');
         });
     }
 }
