@@ -72,6 +72,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/top', 'StaticController@getTop')->name('top');
 
     Route::get('/impressum', 'StaticController@getImpressum')->name('impressum');
+    Route::get('/datenschutz', 'StaticController@getDatenschutz')->name('datenschutz');
 
     // last
     Route::get('/{handle}', 'StaticController@getProfile')->name('profile');
