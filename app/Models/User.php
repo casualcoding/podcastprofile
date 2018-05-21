@@ -12,7 +12,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'avatar', 'url', 'handle', 'twitter_id', 'accepted_dsgvo'
+        'name', 'avatar', 'url', 'handle', 'twitter_id', 'privacy_policy_accepted_date'
     ];
 
     /**
@@ -99,5 +99,17 @@ class User extends Authenticatable
     public function isAdmin()
     {
         return $this->role == Role::$admin;
+    }
+
+    /**
+     * Checks if the user has accepted the latest privacy policy.
+     * 
+     * @return boolean
+     */
+    public function hasAcceptedPrivacyPolicy()
+    {
+        $acceptedDate = new DateTime($this->privacy_policy_accepted_date);
+        $latestUpdate = new DateTime('2018-05-20');
+        return ($acceptedDate > $latestUpdate);
     }
 }
