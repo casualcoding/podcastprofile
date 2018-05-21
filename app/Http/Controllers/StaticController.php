@@ -41,6 +41,11 @@ class StaticController extends Controller
         return view('privacy');
     }
 
+    public function getPrivacyPolicyUpdate()
+    {
+        return view('privacyUpdate');
+    }
+
     public function getTop()
     {
         // $user = (Auth::check() ? Auth::user() : null);

@@ -74,6 +74,7 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::get('/impressum', 'StaticController@getImpressum')->name('impressum');
     Route::get('/privacy', 'StaticController@getPrivacyPolicy')->name('privacy');
+    Route::get('/privacy/update', 'StaticController@getPrivacyPolicyUpdate')->name('privacyUpdate');
 
     // last
     Route::get('/{handle}', 'StaticController@getProfile')->name('profile');
