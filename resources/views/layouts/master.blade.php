@@ -31,7 +31,7 @@
                 <br class="uk-visible-small">
                 <a href="/impressum">Impressum</a>
                 <br class="uk-visible-small">
-                <a href="/datenschutz">Datenschutz</a>
+                <a href="/privacy">Privacy Policy</a>
             </footer>
 
             <div class="cookie-notice">

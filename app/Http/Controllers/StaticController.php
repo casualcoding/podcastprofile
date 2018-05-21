@@ -36,9 +36,9 @@ class StaticController extends Controller
         return view('impressum');
     }
 
-    public function getDatenschutz()
+    public function getPrivacyPolicy()
     {
-        return view('datenschutz');
+        return view('privacy');
     }
 
     public function getTop()
