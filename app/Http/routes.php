@@ -35,8 +35,9 @@ Route::group(['middleware' => ['web']], function () {
     });
 
     Route::group(['middleware' => ['auth']], function () {
-        Route::get('/settings', 'StaticController@getSettings')->name('settings');
-
+        Route::get('/settings', 'StaticController@getSettings')->name('settings')->middleware('loggedOutOrHasAcceptedPrivacyPolicy');
+        Route::get('/settings/privacy', 'StaticController@getPrivacyPolicyUpdate')->name('privacyUpdate');
+        
         Route::group(['prefix' => 'admin', 'as' => 'admin::'], function () {
             Route::group(['middleware' => ['admin']], function () {
                 Route::get('/', 'AdminController@getAdmin')->name('admin');
@@ -74,9 +75,7 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::get('/impressum', 'StaticController@getImpressum')->name('impressum');
     Route::get('/privacy', 'StaticController@getPrivacyPolicy')->name('privacy');
-    Route::get('/privacy/update', 'StaticController@getPrivacyPolicyUpdate')->name('privacyUpdate');
 
     // last
-    Route::get('/{handle}', 'StaticController@getProfile')->name('profile');
-
+    Route::get('/{handle}', 'StaticController@getProfile')->name('profile')->middleware('loggedOutOrHasAcceptedPrivacyPolicy');
 });
