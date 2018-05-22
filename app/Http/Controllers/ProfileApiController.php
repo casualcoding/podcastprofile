@@ -180,6 +180,6 @@ class ProfileApiController extends Controller
         $user->privacy_policy_accepted_date = date('Y-m-d');
         $user->save();
         
-        return $user->toJson();
+        return Redirect::route('profile', [$user->handle]);
     }
 }

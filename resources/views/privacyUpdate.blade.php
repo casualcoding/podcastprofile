@@ -27,13 +27,20 @@
 
         <p>As we are operating from Germany, the full <a href="/privacy" target="_blank">Privacy and Cookie policy</a> is written in German. Officially, that is the document that matters when you accept the checkbox below.</a></p>
 
+        @if (!Auth::user()->hasAcceptedPrivacyPolicy())
         <div class="uk-width-medium-3-4 uk-align-center uk-margin-large-top uk-margin-large-bottom">
             <form class="uk-text-center" action="{{ URL::route('api::postAcceptPrivacyPolicy') }}" method="post">
                 {{ csrf_field() }}
                 <label><input class="uk-checkbox uk-margin-bottom" type="checkbox">I understand and accept the Privacy and Cookie policy.</label><br>
                 <button class="uk-button uk-button-primary">OK</button>
             </form>
+
+            <form class="uk-text-center" action="{{ URL::route('api::postDeleteAccount') }}" method="post">
+                {{ csrf_field() }}
+                <button class="uk-button uk-button-danger"><i class="uk-icon-warning"></i> Delete Account</button>
+            </form>
         </div>
+        @endif
     
         </article>
 </div>
