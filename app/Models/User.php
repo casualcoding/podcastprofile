@@ -108,8 +108,8 @@ class User extends Authenticatable
      */
     public function hasAcceptedPrivacyPolicy()
     {
-        $acceptedDate = new DateTime($this->privacy_policy_accepted_date);
-        $latestUpdate = new DateTime('2018-05-20');
+        $acceptedDate = new \DateTime($this->privacy_policy_accepted_date);
+        $latestUpdate = new \DateTime('2018-05-21');
         return ($acceptedDate > $latestUpdate);
     }
 }
