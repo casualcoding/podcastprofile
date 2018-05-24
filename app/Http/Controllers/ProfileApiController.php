@@ -168,4 +168,18 @@ class ProfileApiController extends Controller
         // ]);
         return Redirect::route('auth::logout');
     }
+
+    /**
+     * Sets the privacy policy accepted date to now.
+     * 
+     * @return Response
+     */
+    public function postAcceptPrivacyPolicy()
+    {
+        $user = Auth::user();
+        $user->privacy_policy_accepted_date = date('Y-m-d');
+        $user->save();
+        
+        return Redirect::route('profile', [$user->handle]);
+    }
 }

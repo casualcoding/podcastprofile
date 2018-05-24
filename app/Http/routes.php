@@ -35,8 +35,9 @@ Route::group(['middleware' => ['web']], function () {
     });
 
     Route::group(['middleware' => ['auth']], function () {
-        Route::get('/settings', 'StaticController@getSettings')->name('settings');
-
+        Route::get('/settings', 'StaticController@getSettings')->name('settings')->middleware('loggedOutOrHasAcceptedPrivacyPolicy');
+        Route::get('/settings/privacy', 'StaticController@getPrivacyPolicyUpdate')->name('privacyUpdate');
+        
         Route::group(['prefix' => 'admin', 'as' => 'admin::'], function () {
             Route::group(['middleware' => ['admin']], function () {
                 Route::get('/', 'AdminController@getAdmin')->name('admin');
@@ -54,6 +55,7 @@ Route::group(['middleware' => ['web']], function () {
         Route::group(['middleware' => ['auth']], function () {
             Route::post('update', 'ProfileApiController@postProfile')->name('profile');
             Route::post('update/image', 'ProfileApiController@postProfileImage')->name('profile::image');
+            Route::post('update/privacy', 'ProfileApiController@postAcceptPrivacyPolicy')->name('postAcceptPrivacyPolicy');
             Route::post('podcasts', 'ProfileApiController@postUpdatePodcasts')->name('podcasts');
             Route::post('upload/rss', 'ProfileApiController@postPodcastByRss')->name('postPodcastByRss');
             Route::post('upload/opml', 'ProfileApiController@postPodcastsByOpml')->name('postPodcastsByOpml');
@@ -72,8 +74,8 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/top', 'StaticController@getTop')->name('top');
 
     Route::get('/impressum', 'StaticController@getImpressum')->name('impressum');
+    Route::get('/privacy', 'StaticController@getPrivacyPolicy')->name('privacy');
 
     // last
-    Route::get('/{handle}', 'StaticController@getProfile')->name('profile');
-
+    Route::get('/{handle}', 'StaticController@getProfile')->name('profile')->middleware('loggedOutOrHasAcceptedPrivacyPolicy');
 });

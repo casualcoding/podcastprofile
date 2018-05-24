@@ -36,6 +36,16 @@ class StaticController extends Controller
         return view('impressum');
     }
 
+    public function getPrivacyPolicy()
+    {
+        return view('privacy');
+    }
+
+    public function getPrivacyPolicyUpdate()
+    {
+        return view('privacyUpdate');
+    }
+
     public function getTop()
     {
         // $user = (Auth::check() ? Auth::user() : null);
